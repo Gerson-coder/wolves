@@ -1,0 +1,289 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Wolves - Clan de Gaming | Detalle de Evento{% endblock %}
+
+{% block meta_description %}Detalles completos del evento del clan Wolves. Participa en nuestros torneos de Audition Latino, Fortnite, Valorant y Free Fire.{% endblock %}
+
+{% block content %}
+
+<!--==============================
+    Breadcumb
+============================== -->
+<div class="space-top"></div>
+
+<!--==============================
+    Blog Area
+==============================-->
+<section class="th-blog-wrapper blog-details space-top space-extra2-bottom">
+    <div class="container">
+        <div class="row gx-40">
+            <div class="col-xxl-8 col-lg-7">
+                <div class="th-blog blog-single">
+                    <div class="blog-img">
+                        <img src="{% static 'assets/img/events/audition-detail.jpg' %}" alt="Torneo de Asistencia">
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <a class="author"><i class="fa-light fa-user"></i>Por Admin Wolves</a>
+                            <a><i class="fa-light fa-calendar"></i>15 Jun - 15 Jul, 2024</a>
+                            <a><i class="fa-light fa-users"></i>45 Participantes registrados</a>
+                        </div>
+                        <h2 class="blog-title">Torneo Mensual de Asistencia - Audition Latino</h2>
+                        <p>Demuestra tu compromiso con el clan Wolves participando en nuestro torneo mensual de asistencia. Los miembros más activos durante el mes serán recompensados con premios exclusivos y reconocimiento especial en nuestra comunidad.</p>
+                        
+                        <blockquote>
+                            <p>"La constancia es la clave del éxito en Wolves. Los jugadores más dedicados son los que alcanzan los mayores logros en nuestro clan."</p>
+                            <cite>Fears - Líder de Wolves</cite>
+                        </blockquote>
+
+                        <h2 class="blog-title">¿Cómo Participar?</h2>
+                        <p>Para participar en este evento solo debes:</p>
+                        <div class="checklist list-grid mb-35">
+                            <ul>
+                                <li><i class="fas fa-check-circle"></i>Ingresar diariamente a Audition Latino</li>
+                                <li><i class="fas fa-check-circle"></i>Marcar tu asistencia en el grupo de Wolves</li>
+                                <li><i class="fas fa-check-circle"></i>Jugar al menos 3 partidas cada día</li>
+                            </ul>
+                        </div>
+
+                        <div class="row gx-40 mb-40">
+                            <div class="col-md-6">
+                                <div class="blog-img">
+                                    <img class="w-100" src="{% static 'assets/img/events/audition-gameplay1.jpg' %}" alt="Gameplay Audition">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="blog-img">
+                                    <img class="w-100" src="{% static 'assets/img/events/audition-gameplay2.jpg' %}" alt="Modos de Juego">
+                                </div>
+                            </div>
+                        </div>
+
+                        <h2 class="blog-title">Premios</h2>
+                        <p>Los premios para los 3 primeros lugares son:</p>
+                        <div class="checklist list-grid mb-35">
+                            <ul>
+                                <li><i class="fas fa-trophy"></i><strong>1er Lugar:</strong> 10,000 AC + Rol exclusivo + Outfit premium</li>
+                                <li><i class="fas fa-medal"></i><strong>2do Lugar:</strong> 5,000 AC + Outfit especial</li>
+                                <li><i class="fas fa-award"></i><strong>3er Lugar:</strong> 2,500 AC + Accesorios exclusivos</li>
+                            </ul>
+                        </div>
+
+                        <div class="share-links clearfix">
+                            <div class="row justify-content-between">
+                                <div class="col-md-auto">
+                                    <span class="share-links-title">Etiquetas:</span>
+                                    <div class="tagcloud">
+                                        <a href="{% url 'eventos' %}">AUDITION</a>
+                                        <a href="{% url 'eventos' %}">TORNEO</a>
+                                        <a href="{% url 'eventos' %}">WOLVES</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-auto text-xl-end">
+                                    <div class="th-social style3 align-items-center">
+                                        <span class="share-links-title">Compartir:</span>
+                                        <a class="facebook" href="#"><span><i class="fab fa-facebook-f"></i></span></a>
+                                        <a href="#"><span><i class="fab fa-twitter"></i></span></a>
+                                        <a href="#"><span><i class="fab fa-instagram"></i></span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="blog-author">
+                    <div class="auhtor-img">
+                        <img src="{% static 'assets/img/team/leader-wolves.jpg' %}" alt="Líder Wolves">
+                    </div>
+                    <div class="media-body">
+                        <div class="media">
+                            <div class="media-left">
+                                <h3 class="author-name">Fears</h3>
+                                <span class="author-desig">Líder & Fundador de Wolves</span>
+                            </div>
+                            <div class="media-body">
+                                <div class="th-social style2 align-items-center">
+                                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                    <a href="#"><i class="fab fa-instagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="author-text">"En Wolves valoramos la dedicación y el esfuerzo constante. Este torneo premia a aquellos miembros que demuestran verdadero compromiso con nuestra familia gaming."</p>
+                    </div>
+                </div>
+
+                <div class="th-comments-wrap">
+                    <h3 class="blog-inner-title"><i class="far fa-comments"></i> Comentarios (3)</h3>
+                    <ul class="comment-list">
+                        <li class="th-comment-item">
+                            <div class="th-post-comment">
+                                <div class="comment-avater">
+                                    <img src="{% static 'assets/img/team/member1.jpg' %}" alt="Miembro Wolves">
+                                </div>
+                                <div class="comment-content">
+                                    <h3 class="name">Luna</h3>
+                                    <span class="commented-on">25 Jun, 2024 08:56pm</span>
+                                    <p class="text">¡Excelente iniciativa! Llevo 15 días seguidos de asistencia, voy por ese primer lugar. ¡Wolves a la cima!</p>
+                                    <div class="reply_and_edit">
+                                        <a href="#" class="reply-btn"><i class="fas fa-reply"></i>Responder</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="children">
+                                <li class="th-comment-item">
+                                    <div class="th-post-comment">
+                                        <div class="comment-avater">
+                                            <img src="{% static 'assets/img/team/member2.jpg' %}" alt="Miembro Wolves">
+                                        </div>
+                                        <div class="comment-content">
+                                            <h3 class="name">Shadow</h3>
+                                            <span class="commented-on">25 Jun, 2024 09:30pm</span>
+                                            <p class="text">¡No tan rápido Luna! Yo voy día a día también, la competencia está reñida este mes.</p>
+                                            <div class="reply_and_edit">
+                                                <a href="#" class="reply-btn"><i class="fas fa-reply"></i>Responder</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="th-comment-item">
+                            <div class="th-post-comment">
+                                <div class="comment-avater">
+                                    <img src="{% static 'assets/img/team/member3.jpg' %}" alt="Miembro Wolves">
+                                </div>
+                                <div class="comment-content">
+                                    <h3 class="name">Neon</h3>
+                                    <span class="commented-on">15 Jun, 2024 08:56pm</span>
+                                    <p class="text">¿Los premios incluyen items de edición limitada? Me encantaría conseguir ese outfit premium.</p>
+                                    <div class="reply_and_edit">
+                                        <a href="#" class="reply-btn"><i class="fas fa-reply"></i>Responder</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="th-comment-form">
+                    <div class="form-title">
+                        <h3 class="blog-inner-title mb-2"><i class="fa-solid fa-reply"></i> Deja un Comentario</h3>
+                        <p class="form-text">Tu dirección de correo no será publicada. Los campos obligatorios están marcados *</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 form-group style-border">
+                            <input type="text" placeholder="Tu Nombre*" class="form-control">
+                            <i class="far fa-user"></i>
+                        </div>
+                        <div class="col-md-6 form-group style-border">
+                            <input type="text" placeholder="Tu Email*" class="form-control">
+                            <i class="far fa-envelope"></i>
+                        </div>
+                        <div class="col-12 form-group style-border">
+                            <textarea placeholder="Escribe tu Comentario*" class="form-control"></textarea>
+                            <i class="far fa-pencil"></i>
+                        </div>
+                        <div class="col-12 form-group mb-0">
+                            <button class="th-btn">ENVIAR COMENTARIO <i class="far fa-arrow-right ms-2"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-xxl-4 col-lg-5">
+                <aside class="sidebar-area">
+                    <div class="widget widget_search">
+                        <form class="search-form">
+                            <input type="text" placeholder="Buscar eventos...">
+                            <button type="submit"><i class="far fa-search"></i></button>
+                        </form>
+                    </div>
+                    
+                    <div class="widget widget_categories">
+                        <h3 class="widget_title">Próximos Eventos</h3>
+                        <ul>
+                            <li>
+                                <a href="#">Torneo 1v1 - Valorant</a>
+                                <span>(18 Jul)</span>
+                            </li>
+                            <li>
+                                <a href="#">Batalla de Baile - Audition</a>
+                                <span>(25 Jul)</span>
+                            </li>
+                            <li>
+                                <a href="#">Creative Map - Fortnite</a>
+                                <span>(2 Ago)</span>
+                            </li>
+                            <li>
+                                <a href="#">Clash Squad - Free Fire</a>
+                                <span>(9 Ago)</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="widget">
+                        <h3 class="widget_title">Eventos Recientes</h3>
+                        <div class="recent-post-wrap">
+                            <div class="recent-post">
+                                <div class="media-img">
+                                    <a href="#"><img src="{% static 'assets/img/events/fortnite-recent.jpg' %}" alt="Fortnite"></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="post-title"><a href="#">Torneo por Equipos</a></h4>
+                                    <div class="recent-post-meta">
+                                        <a href="#"><i class="fa-light fa-calendar"></i>10 Jun, 2024</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="recent-post">
+                                <div class="media-img">
+                                    <a href="#"><img src="{% static 'assets/img/events/fashion-recent.jpg' %}" alt="Fashion"></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="post-title"><a href="#">Competencia Fashionista</a></h4>
+                                    <div class="recent-post-meta">
+                                        <a href="#"><i class="fa-light fa-calendar"></i>28 May, 2024</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="recent-post">
+                                <div class="media-img">
+                                    <a href="#"><img src="{% static 'assets/img/events/valorant-recent.jpg' %}" alt="Valorant"></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="post-title"><a href="#">Liga Competitiva</a></h4>
+                                    <div class="recent-post-meta">
+                                        <a href="#"><i class="fa-light fa-calendar"></i>15 May, 2024</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="widget widget_tag_cloud">
+                        <h3 class="widget_title">Juegos Wolves</h3>
+                        <div class="tagcloud">
+                            <a href="#">AUDITION</a>
+                            <a href="#">FORTNITE</a>
+                            <a href="#">VALORANT</a>
+                            <a href="#">FREE FIRE</a>
+                            <a href="#">CALL OF DUTY</a>
+                            <a href="#">LEAGUE OF LEGENDS</a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Scroll To Top -->
+<div class="scroll-top">
+    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 307.919;"></path>
+    </svg>
+</div>
+{% endblock %}

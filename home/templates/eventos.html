@@ -1,0 +1,303 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Wolves - Clan de Gaming | Eventos{% endblock %}
+
+{% block meta_description %}Participa en los eventos exclusivos del clan Wolves. Torneos de Audition Latino, Fortnite, Valorant, Free Fire y más. ¡Demuestra tus habilidades!{% endblock %}
+
+{% block content %}
+
+<!--==============================
+Breadcumb
+============================== -->
+<div class="breadcumb-wrapper" data-bg-src="{% static 'assets/img/bg/wolves-bg-dark.jpg' %}">
+    <div class="container">
+        <div class="breadcumb-content">
+            <h1 class="breadcumb-title"><i class="fas fa-calendar-alt text-theme me-2"></i>EVENTOS <span class="text-theme">WOLVES</span></h1>
+            <ul class="breadcumb-menu">
+                <li><a href="{% url 'index' %}"><i class="fas fa-home"></i> Home</a></li>
+                <li><i class="fas fa-gamepad"></i> Eventos</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!--==============================
+Blog Area
+==============================-->
+<section class="th-blog-wrapper space-top space-extra2-bottom">
+    <div class="container">
+        <div class="title-area text-center">
+            <span class="sub-title style2"><i class="fas fa-paw me-2"></i># PRÓXIMOS EVENTOS</span>
+            <h2 class="sec-title">Únete a nuestros eventos <span class="text-theme">gaming</span></h2>
+        </div>
+        
+        <div class="row gx-40">
+            <div class="col-xxl-8 col-lg-7">
+                <!-- Evento 1 - Audition Latino -->
+                <div class="th-blog blog-single has-post-thumbnail">
+                    <div class="blog-img">
+                        <a href="{% url 'detalle_evento' %}"><img src="{% static 'assets/img/events/audition-event.jpg' %}" alt="Evento Audition Latino"></a>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <a class="author"><i class="fa-light fa-user"></i>Por Admin Wolves</a>
+                            <a><i class="fa-light fa-calendar"></i>15 Jun, 2024</a>
+                            <a><i class="fa-light fa-users"></i>25 Participantes</a>
+                        </div>
+                        <h2 class="blog-title"><a href="{% url 'detalle_evento' %}">Torneo de Asistencia Diaria - Audition Latino</a></h2>
+                        <p class="blog-text">Demuestra tu compromiso con el clan. Los miembros con mayor asistencia mensual ganarán premios exclusivos.</p>
+                        <a href="{% url 'detalle_evento' %}" class="link-btn style2">Participar <i class="fa-regular fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+
+                <!-- Evento 2 - Fortnite -->
+                <div class="th-blog blog-single has-post-thumbnail">
+                    <div class="blog-img th-slider" data-slider-options='{"effect":"fade"}'>
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <a href="{% url 'detalle_evento' %}"><img src="{% static 'assets/img/events/fortnite-event.jpg' %}" alt="Torneo Fortnite"></a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="{% url 'detalle_evento' %}"><img src="{% static 'assets/img/events/fortnite-team.jpg' %}" alt="Equipos Fortnite"></a>
+                            </div>
+                        </div>
+                        <button class="slider-arrow slider-prev"><i class="far fa-arrow-left"></i></button>
+                        <button class="slider-arrow slider-next"><i class="far fa-arrow-right"></i></button>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <a class="author"><i class="fa-light fa-user"></i>Por Equipo Wolves</a>
+                            <a><i class="fa-light fa-calendar"></i>22 Jun, 2024</a>
+                            <a><i class="fa-light fa-users"></i>16 Equipos</a>
+                        </div>
+                        <h2 class="blog-title"><a href="{% url 'detalle_evento' %}">Torneo por Equipos - Fortnite</a></h2>
+                        <p class="blog-text">Forma tu equipo de 4 jugadores y compite por el título de los mejores builders y shooters del clan. Premios en V-Bucks.</p>
+                        <a href="{% url 'detalle_evento' %}" class="link-btn style2">Registrar Equipo <i class="fa-regular fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+
+                <!-- Evento 3 - Valorant -->
+                <div class="th-blog blog-single has-post-thumbnail">
+                    <div class="blog-img">
+                        <a href="{% url 'detalle_evento' %}"><img src="{% static 'assets/img/events/valorant-event.jpg' %}" alt="Torneo Valorant"></a>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <a class="author"><i class="fa-light fa-user"></i>Por Wolves Elite</a>
+                            <a><i class="fa-light fa-calendar"></i>30 Jun, 2024</a>
+                            <a><i class="fa-light fa-users"></i>8 Equipos</a>
+                        </div>
+                        <h2 class="blog-title"><a href="{% url 'detalle_evento' %}">Liga Competitiva - Valorant</a></h2>
+                        <p class="blog-text">Demuestra tu estrategia y trabajo en equipo en nuestro torneo mensual de Valorant. Abierto para todos los rangos.</p>
+                        <a href="{% url 'detalle_evento' %}" class="link-btn style2">Inscribirse <i class="fa-regular fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+
+                <!-- Evento 4 - Free Fire -->
+                <div class="th-blog blog-single has-post-thumbnail">
+                    <div class="blog-img" data-overlay="black" data-opacity="5">
+                        <a href="{% url 'detalle_evento' %}"><img src="{% static 'assets/img/events/freefire-event.jpg' %}" alt="Torneo Free Fire"></a>
+                        <a href="https://www.youtube.com/watch?v=ejemplo" class="play-btn popup-video"><i class="fas fa-play"></i></a>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <a class="author"><i class="fa-light fa-user"></i>Por Wolves FF</a>
+                            <a><i class="fa-light fa-calendar"></i>5 Jul, 2024</a>
+                            <a><i class="fa-light fa-users"></i>50 Jugadores</a>
+                        </div>
+                        <h2 class="blog-title"><a href="{% url 'detalle_evento' %}">Battle Royale - Free Fire</a></h2>
+                        <p class="blog-text">Supervivencia extrema en nuestro torneo mensual de Free Fire. Premios en diamantes y artículos exclusivos.</p>
+                        <a href="{% url 'detalle_evento' %}" class="link-btn style2">Unirse <i class="fa-regular fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+
+                <!-- Evento 5 - Audition Fashion -->
+                <div class="th-blog blog-single">
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <a class="author"><i class="fa-light fa-user"></i>Por Wolves Fashion</a>
+                            <a><i class="fa-light fa-calendar"></i>12 Jul, 2024</a>
+                            <a><i class="fa-light fa-users"></i>Participación libre</a>
+                        </div>
+                        <h2 class="blog-title"><a href="{% url 'detalle_evento' %}">Competencia Fashionista - Audition Latino</a></h2>
+                        <p class="blog-text">Demuestra tu estilo único en el juego. Los mejores outfits serán premiados y destacados en nuestras redes.</p>
+                        <a href="{% url 'detalle_evento' %}" class="link-btn style2">Mostrar Outfit <i class="fa-regular fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+
+                <div class="th-pagination">
+                    <ul>
+                        <li><a href="#"><span class="btn-border"></span> 1</a></li>
+                        <li><a href="#"><span class="btn-border"></span> 2</a></li>
+                        <li><a href="#"><span class="btn-border"></span><i class="far fa-arrow-right"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="col-xxl-4 col-lg-5">
+                <aside class="sidebar-area">
+                    <div class="widget widget_search">
+                        <form class="search-form">
+                            <input type="text" placeholder="Buscar eventos...">
+                            <button type="submit"><i class="far fa-search"></i></button>
+                        </form>
+                    </div>
+                    
+                    <div class="widget widget_categories">
+                        <h3 class="widget_title">Categorías de Eventos</h3>
+                        <ul>
+                            <li>
+                                <a href="#">Audition Latino</a>
+                                <span>(3)</span>
+                            </li>
+                            <li>
+                                <a href="#">Fortnite</a>
+                                <span>(2)</span>
+                            </li>
+                            <li>
+                                <a href="#">Valorant</a>
+                                <span>(1)</span>
+                            </li>
+                            <li>
+                                <a href="#">Free Fire</a>
+                                <span>(1)</span>
+                            </li>
+                            <li>
+                                <a href="#">Otros Juegos</a>
+                                <span>(1)</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="widget">
+                        <h3 class="widget_title">Próximos Eventos</h3>
+                        <div class="recent-post-wrap">
+                            <div class="recent-post">
+                                <div class="media-img">
+                                    <a href="#"><img src="{% static 'assets/img/events/valorant-upcoming.jpg' %}" alt="Valorant"></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="post-title"><a href="#">Torneo 1v1 - Valorant</a></h4>
+                                    <div class="recent-post-meta">
+                                        <a href="#"><i class="fa-light fa-calendar"></i>18 Jul, 2024</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="recent-post">
+                                <div class="media-img">
+                                    <a href="#"><img src="{% static 'assets/img/events/audition-upcoming.jpg' %}" alt="Audition"></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="post-title"><a href="#">Batalla de Baile - Audition</a></h4>
+                                    <div class="recent-post-meta">
+                                        <a href="#"><i class="fa-light fa-calendar"></i>25 Jul, 2024</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="recent-post">
+                                <div class="media-img">
+                                    <a href="#"><img src="{% static 'assets/img/events/fortnite-upcoming.jpg' %}" alt="Fortnite"></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="post-title"><a href="#">Creative Map Challenge</a></h4>
+                                    <div class="recent-post-meta">
+                                        <a href="#"><i class="fa-light fa-calendar"></i>2 Ago, 2024</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="widget widget_tag_cloud">
+                        <h3 class="widget_title">Juegos Populares</h3>
+                        <div class="tagcloud">
+                            <a href="#">AUDITION</a>
+                            <a href="#">FORTNITE</a>
+                            <a href="#">VALORANT</a>
+                            <a href="#">FREE FIRE</a>
+                            <a href="#">CALL OF DUTY</a>
+                            <a href="#">LEAGUE OF LEGENDS</a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Scroll To Top -->
+<div class="scroll-top">
+    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 307.919;"></path>
+    </svg>
+</div>
+
+<style>
+.text-theme {
+    color: #45F882 !important; /* Green neon color */
+}
+
+.breadcumb-wrapper {
+    position: relative;
+    z-index: 1;
+}
+
+.breadcumb-wrapper:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 43, 0.8);
+    z-index: -1;
+}
+
+.breadcumb-title {
+    text-shadow: 0 0 10px rgba(69, 248, 130, 0.7);
+    font-weight: 700;
+}
+
+.breadcumb-menu li {
+    position: relative;
+    padding-right: 20px;
+    margin-right: 10px;
+}
+
+.breadcumb-menu li:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 15px;
+    width: 1px;
+    background-color: #45F882;
+    box-shadow: 0 0 8px rgba(69, 248, 130, 0.8);
+}
+
+.breadcumb-menu li:last-child:after {
+    display: none;
+}
+
+.sub-title.style2 {
+    background: linear-gradient(90deg, rgba(69, 248, 130, 0.2) 0%, rgba(69, 248, 130, 0) 100%);
+    padding: 8px 20px;
+    border-left: 3px solid #45F882;
+    display: inline-block;
+    font-weight: 600;
+    box-shadow: 0 0 10px rgba(69, 248, 130, 0.3);
+}
+
+.sec-title {
+    margin-top: 15px;
+    font-weight: 700;
+}
+
+.fas {
+    filter: drop-shadow(0 0 3px rgba(69, 248, 130, 0.7));
+}
+</style>
+{% endblock %}

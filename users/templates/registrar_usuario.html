@@ -1,0 +1,467 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Wolves - Clan de Gaming | Únete a Nosotros{% endblock %}
+
+{% block meta_description %}Únete al clan Wolves. Forma parte de nuestra comunidad de esports y gaming. Regístrate ahora para participar en torneos y eventos exclusivos.{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'assets/css/custom.css' %}">
+<div class="contact-page-1 space">
+    <div class="contact-sec-1 space bg-repeat overflow-hidden" data-bg-src="{% static 'assets/img/bg/jiji-bg2.png' %}">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-xl-12">
+                    <div class="title-area text-center mb-5">
+                        <span class="sub-title style2"><i class="fas fa-paw me-2"></i># Únete a la Manada</span>
+                        <h2 class="sec-title text-white">Forma parte del Clan <span class="text-theme">Wolves</span></h2>
+                        <p class="text-white">Completa este formulario para unirte a nuestra comunidad gaming</p>
+                    </div>
+                    
+                    <div class="registration-container">
+                        <div class="registration-steps mb-5">
+                            <div class="step active" data-step="1">
+                                <div class="step-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <span>Información Personal</span>
+                            </div>
+                            <div class="step-connector"></div>
+                            <div class="step" data-step="2">
+                                <div class="step-icon">
+                                    <i class="fas fa-gamepad"></i>
+                                </div>
+                                <span>Perfil Gaming</span>
+                            </div>
+                            <div class="step-connector"></div>
+                            <div class="step" data-step="3">
+                                <div class="step-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <span>Finalizar</span>
+                            </div>
+                        </div>
+                        
+                        <form action="#" method="POST" class="contact-form pb-xl-0 space-bottom" id="registrationForm">
+                            {% csrf_token %}
+                            
+                            <!-- Step 1: Información Personal -->
+                            <div class="form-step" id="step1">
+                                <div class="form-step-header">
+                                    <h3 class="text-white"><i class="fas fa-user-circle me-2 text-theme"></i>Información Personal</h3>
+                                    <p class="text-white opacity-75">Cuéntanos un poco sobre ti</p>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="form-group style-border2 col-md-6">
+                                        <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre Completo*" required>
+                                        <i class="fal fa-user"></i>
+                                    </div>
+                                    <div class="form-group style-border2 col-md-6">
+                                        <input type="number" class="form-control" name="edad" id="edad" placeholder="Edad*" min="13" max="99" required>
+                                        <i class="fal fa-calendar-alt"></i>
+                                    </div>
+                                    <div class="form-group style-border2 col-md-6">
+                                        <input type="text" class="form-control" name="nickname" id="nickname" placeholder="Nickname en Juegos*" required>
+                                        <i class="fal fa-gamepad"></i>
+                                    </div>
+                                    <div class="form-group style-border2 col-md-6">
+                                        <input type="date" class="form-control" name="cumpleanos" id="cumpleanos" placeholder="Fecha de Nacimiento*" required>
+                                        <i class="fal fa-birthday-cake"></i>
+                                    </div>
+                                    <div class="form-group style-border2 col-md-6">
+                                        <select class="form-select" name="pais" id="pais" required>
+                                            <option value="" selected disabled>País*</option>
+                                            <option value="MX">México</option>
+                                            <option value="CO">Colombia</option>
+                                            <option value="AR">Argentina</option>
+                                            <option value="PE">Perú</option>
+                                            <option value="CL">Chile</option>
+                                            <option value="ES">España</option>
+                                            <option value="OT">Otro</option>
+                                        </select>
+                                        <i class="fal fa-globe-americas"></i>
+                                    </div>
+                                    <div class="form-group style-border2 col-md-6">
+                                        <input type="text" class="form-control" name="ciudad" id="ciudad" placeholder="Ciudad*" required>
+                                        <i class="fal fa-city"></i>
+                                    </div>
+                                    <div class="form-group style-border2 col-md-6">
+                                        <input type="tel" class="form-control" name="celular" id="celular" placeholder="Número de Celular*" required>
+                                        <i class="fal fa-phone"></i>
+                                    </div>
+                                    <div class="form-group style-border2 col-md-6">
+                                        <input type="text" class="form-control" name="hobby" id="hobby" placeholder="Hobby o Pasatiempo">
+                                        <i class="fal fa-heart"></i>
+                                    </div>
+                                    
+                                    <div class="form-btn col-12 text-end mt-4">
+                                        <button type="button" class="th-btn next-step" data-step="1">
+                                            Siguiente <i class="fas fa-arrow-right ms-2"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 2: Perfil Gaming -->
+                            <div class="form-step" id="step2" style="display: none;">
+                                <div class="form-step-header">
+                                    <h3 class="text-white"><i class="fas fa-gamepad me-2 text-theme"></i>Perfil Gaming</h3>
+                                    <p class="text-white opacity-75">Cuéntanos sobre tu experiencia en videojuegos</p>
+                                </div>
+                                
+                                <div class="game-selection-container">
+                                    <label class="form-label text-white mb-3">Selecciona tu juego principal <span class="text-theme">*</span></label>
+                                    
+                                    <div class="game-options">
+                                        <div class="game-option">
+                                            <input type="radio" name="juego_principal" id="audition_latino" value="Audition Latino" data-details="auditionDetails" required>
+                                            <label for="audition_latino" class="game-option-label">
+                                                <div class="game-icon">
+                                                    <i class="fas fa-music"></i>
+                                                </div>
+                                                <span>Audition Latino</span>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="game-option">
+                                            <input type="radio" name="juego_principal" id="valorant" value="Valorant" data-details="valorantDetails" required>
+                                            <label for="valorant" class="game-option-label">
+                                                <div class="game-icon">
+                                                    <i class="fas fa-crosshairs"></i>
+                                                </div>
+                                                <span>Valorant</span>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="game-option">
+                                            <input type="radio" name="juego_principal" id="league_of_legends" value="League of Legends" data-details="lolDetails" required>
+                                            <label for="league_of_legends" class="game-option-label">
+                                                <div class="game-icon">
+                                                    <i class="fas fa-shield-alt"></i>
+                                                </div>
+                                                <span>League of Legends</span>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="game-option">
+                                            <input type="radio" name="juego_principal" id="otro_juego" value="Otro" data-details="otherGameDetails" required>
+                                            <label for="otro_juego" class="game-option-label">
+                                                <div class="game-icon">
+                                                    <i class="fas fa-plus"></i>
+                                                </div>
+                                                <span>Otro Juego</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Audition Latino Details -->
+                                    <div id="auditionDetails" class="game-details-card">
+                                        <h4 class="text-white mb-3">Detalles de Audition Latino</h4>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group style-border2">
+                                                    <input type="text" class="form-control" name="nickname_audition" placeholder="Nickname en Audition Latino">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group style-border2">
+                                                    <select class="form-select" name="nivel_audition">
+                                                        <option value="" selected disabled>Nivel en Audition</option>
+                                                        <option value="Principiante">Principiante (1-15)</option>
+                                                        <option value="Intermedio">Intermedio (16-30)</option>
+                                                        <option value="Avanzado">Avanzado (31-45)</option>
+                                                        <option value="Experto">Experto (46+)</option>
+                                                    </select>
+                                                    <i class="fas fa-level-up-alt"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="audition-modes-selection">
+                                            <label class="form-label text-white mb-3">¿Qué modos juegas? <span class="text-theme">*</span></label>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mode-option">
+                                                        <input type="checkbox" id="mode_normal" name="modos_audition[]" value="Normal">
+                                                        <label for="mode_normal">Modo Normal</label>
+                                                    </div>
+                                                    <div class="mode-option">
+                                                        <input type="checkbox" id="mode_battle" name="modos_audition[]" value="Battle">
+                                                        <label for="mode_battle">Modo Battle</label>
+                                                    </div>
+                                                    <div class="mode-option">
+                                                        <input type="checkbox" id="mode_club" name="modos_audition[]" value="Club">
+                                                        <label for="mode_club">Modo Club</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mode-option">
+                                                        <input type="checkbox" id="mode_beat_up" name="modos_audition[]" value="Beat-Up">
+                                                        <label for="mode_beat_up">Beat-Up</label>
+                                                    </div>
+                                                    <div class="mode-option">
+                                                        <input type="checkbox" id="mode_cc" name="modos_audition[]" value="CC 4 y 8">
+                                                        <label for="mode_cc">CC 4 y 8</label>
+                                                    </div>
+                                                    <div class="mode-option">
+                                                        <input type="checkbox" id="mode_dynamic" name="modos_audition[]" value="Dynamic 4/8">
+                                                        <label for="mode_dynamic">Dynamic 4/8</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Otros juegos -->
+                                    <div class="other-game-fields game-details-card" style="display:none;">
+                                        <div class="game-details-header">
+                                            <i class="fas fa-gamepad text-theme me-2"></i>
+                                            <h4 class="text-white">Detalles de Otros Juegos</h4>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 form-group style-border2">
+                                                <select class="form-select" name="nivel_juego" id="nivel_juego">
+                                                    <option value="" selected disabled>Nivel en el juego</option>
+                                                    <option value="Principiante">Principiante</option>
+                                                    <option value="Intermedio">Intermedio</option>
+                                                    <option value="Avanzado">Avanzado</option>
+                                                    <option value="Experto">Experto</option>
+                                                    <option value="Pro">Pro (Competitivo)</option>
+                                                </select>
+                                                <i class="fal fa-trophy"></i>
+                                            </div>
+                                            <div class="col-md-6 form-group style-border2">
+                                                <input type="text" class="form-control" name="rango_juego" id="rango_juego" placeholder="Rango actual (ej: Diamante, Oro, etc.)">
+                                                <i class="fal fa-chess-king"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-btn col-12 d-flex justify-content-between mt-4">
+                                    <button type="button" class="th-btn prev-step" data-step="2">
+                                        <i class="fas fa-arrow-left me-2"></i> Anterior
+                                    </button>
+                                    <button type="button" class="th-btn next-step" data-step="2">
+                                        Siguiente <i class="fas fa-arrow-right ms-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 3: Finalizar -->
+                            <div class="form-step" id="step3" style="display: none;">
+                                <div class="form-step-header">
+                                    <h3 class="text-white"><i class="fas fa-check-circle me-2 text-theme"></i>Finalizar Registro</h3>
+                                    <p class="text-white opacity-75">Último paso para unirte a la manada</p>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-12 form-group style-border2">
+                                        <label class="text-white mb-2">¿Por qué quieres unirte al clan Wolves?</label>
+                                        <textarea name="comentarios" id="comentarios" class="form-control" rows="4" placeholder="Cuéntanos tus motivaciones para unirte..."></textarea>
+                                        <i class="far fa-pencil"></i>
+                                    </div>
+                                    
+                                    <div class="col-12 mt-4">
+                                        <div class="terms-agreement">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="terms" required>
+                                                <label class="form-check-label text-white" for="terms">
+                                                    Acepto los <a href="#" class="text-theme">términos y condiciones</a> y la <a href="#" class="text-theme">política de privacidad</a> del clan Wolves
+                                                </label>
+                                            </div>
+                                            <div class="form-check mt-2">
+                                                <input class="form-check-input" type="checkbox" id="newsletter">
+                                                <label class="form-check-label text-white" for="newsletter">
+                                                    Quiero recibir noticias y actualizaciones sobre torneos y eventos
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-btn col-12 d-flex justify-content-between mt-4">
+                                        <button type="button" class="th-btn prev-step" data-step="3">
+                                            <i class="fas fa-arrow-left me-2"></i> Anterior
+                                        </button>
+                                        <button type="submit" class="th-btn submit-btn">
+                                            <i class="fas fa-paw me-2"></i> Unirme a la Manada
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all step navigation buttons
+    const nextButtons = document.querySelectorAll('.next-step');
+    const prevButtons = document.querySelectorAll('.prev-step');
+    const steps = document.querySelectorAll('.step');
+    const formSteps = document.querySelectorAll('.form-step');
+    
+    // Add event listeners to next buttons
+    nextButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const currentStep = parseInt(this.getAttribute('data-step'));
+            const nextStep = currentStep + 1;
+            
+            // Validate current step before proceeding
+            if (validateStep(currentStep)) {
+                // Hide current step
+                document.getElementById('step' + currentStep).style.display = 'none';
+                
+                // Show next step
+                document.getElementById('step' + nextStep).style.display = 'block';
+                
+                // Update step indicators
+                steps.forEach(step => {
+                    if (parseInt(step.getAttribute('data-step')) === nextStep) {
+                        step.classList.add('active');
+                    }
+                });
+                
+                // Scroll to top of form
+                document.querySelector('.registration-container').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    // Add event listeners to previous buttons
+    prevButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const currentStep = parseInt(this.getAttribute('data-step'));
+            const prevStep = currentStep - 1;
+            
+            // Hide current step
+            document.getElementById('step' + currentStep).style.display = 'none';
+            
+            // Show previous step
+            document.getElementById('step' + prevStep).style.display = 'block';
+            
+            // Update step indicators
+            steps.forEach(step => {
+                if (parseInt(step.getAttribute('data-step')) === currentStep) {
+                    step.classList.remove('active');
+                }
+            });
+            
+            // Scroll to top of form
+            document.querySelector('.registration-container').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+    
+    // Validate each step
+    function validateStep(stepNumber) {
+        const currentStep = document.getElementById('step' + stepNumber);
+        const requiredFields = currentStep.querySelectorAll('[required]');
+        let isValid = true;
+        
+        requiredFields.forEach(field => {
+            // Reset validation state
+            field.classList.remove('is-invalid');
+            const feedbackElement = field.nextElementSibling;
+            if (feedbackElement && feedbackElement.classList.contains('invalid-feedback')) {
+                feedbackElement.remove();
+            }
+            
+            if (!field.value.trim()) {
+                isValid = false;
+                field.classList.add('is-invalid');
+                
+                // Add feedback message
+                const feedback = document.createElement('div');
+                feedback.className = 'invalid-feedback';
+                feedback.textContent = 'Este campo es obligatorio';
+                field.parentNode.appendChild(feedback);
+            }
+        });
+        
+        return isValid;
+    }
+    
+    // Game selection logic
+    const gameCheckboxes = document.querySelectorAll('.game-checkbox');
+    const auditionFields = document.querySelector('.audition-fields');
+    const otherGameFields = document.querySelector('.other-game-fields');
+    
+    gameCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            if (this.id === 'audition' && this.checked) {
+                if (auditionFields) {
+                    auditionFields.style.display = 'block';
+                }
+            } else if (this.id === 'audition' && !this.checked) {
+                if (auditionFields) {
+                    auditionFields.style.display = 'none';
+                }
+            }
+            
+            // Show other game fields if any game except Audition is selected
+            const anyOtherGameSelected = Array.from(gameCheckboxes).some(cb => 
+                cb.id !== 'audition' && cb.checked
+            );
+            
+            if (otherGameFields) {
+                otherGameFields.style.display = anyOtherGameSelected ? 'block' : 'none';
+            }
+        });
+    });
+    
+    // Form submission
+    const form = document.getElementById('registrationForm');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate all steps before submission
+            let isValid = true;
+            for (let i = 1; i <= 3; i++) {
+                if (!validateStep(i)) {
+                    isValid = false;
+                    
+                    // Show the step with errors
+                    formSteps.forEach(step => {
+                        step.style.display = 'none';
+                    });
+                    document.getElementById('step' + i).style.display = 'block';
+                    
+                    // Update step indicators
+                    steps.forEach(step => {
+                        const stepNum = parseInt(step.getAttribute('data-step'));
+                        if (stepNum === i) {
+                            step.classList.add('active');
+                        } else if (stepNum > i) {
+                            step.classList.remove('active');
+                        }
+                    });
+                    
+                    break;
+                }
+            }
+            
+            if (isValid) {
+                // Submit the form
+                this.submit();
+            }
+        });
+    }
+});
+</script>
+
+{% endblock %}
