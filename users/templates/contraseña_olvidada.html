@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Wolves - Clan de Gaming | Iniciar Sesión{% endblock %}
+{% block title %}Wolves Clan - Recuperar Contraseña{% endblock %}
 
-{% block meta_description %}Accede a tu cuenta del clan Wolves. Participa en torneos, conecta con tu equipo y gestiona tu perfil de gaming.{% endblock %}
+{% block meta_description %}Recupera el acceso a tu cuenta de Wolves Clan. Sigue los pasos para restablecer tu contraseña y volver a unirte a la manada.{% endblock %}
 
 {% block content %}
 <div class="space-top"></div>
@@ -14,37 +14,37 @@
             <div class="row align-items-center justify-content-between">
                 <div class="col-xl-5 col-lg-6">
                     <div class="title-area mb-5">
-                        <span class="sub-title style2"><i class="fas fa-paw me-2"></i># Acceso Wolves</span>
-                        <h2 class="sec-title text-white">Bienvenido de vuelta a la <span class="text-theme">Manada</span></h2>
-                        <p class="text-white">Ingresa tus credenciales para acceder a tu cuenta y disfrutar de todos los beneficios del clan.</p>
+                        <span class="sub-title style2"><i class="fas fa-paw me-2"></i># Recuperar Acceso</span>
+                        <h2 class="sec-title text-white">Recupera tu <span class="text-theme">contraseña</span></h2>
+                        <p class="text-white">Ingresa tu email asociado a la cuenta y te enviaremos un enlace para restablecer tu contraseña.</p>
                     </div>
                     
                     <div class="login-features mb-lg-0 mb-5">
                         <div class="feature-item">
                             <div class="feature-icon">
-                                <i class="fas fa-trophy text-theme"></i>
+                                <i class="fas fa-shield-alt text-theme"></i>
                             </div>
                             <div class="feature-content">
-                                <h4 class="text-white">Torneos Exclusivos</h4>
-                                <p class="text-white">Accede a torneos y eventos exclusivos para miembros del clan.</p>
+                                <h4 class="text-white">Seguridad Garantizada</h4>
+                                <p class="text-white">Utilizamos protocolos seguros para proteger tu información.</p>
                             </div>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon">
-                                <i class="fas fa-users text-theme"></i>
+                                <i class="fas fa-envelope text-theme"></i>
                             </div>
                             <div class="feature-content">
-                                <h4 class="text-white">Comunidad Gaming</h4>
-                                <p class="text-white">Conecta con otros jugadores y forma equipos para competir juntos.</p>
+                                <h4 class="text-white">Proceso Rápido</h4>
+                                <p class="text-white">Recibirás el email de recuperación en minutos.</p>
                             </div>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon">
-                                <i class="fas fa-gift text-theme"></i>
+                                <i class="fas fa-headset text-theme"></i>
                             </div>
                             <div class="feature-content">
-                                <h4 class="text-white">Recompensas Exclusivas</h4>
-                                <p class="text-white">Desbloquea premios y beneficios especiales para miembros activos.</p>
+                                <h4 class="text-white">Soporte 24/7</h4>
+                                <p class="text-white">Nuestro equipo está listo para ayudarte si tienes problemas.</p>
                             </div>
                         </div>
                     </div>
@@ -68,51 +68,28 @@
                             
                             <div class="row">
                                 <div class="form-group style-border2 col-12">
-                                    <input type="text" class="form-control" name="username" id="username" placeholder="Nickname o Email*" required>
-                                    <i class="fal fa-user"></i>
-                                </div>
-                                
-                                <div class="form-group style-border2 col-12">
-                                    <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña*" required>
-                                    <i class="fal fa-lock"></i>
-                                </div>
-                                
-                                <div class="col-12 d-flex justify-content-between align-items-center mb-4">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="remember-me" name="remember">
-                                        <label class="form-check-label text-white" for="remember-me">Recordar sesión</label>
-                                    </div>
-                                    <a href="{% url 'recuperar_contrasena' %}" class="text-theme">¿Olvidaste tu contraseña?</a>
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Email registrado*" required>
+                                    <i class="fal fa-envelope"></i>
                                 </div>
                                 
                                 <div class="form-btn col-12 text-center">
                                     <button type="submit" class="th-btn">
-                                        <i class="fas fa-sign-in-alt me-2"></i> Iniciar Sesión
+                                        <i class="fas fa-paper-plane me-2"></i> Enviar Instrucciones
                                     </button>
                                 </div>
                                 
                                 <div class="col-12 text-center mt-4">
                                     <div class="divider">
                                         <span class="divider-line"></span>
-                                        <span class="divider-text text-white">o ingresa con</span>
+                                        <span class="divider-text text-white">¿Recordaste tu contraseña?</span>
                                         <span class="divider-line"></span>
                                     </div>
                                     
-                                    <div class="social-login mt-4">
-                                        <a href="#" class="social-btn">
-                                            <i class="fab fa-facebook-f"></i>
-                                        </a>
-                                        <a href="#" class="social-btn">
-                                            <i class="fab fa-google"></i>
-                                        </a>
-                                        <a href="#" class="social-btn">
-                                            <i class="fab fa-discord"></i>
+                                    <div class="mt-4">
+                                        <a href="{% url 'login' %}" class="th-btn style2">
+                                            <i class="fas fa-sign-in-alt me-2"></i> Volver al Login
                                         </a>
                                     </div>
-                                </div>
-                                
-                                <div class="col-12 text-center mt-4">
-                                    <p class="text-white mb-0">¿No tienes cuenta? <a href="{% url 'registrar_usuario' %}" class="text-theme">Únete a la manada</a></p>
                                 </div>
                             </div>
                         </form>
@@ -211,6 +188,17 @@
     box-shadow: 0 5px 20px rgba(69, 248, 130, 0.7);
 }
 
+.th-btn.style2 {
+    background: transparent;
+    color: #45F882;
+    border: 2px solid #45F882;
+    box-shadow: none;
+}
+
+.th-btn.style2:hover {
+    background: rgba(69, 248, 130, 0.1);
+}
+
 .divider {
     display: flex;
     align-items: center;
@@ -226,33 +214,6 @@
 .divider-text {
     padding: 0 15px;
     font-size: 0.9rem;
-}
-
-.social-login {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.social-btn {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(69, 248, 130, 0.3);
-}
-
-.social-btn:hover {
-    background: #45F882;
-    color: #0F172B;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(69, 248, 130, 0.5);
 }
 
 .alert {
@@ -283,33 +244,28 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const loginForm = document.querySelector('.contact-form');
+    const recoveryForm = document.querySelector('.contact-form');
     
-    if (loginForm) {
-        loginForm.addEventListener('submit', function(e) {
-            // Validación básica del cliente
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value.trim();
+    if (recoveryForm) {
+        recoveryForm.addEventListener('submit', function(e) {
+            const email = document.getElementById('email').value.trim();
             
-            if (!username || !password) {
+            if (!email) {
                 e.preventDefault();
-                alert('Por favor completa todos los campos requeridos');
+                alert('Por favor ingresa tu dirección de email');
                 return false;
             }
-        });
-        
-        // Efecto hover para los botones sociales
-        const socialBtns = document.querySelectorAll('.social-btn');
-        socialBtns.forEach(btn => {
-            btn.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-5px)';
-            });
-            btn.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-            });
+            
+            // Validación básica de formato de email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                e.preventDefault();
+                alert('Por favor ingresa un email válido');
+                return false;
+            }
         });
     }
 });
 </script>
 
-{% endblock %} 
+{% endblock %}

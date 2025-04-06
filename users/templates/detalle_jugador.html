@@ -1,0 +1,430 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Wolves - Clan de Gaming | Perfil de {{ user.nickname }}{% endblock %}
+
+{% block meta_description %}Perfil de {{ user.nickname }} en el clan Wolves. Consulta estadísticas, logros y actividad en el clan.{% endblock %}
+
+{% block content %}
+<div class="space-top"></div>
+<section class="space profile-section">
+    <div class="container">
+        <div class="row gy-80">
+            <!-- Columna Izquierda: Avatar e Información principal -->
+            <div class="col-xl-6">
+                <div class="about-card-img">
+                    {% if user.profile_image %}
+                        <img src="{{ user.profile_image.url }}" alt="{{ user.nickname }}" class="profile-image">
+                    {% else %}
+                        <div class="profile-image-placeholder">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Estado de actividad -->
+                    <div class="status-indicator {{ user.perfil.estado_actividad|lower }}" title="{{ user.perfil.get_estado_actividad_display }}">
+                        <span class="status-dot"></span>
+                    </div>
+                    
+                    <!-- Nivel del jugador -->
+                    <div class="player-level">
+                        <span>{{ user.perfil.nivel }}</span>
+                    </div>
+                </div>
+                
+                <div class="team-about-card mt-30">
+                    <div class="title-area mb-0">
+                        <span class="sub-title"># Perfil de jugador</span>
+                        <h2 class="sec-title d-flex align-items-center flex-wrap">
+                            <div class="space-top"></div>
+                            {{ user.nickname }}
+                            {% if user.perfil.verificado %}
+                                <i class="fas fa-check-circle verified-icon ms-2" title="Verificado"></i>
+                            {% endif %}
+                            
+                            <!-- Badges e insignias junto al nickname -->
+                            <div class="profile-badges d-inline-flex ms-3">
+                                {% if user.perfil.rol_especial != 'NONE' %}
+                                <div class="badge role-badge" data-tooltip="{{ user.perfil.get_descripcion_rol }}">
+                                    <div class="badge-icon">
+                                        <i class="fas fa-{% if user.perfil.rol_especial == 'FOUNDER' %}crown{% elif user.perfil.rol_especial == 'VETERAN' %}medal{% elif user.perfil.rol_especial == 'RECRUITER' %}user-plus{% elif user.perfil.rol_especial == 'CONTENT' %}video{% elif user.perfil.rol_especial == 'MODERATOR' %}shield-alt{% else %}users{% endif %}"></i>
+                                    </div>
+                                    <span>{{ user.perfil.get_rol_especial_display }}</span>
+                                </div>
+                                {% endif %}
+                                
+                                <div class="badge rank-badge" data-tooltip="Rango actual">
+                                    <div class="badge-icon">
+                                        <i class="fas fa-{% if user.perfil.rango == 'RECRUIT' %}chess-pawn{% elif user.perfil.rango == 'SILVER' %}chess-knight{% elif user.perfil.rango == 'GOLD' %}chess-bishop{% elif user.perfil.rango == 'PLATINUM' %}chess-rook{% elif user.perfil.rango == 'DIAMOND' %}chess-queen{% elif user.perfil.rango == 'MASTER' %}chess-king{% else %}user-shield{% endif %}"></i>
+                                    </div>
+                                    <span>{{ user.perfil.get_rango_display }}</span>
+                                </div>
+                                
+                                <div class="badge specialty-badge" data-tooltip="Especialidad">
+                                    <div class="badge-icon">
+                                        <i class="fas fa-{% if user.perfil.especialidad == 'SUPPORT' %}hands-helping{% elif user.perfil.especialidad == 'TACTICAL' %}chess{% elif user.perfil.especialidad == 'SNIPER' %}crosshairs{% elif user.perfil.especialidad == 'ASSAULT' %}running{% elif user.perfil.especialidad == 'RECON' %}binoculars{% elif user.perfil.especialidad == 'MEDIC' %}first-aid{% else %}shield-alt{% endif %}"></i>
+                                    </div>
+                                    <span>{{ user.perfil.get_especialidad_display }}</span>
+                                </div>
+                                
+                                {% if user.is_subleader %}
+                                <div class="badge subleader-badge" data-tooltip="Sublíder del clan">
+                                    <div class="badge-icon"><i class="fas fa-crown"></i></div>
+                                    <span>Lider</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </h2>
+                        
+                        <!-- Emblema del clan -->
+                        {% if user.perfil.clan %}
+                            <div class="clan-tag mt-10">
+                                <a href="{% url 'detalle_clan' user.perfil.clan.slug %}" title="{{ user.perfil.clan.nombre }}">
+                                    <img src="{{ user.perfil.clan.emblema.url }}" alt="{{ user.perfil.clan.tag }}" class="clan-emblem">
+                                    <span>[{{ user.perfil.clan.tag }}]</span>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Estado personalizado -->
+                    {% if user.perfil.estado_personalizado %}
+                        <p class="about-card_text mt-30 mb-25">
+                            <i class="fas fa-quote-left me-2 text-theme opacity-50"></i>
+                            {{ user.perfil.estado_personalizado }}
+                            <i class="fas fa-quote-right ms-2 text-theme opacity-50"></i>
+                        </p>
+                    {% endif %}
+                    
+                    <!-- Información del jugador -->
+                    <div class="team-info-list">
+                        <ul>
+                            <li>Rango: 
+                                <span>
+                                    <i class="fas fa-{% if user.perfil.rango == 'RECRUIT' %}chess-pawn{% elif user.perfil.rango == 'SILVER' %}chess-knight{% elif user.perfil.rango == 'GOLD' %}chess-bishop{% elif user.perfil.rango == 'PLATINUM' %}chess-rook{% elif user.perfil.rango == 'DIAMOND' %}chess-queen{% elif user.perfil.rango == 'MASTER' %}chess-king{% else %}user-shield{% endif %} me-1 rank-icon"></i>
+                                    {{ user.perfil.get_rango_display }}
+                                </span>
+                            </li>
+                            <li>Especialidad: <span>{{ user.perfil.get_especialidad_display }}</span></li>
+                            <li>Plataforma: <span>{{ user.perfil.preferencia_plataforma|default:"No especificada" }}</span></li>
+                            <li>Miembro desde: <span>{{ user.date_joined|date:"d/m/Y" }}</span></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Redes sociales -->
+                    <div class="team-social mt-25">
+                        <h5 class="fw-semibold text-white">Sígueme <span class="text-theme">en:</span></h5>
+                        <div class="th-social style-mask">
+                            {% if user.twitch_username %}
+                                <a class="twitch" href="https://twitch.tv/{{ user.twitch_username }}" target="_blank" title="Twitch">
+                                    <i class="fab fa-twitch"></i>
+                                </a>
+                            {% endif %}
+                            
+                            {% if user.youtube_channel %}
+                                <a class="youtube" href="{{ user.youtube_channel }}" target="_blank" title="YouTube">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            {% endif %}
+                            
+                            {% if user.twitter_username %}
+                                <a class="twitter" href="https://twitter.com/{{ user.twitter_username }}" target="_blank" title="Twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            {% endif %}
+                            
+                            {% if user.instagram_username %}
+                                <a class="instagram" href="https://instagram.com/{{ user.instagram_username }}" target="_blank" title="Instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            {% endif %}
+                            
+                            {% if user.show_discord and user.discord_id %}
+                                <a class="discord" href="#" title="Discord: {{ user.discord_id }}" id="copyDiscord" data-discord="{{ user.discord_id }}">
+                                    <i class="fab fa-discord"></i>
+                                </a>
+                            {% endif %}
+                            
+                            {% if user.show_email %}
+                                <a class="email" href="mailto:{{ user.email }}" title="Email">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Columna Derecha: Acciones, Progreso y Logros -->
+            <div class="col-xl-6">
+                <!-- Acciones del perfil -->
+                <div class="profile-actions-wrapper d-flex justify-content-between align-items-center mb-30">
+                    {% if request.user == user %}
+                        <a href="{% url 'editar_perfil' %}" class="th-btn">
+                            <i class="fas fa-edit me-2"></i>Editar Perfil
+                        </a>
+                        <div class="dropdown">
+                            <button class="th-btn style2" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Configuración</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-lock me-2"></i>Privacidad</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-trophy me-2"></i>Mis Logros</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-chart-line me-2"></i>Estadísticas</a></li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <div class="d-flex gap-2">
+                            <button class="th-btn {% if user in request.user.amigos.all %}style3{% endif %}" id="btnAddFriend">
+                                <i class="fas {% if user in request.user.amigos.all %}fa-user-check{% else %}fa-user-plus{% endif %} me-2"></i>
+                                {% if user in request.user.amigos.all %}Amigos{% else %}Agregar{% endif %}
+                            </button>
+                            <button class="th-btn style2" id="btnSendMessage">
+                                <i class="fas fa-envelope me-2"></i>Mensaje
+                            </button>
+                            <button class="th-btn style4" id="btnChallenge">
+                                <i class="fas fa-gamepad me-2"></i>Retar
+                            </button>
+                        </div>
+                        <div class="dropdown">
+                            <button class="th-btn style2" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><button class="dropdown-item" id="btnBlock"><i class="fas fa-ban me-2"></i>Bloquear</button></li>
+                                <li><button class="dropdown-item" id="btnReport"><i class="fas fa-flag me-2"></i>Reportar</button></li>
+                                <li><button class="dropdown-item" id="btnShare"><i class="fas fa-share-alt me-2"></i>Compartir</button></li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Progreso de rango -->
+                <h3 class="text-white mt-n2 mb-20">Progreso de Rango</h3>
+                <div class="skill-feature">
+                    <h3 class="skill-feature_title">
+                        {{ user.perfil.get_rango_display }}
+                        <span class="skill-feature_subtitle">Próximo: {{ user.perfil.get_siguiente_rango_display }}</span>
+                    </h3>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: {{ user.perfil.get_progress_percent }}%"></div>
+                    </div>
+                    <div class="progress-value-wrap">
+                        <div class="progress-value">XP <span>{{ user.perfil.puntos_honor }}</span> / {{ user.perfil.puntos_siguiente_rango }}</div>
+                        <div class="progress-value draw">Días <span>{{ user.perfil.dias_en_clan }}</span></div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas del jugador -->
+                <div class="skill-feature">
+                    <h3 class="skill-feature_title">
+                        Rendimiento
+                        <span class="skill-feature_subtitle">Estadísticas</span>
+                    </h3>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: {{ user.stats.win_rate|default:'0' }}%"></div>
+                        <div class="progress-bar lose" role="progressbar" style="width: {{ user.stats.loss_rate|default:'0' }}%"></div>
+                    </div>
+                    <div class="progress-value-wrap">
+                        <div class="progress-value">VICTORIAS <span class="counter-number">{{ user.stats.victories|default:'0' }}</span></div>
+                        <div class="progress-value draw">K/D <span>{{ user.stats.kd_ratio|default:'0.0' }}</span></div>
+                        <div class="progress-value lose">DERROTAS <span class="counter-number">{{ user.stats.losses|default:'0' }}</span></div>
+                    </div>
+                </div>
+                
+                <!-- Logros y medallas -->
+                <div class="team-about-card mt-30">
+                    <h3 class="text-white mt-n2 mb-20">Logros Desbloqueados</h3>
+                    <div class="achievement-grid">
+                        {% for logro in user.logros_recientes|slice:":6" %}
+                            <div class="achievement-item" data-tooltip="{{ logro.nombre }} - {{ logro.descripcion }}">
+                                <div class="achievement-icon">
+                                    <i class="{{ logro.icono }}"></i>
+                                </div>
+                                <div class="achievement-info">
+                                    <h5>{{ logro.nombre_corto }}</h5>
+                                    <small>{{ logro.fecha_desbloqueo|date:"d M Y" }}</small>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div class="achievement-empty">
+                                <i class="fas fa-trophy-alt text-theme opacity-25 fs-1"></i>
+                                <p>No hay logros desbloqueados aún</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Videos destacados (si existen) -->
+                {% if user.videos.exists %}
+                    <div class="team-about-card mt-30">
+                        <h3 class="text-white mt-n2 mb-20">Videos Destacados</h3>
+                        <div class="video-grid-wrap">
+                            {% for video in user.videos.all|slice:":6" %}
+                                <div class="th-video">
+                                    <img src="{{ video.thumbnail.url }}" alt="{{ video.title }}">
+                                    <a href="{{ video.url }}" class="play-btn popup-video style5">
+                                        <i class="fa-sharp fa-solid fa-play"></i>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Scroll To Top -->
+<div class="scroll-top">
+    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 307.919;"></path>
+    </svg>
+</div>
+
+<!-- Estilo para los badges de perfil -->
+<style>
+/* Estilos actualizados para las insignias con los nuevos colores */
+.profile-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.badge {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #fff;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.badge-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.badge span {
+    white-space: nowrap;
+}
+
+/* Estilos específicos por tipo de insignia */
+.role-badge {
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.3), rgba(138, 43, 226, 0.1));
+    border-color: rgba(138, 43, 226, 0.5);
+}
+
+.role-badge .badge-icon {
+    color: #8a2be2;
+}
+
+/* NUEVO: colores específicos por rango */
+.rank-badge[data-rank="RECRUIT"] {
+    background: linear-gradient(135deg, rgba(0, 255, 117, 0.3), rgba(0, 255, 117, 0.1));
+    border-color: rgba(0, 255, 117, 0.5);
+}
+
+.rank-badge[data-rank="RECRUIT"] .badge-icon {
+    color: #00ff75;
+}
+
+.rank-badge[data-rank="TODOTERRENO"] {
+    background: linear-gradient(135deg, rgba(255, 140, 0, 0.3), rgba(255, 140, 0, 0.1));
+    border-color: rgba(255, 140, 0, 0.5);
+}
+
+.rank-badge[data-rank="TODOTERRENO"] .badge-icon {
+    color: #ff8c00;
+}
+
+/* Estilos por defecto para rangos no especificados */
+.rank-badge:not([data-rank="RECRUIT"]):not([data-rank="TODOTERRENO"]) {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 215, 0, 0.1));
+    border-color: rgba(255, 215, 0, 0.5);
+}
+
+.rank-badge:not([data-rank="RECRUIT"]):not([data-rank="TODOTERRENO"]) .badge-icon {
+    color: #ffd700;
+}
+
+.specialty-badge {
+    background: linear-gradient(135deg, rgba(0, 255, 117, 0.3), rgba(0, 255, 117, 0.1));
+    border-color: rgba(0, 255, 117, 0.5);
+}
+
+.specialty-badge .badge-icon {
+    color: #00ff75;
+}
+
+/* NUEVO: colores ajustados para líderes */
+.subleader-badge {
+    background: linear-gradient(135deg, rgba(0, 123, 255, 0.3), rgba(0, 123, 255, 0.1));
+    border-color: rgba(0, 123, 255, 0.5);
+}
+
+.subleader-badge .badge-icon {
+    color: #007bff;
+}
+
+.leader-badge {
+    background: linear-gradient(135deg, rgba(255, 0, 0, 0.3), rgba(255, 0, 0, 0.1));
+    border-color: rgba(255, 0, 0, 0.5);
+}
+
+.leader-badge .badge-icon {
+    color: #ff0000;
+}
+
+.platform-badge .badge-icon {
+    color: #1da1f2;
+}
+
+/* Tooltips para las insignias */
+[data-tooltip] {
+    position: relative;
+    cursor: pointer;
+}
+
+[data-tooltip]:before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+[data-tooltip]:hover:before {
+    opacity: 1;
+    bottom: calc(100% + 5px);
+}
+</style>
+{% endblock %}

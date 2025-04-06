@@ -194,9 +194,9 @@
                     <li class="menu-item-has-children auth-options">
                         <a href="#"><i class="fas fa-user-circle me-2"></i>MI CUENTA</a>
                         <ul class="sub-menu">
-                            <li><a href="#"><i class="fas fa-user-cog me-2"></i>Perfil</a></li>
+                            <li><a href="{% url 'perfil_usuario' %}"><i class="fas fa-user-cog me-2"></i>Perfil</a></li>
                             <li><a href="#"><i class="fas fa-trophy me-2"></i>Mis Torneos</a></li>
-                            <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+                            <li><a href="{% url 'logout_usuario' %}"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
                         </ul>
                     </li>
                     {% endif %}
@@ -223,6 +223,22 @@
                     <div class="col-auto d-none d-md-block">
                         <div class="header-links">
                             <ul>
+                               
+                                <li>
+                                    {% if not user.is_authenticated %}
+                                    <a href="{% url 'login_usuario' %}"><i class="far fa-user"></i>Iniciar Sesión</a>
+                                    <a href="{% url 'registrar_usuario' %}"><i class="far fa-user"></i>Registrarse</a>
+                                    {% else %}
+                                    <div class="dropdown-link">
+                                        <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="far fa-user"></i>{{ user.username }}</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="{% url 'perfil_usuario' %}">Mi Perfil</a></li>
+                                            <li><a class="dropdown-item" href="#">Mis Torneos</a></li>
+                                            <li><a class="dropdown-item" href="{% url 'logout_usuario' %}">Cerrar Sesión</a></li>
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                </li>
                                 <li>
                                     <div class="dropdown-link">
                                         <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-globe"></i>Español</a>
@@ -230,20 +246,6 @@
                                             <li><a class="dropdown-item" href="#">English</a></li>
                                         </ul>
                                     </div>
-                                </li>
-                                <li>
-                                    {% if not user.is_authenticated %}
-                                    <a href="{% url 'login_usuario' %}"><i class="far fa-user"></i>Iniciar Sesión</a>
-                                    {% else %}
-                                    <div class="dropdown-link">
-                                        <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="far fa-user"></i>{{ user.username }}</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
-                                            <li><a class="dropdown-item" href="#">Mis Torneos</a></li>
-                                            <li><a class="dropdown-item" href="#">Cerrar Sesión</a></li>
-                                        </ul>
-                                    </div>
-                                    {% endif %}
                                 </li>
                             </ul>
                         </div>
@@ -300,16 +302,25 @@
                                     <button type="button" class="th-menu-toggle d-block d-lg-none"><i class="far fa-bars"></i></button>
                                 </div>
                                 <div class="col-auto d-none d-lg-block">
-                                    <div class="header-button">
-                                        {% if not user.is_authenticated %}
-                                        <a href="{% url 'registrar_usuario' %}" class="th-btn">
-                                            <i class="fas fa-user-plus"></i>
-                                            <span>Registrarse</span>
-                                        </a>
+                                    <div class="header-button d-flex d-lg-block">
+                                        {% if user.is_authenticated %}
+                                        <div class="dropdown user-dropdown">
+                                            <button class="btn header-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fas fa-user-circle me-2"></i> {{ user.nickname|default:user.username }}
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-dark">
+                                                <li><a class="dropdown-item" href="{% url 'perfil_usuario' %}">Mi Perfil</a></li>
+                                                <li><a class="dropdown-item" href="#">Configuración</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item" href="{% url 'logout_usuario' %}">Cerrar Sesión</a></li>
+                                            </ul>
+                                        </div>
                                         {% else %}
-                                        <a href="#" class="th-btn">
-                                            <i class="fa-brands fa-twitch"></i>
-                                            <span>Streaming</span>
+                                        <a href="{% url 'login_usuario' %}" class="btn header-btn d-none d-sm-block">
+                                            <i class="far fa-user me-2"></i> Iniciar Sesión
+                                        </a>
+                                        <a href="{% url 'registrar_usuario' %}" class="btn header-btn style2">
+                                            <i class="fas fa-paw me-2"></i> Únete al Clan
                                         </a>
                                         {% endif %}
                                     </div>
@@ -343,8 +354,8 @@
                             <div class="th-widget-about">
                                 <div class="about-logo">
                                     <a href="{% url 'index' %}">
-                                        <span data-mask-src="{% static 'assets/img/logo.svg' %}" class="logo-mask"></span>
-                                        <img src="{% static 'assets/img/logo.svg' %}" alt="Wolves">
+                                        <span data-mask-src= class="logo-mask"></span>
+                                        <img src="" alt="Wolves">
                                     </a>
                                 </div>
                                 <p class="about-text">Somos una comunidad de jugadores apasionados, dedicados a competir y divertirnos en diferentes plataformas y juegos.</p>

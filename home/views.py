@@ -1,9 +1,16 @@
 from django.shortcuts import render
+from users.models import CreateUser
 
 # Create your views here.
 def home(request):
 
-    return render(request,'index.html')
+     # Obtener todos los usuarios activos (puedes ajustar el filtro según necesites)
+    usuarios = CreateUser.objects.filter(is_active=True)
+    
+    context = {
+        'usuarios': usuarios,
+    }
+    return render(request, 'index.html', context)
 
 
 def about(request):
@@ -31,11 +38,6 @@ def eventos(request):
 def detalle_evento(request):
     return render(request,'detalle_evento.html')
 
-def login(request):
-    return render(request,'login.html')
-
-def detalle_jugador(request):
-    return render(request,'detalle_jugador.html')
 
 def detalle_torneo(request):
     return render(request,'detalle_torneo.html')
@@ -48,10 +50,6 @@ def puntos_torneo(request):
 
 def gallery(request):
     return render(request,'gallery.html')
-
-
-def register(request):
-    return render(request,'register.html')
 
 
 

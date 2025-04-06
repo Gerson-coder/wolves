@@ -6,294 +6,236 @@
 {% block meta_description %}Únete al clan Wolves. Forma parte de nuestra comunidad de esports y gaming. Regístrate ahora para participar en torneos y eventos exclusivos.{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'assets/css/custom.css' %}">
-<div class="contact-page-1 space">
-    <div class="contact-sec-1 space bg-repeat overflow-hidden" data-bg-src="{% static 'assets/img/bg/jiji-bg2.png' %}">
+<div class="space-top"></div>
+
+<div class="register-page space">
+    <div class="register-sec space bg-repeat overflow-hidden" data-bg-src="{% static 'assets/img/bg/jiji-bg2.png' %}">
         <div class="container">
-            <div class="row align-items-center justify-content-between">
-                <div class="col-xl-12">
-                    <div class="title-area text-center mb-5">
-                        <span class="sub-title style2"><i class="fas fa-paw me-2"></i># Únete a la Manada</span>
-                        <h2 class="sec-title text-white">Forma parte del Clan <span class="text-theme">Wolves</span></h2>
-                        <p class="text-white">Completa este formulario para unirte a nuestra comunidad gaming</p>
+            <div class="row justify-content-center">
+                <div class="col-xl-8 col-lg-10">
+                    <div class="title-area text-center mb-4">
+                        <span class="sub-title style2"><i class="fas fa-paw me-2" style="transform: rotate(-20deg); filter: drop-shadow(0 0 1px #fff);"></i># Wolves Clan</span>
+                        <h2 class="sec-title text-white">Únete a la <span class="text-theme">Manada</span></h2>
                     </div>
                     
-                    <div class="registration-container">
-                        <div class="registration-steps mb-5">
-                            <div class="step active" data-step="1">
-                                <div class="step-icon">
-                                    <i class="fas fa-user"></i>
+                    <div class="form-wrapper">
+                        <div class="form-card">
+                            <div class="form-card-header">
+                                <div class="header-tabs">
+                                    <button type="button" class="tab-btn active" data-step="1">
+                                        <span class="tab-number">1</span>
+                                        <span class="tab-text d-none d-md-inline">Cuenta</span>
+                                    </button>
+                                    <div class="tab-connector"></div>
+                                    <button type="button" class="tab-btn" data-step="2">
+                                        <span class="tab-number">2</span>
+                                        <span class="tab-text d-none d-md-inline">Personal</span>
+                                    </button>
+                                    <div class="tab-connector"></div>
+                                    <button type="button" class="tab-btn" data-step="3">
+                                        <span class="tab-number">3</span>
+                                        <span class="tab-text d-none d-md-inline">Gaming</span>
+                                    </button>
                                 </div>
-                                <span>Información Personal</span>
-                            </div>
-                            <div class="step-connector"></div>
-                            <div class="step" data-step="2">
-                                <div class="step-icon">
-                                    <i class="fas fa-gamepad"></i>
+                                
+                                <div class="header-progress">
+                                    <div class="progress">
+                                        <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 33%" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="progress-text">
+                                        <span class="step-indicator">Paso <span id="current-step">1</span> de 3</span>
+                                        <span class="completion-percentage" id="progress-percentage">33% Completado</span>
+                                    </div>
                                 </div>
-                                <span>Perfil Gaming</span>
-                            </div>
-                            <div class="step-connector"></div>
-                            <div class="step" data-step="3">
-                                <div class="step-icon">
-                                    <i class="fas fa-check"></i>
+                                
+                                <div class="subtitle-area">
+                                    <h4 class="step-title" id="step1-title">Información de Cuenta</h4>
+                                    <h4 class="step-title d-none" id="step2-title">Información Personal</h4>
+                                    <h4 class="step-title d-none" id="step3-title">Perfil Gaming</h4>
                                 </div>
-                                <span>Finalizar</span>
+                                
+                                <div class="login-link">
+                                    <p>¿Ya tienes una cuenta? <a href="{% url 'login_usuario' %}" class="text-theme">Inicia sesión aquí</a></p>
+                                </div>
                             </div>
+                            
+                            <!-- Área para mensajes -->
+                            <div id="messages-container">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert {% if message.tags == 'error' %}alert-wolves-danger{% else %}alert-wolves-{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                                            <i class="fas {% if message.tags == 'error' %}fa-exclamation-circle{% elif message.tags == 'success' %}fa-check-circle{% elif message.tags == 'warning' %}fa-exclamation-triangle{% else %}fa-info-circle{% endif %} me-2"></i>
+                                            {{ message }}
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            
+                            <form method="post" action="{% url 'registrar_usuario' %}" id="registration-form" class="registration-form">
+                                {% csrf_token %}
+                                
+                                <!-- PASO 1: Información de Cuenta -->
+                                <div class="step-content" id="step1" data-step="1">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="id_username">Nombre de usuario</label>
+                                                {{ form.username }}
+                                                <i class="fas fa-user-circle"></i>
+                                                <div id="username-feedback" class="wolves-feedback"></div>
+                                                <div class="form-text">Este será tu identificador único en el clan.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="id_email">Email</label>
+                                                {{ form.email }}
+                                                <i class="fas fa-envelope"></i>
+                                                <div id="email-feedback" class="wolves-feedback"></div>
+                                                <div class="form-text">Tu email para recuperar tu contraseña.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="id_password">Contraseña</label>
+                                                {{ form.password }}
+                                                <i class="fas fa-lock"></i>
+                                                <div id="password-feedback" class="wolves-feedback"></div>
+                                                <div class="password-strength-meter mt-2">
+                                                    <div class="progress" style="height: 5px;">
+                                                        <div id="password-strength" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between mt-1">
+                                                        <small class="strength-text" id="strength-text">Fortaleza: Sin contraseña</small>
+                                                        <small class="text-theme">Mínimo 6 caracteres</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="id_password_confirm">Confirmar contraseña</label>
+                                                {{ form.password_confirm }}
+                                                <i class="fas fa-lock-alt"></i>
+                                                <div id="password_confirm-feedback" class="wolves-feedback"></div>
+                                                <div class="form-text">Repite tu contraseña para confirmar.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-buttons">
+                                        <button type="button" class="next-step th-btn" data-goto="2">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
+                                    </div>
+                                </div>
+                                
+                                <!-- PASO 2: Información Personal -->
+                                <div class="step-content" id="step2" data-step="2" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="id_first_name">Nombre</label>
+                                                {{ form.first_name }}
+                                                <i class="fas fa-user"></i>
+                                                <div id="first_name-feedback" class="wolves-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="id_edad">Edad</label>
+                                                {{ form.edad }}
+                                                <i class="fas fa-birthday-cake"></i>
+                                                <div id="edad-feedback" class="wolves-feedback"></div>
+                                                <div class="form-text">Debes tener al menos 18 años.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="id_celular">Número de teléfono</label>
+                                                {{ form.celular }}
+                                                <i class="fas fa-phone"></i>
+                                                <div id="celular-feedback" class="wolves-feedback"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="id_cumpleaños">Fecha de nacimiento</label>
+                                                <div class="input-group">
+                                                    {{ form.cumpleaños }}
+                                                    <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                                </div>
+                                                <div id="cumpleaños-feedback" class="wolves-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="id_pais">País</label>
+                                                {{ form.pais }}
+                                                <i class="fas fa-globe-americas"></i>
+                                                <div id="pais-feedback" class="wolves-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="id_ciudad">Ciudad</label>
+                                                {{ form.ciudad }}
+                                                <i class="fas fa-city"></i>
+                                                <div id="ciudad-feedback" class="wolves-feedback"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-buttons">
+                                        <button type="button" class="prev-step th-btn" data-goto="1"><i class="fas fa-arrow-left me-2"></i> Atrás</button>
+                                        <button type="button" class="next-step th-btn" data-goto="3">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
+                                    </div>
+                                </div>
+                                
+                                <!-- PASO 3: Perfil Gaming -->
+                                <div class="step-content" id="step3" data-step="3" style="display: none;">
+                                    <div class="row">
+                                       
+                                        <div class="col-md-6">
+                                            <div class  = "form-group">
+                                                <label for="id_nickname">Nickname</label>
+                                                {{ form.nickname }}
+                                                <i class="fas fa-user"></i>
+                                                <div id="nickname-feedback" class="wolves-feedback"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="id_juego_principal">Juego principal</label>
+                                                {{ form.juego_principal }}
+                                                <i class="fas fa-gamepad"></i>
+                                                <div id="juego_principal-feedback" class="wolves-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="id_reclutado_por">Reclutado por</label>
+                                                {{ form.reclutado_por }}
+                                                <i class="fas fa-user-plus"></i>
+                                                <div id="reclutado_por-feedback" class="wolves-feedback"></div>
+                                                <div class="form-text">Si alguien te invitó, indica su nombre.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-check mt-4 mb-3">
+                                        <input class="form-check-input" type="checkbox" id="terms" required>
+                                        <label class="form-check-label" for="terms">
+                                            Acepto los <a href="#" class="text-theme">Términos y Condiciones</a> y la <a href="#" class="text-theme">Política de Privacidad</a>
+                                        </label>
+                                        <div id="terms-feedback" class="wolves-feedback"></div>
+                                    </div>
+                                    
+                                    <div class="form-buttons">
+                                        <button type="button" class="prev-step th-btn" data-goto="2"><i class="fas fa-arrow-left me-2"></i> Atrás</button>
+                                        <button type="submit" class="th-btn submit-btn">Completar Registro <i class="fas fa-check ms-2"></i></button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        
-                        <form action="#" method="POST" class="contact-form pb-xl-0 space-bottom" id="registrationForm">
-                            {% csrf_token %}
-                            
-                            <!-- Step 1: Información Personal -->
-                            <div class="form-step" id="step1">
-                                <div class="form-step-header">
-                                    <h3 class="text-white"><i class="fas fa-user-circle me-2 text-theme"></i>Información Personal</h3>
-                                    <p class="text-white opacity-75">Cuéntanos un poco sobre ti</p>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="form-group style-border2 col-md-6">
-                                        <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre Completo*" required>
-                                        <i class="fal fa-user"></i>
-                                    </div>
-                                    <div class="form-group style-border2 col-md-6">
-                                        <input type="number" class="form-control" name="edad" id="edad" placeholder="Edad*" min="13" max="99" required>
-                                        <i class="fal fa-calendar-alt"></i>
-                                    </div>
-                                    <div class="form-group style-border2 col-md-6">
-                                        <input type="text" class="form-control" name="nickname" id="nickname" placeholder="Nickname en Juegos*" required>
-                                        <i class="fal fa-gamepad"></i>
-                                    </div>
-                                    <div class="form-group style-border2 col-md-6">
-                                        <input type="date" class="form-control" name="cumpleanos" id="cumpleanos" placeholder="Fecha de Nacimiento*" required>
-                                        <i class="fal fa-birthday-cake"></i>
-                                    </div>
-                                    <div class="form-group style-border2 col-md-6">
-                                        <select class="form-select" name="pais" id="pais" required>
-                                            <option value="" selected disabled>País*</option>
-                                            <option value="MX">México</option>
-                                            <option value="CO">Colombia</option>
-                                            <option value="AR">Argentina</option>
-                                            <option value="PE">Perú</option>
-                                            <option value="CL">Chile</option>
-                                            <option value="ES">España</option>
-                                            <option value="OT">Otro</option>
-                                        </select>
-                                        <i class="fal fa-globe-americas"></i>
-                                    </div>
-                                    <div class="form-group style-border2 col-md-6">
-                                        <input type="text" class="form-control" name="ciudad" id="ciudad" placeholder="Ciudad*" required>
-                                        <i class="fal fa-city"></i>
-                                    </div>
-                                    <div class="form-group style-border2 col-md-6">
-                                        <input type="tel" class="form-control" name="celular" id="celular" placeholder="Número de Celular*" required>
-                                        <i class="fal fa-phone"></i>
-                                    </div>
-                                    <div class="form-group style-border2 col-md-6">
-                                        <input type="text" class="form-control" name="hobby" id="hobby" placeholder="Hobby o Pasatiempo">
-                                        <i class="fal fa-heart"></i>
-                                    </div>
-                                    
-                                    <div class="form-btn col-12 text-end mt-4">
-                                        <button type="button" class="th-btn next-step" data-step="1">
-                                            Siguiente <i class="fas fa-arrow-right ms-2"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Step 2: Perfil Gaming -->
-                            <div class="form-step" id="step2" style="display: none;">
-                                <div class="form-step-header">
-                                    <h3 class="text-white"><i class="fas fa-gamepad me-2 text-theme"></i>Perfil Gaming</h3>
-                                    <p class="text-white opacity-75">Cuéntanos sobre tu experiencia en videojuegos</p>
-                                </div>
-                                
-                                <div class="game-selection-container">
-                                    <label class="form-label text-white mb-3">Selecciona tu juego principal <span class="text-theme">*</span></label>
-                                    
-                                    <div class="game-options">
-                                        <div class="game-option">
-                                            <input type="radio" name="juego_principal" id="audition_latino" value="Audition Latino" data-details="auditionDetails" required>
-                                            <label for="audition_latino" class="game-option-label">
-                                                <div class="game-icon">
-                                                    <i class="fas fa-music"></i>
-                                                </div>
-                                                <span>Audition Latino</span>
-                                            </label>
-                                        </div>
-                                        
-                                        <div class="game-option">
-                                            <input type="radio" name="juego_principal" id="valorant" value="Valorant" data-details="valorantDetails" required>
-                                            <label for="valorant" class="game-option-label">
-                                                <div class="game-icon">
-                                                    <i class="fas fa-crosshairs"></i>
-                                                </div>
-                                                <span>Valorant</span>
-                                            </label>
-                                        </div>
-                                        
-                                        <div class="game-option">
-                                            <input type="radio" name="juego_principal" id="league_of_legends" value="League of Legends" data-details="lolDetails" required>
-                                            <label for="league_of_legends" class="game-option-label">
-                                                <div class="game-icon">
-                                                    <i class="fas fa-shield-alt"></i>
-                                                </div>
-                                                <span>League of Legends</span>
-                                            </label>
-                                        </div>
-                                        
-                                        <div class="game-option">
-                                            <input type="radio" name="juego_principal" id="otro_juego" value="Otro" data-details="otherGameDetails" required>
-                                            <label for="otro_juego" class="game-option-label">
-                                                <div class="game-icon">
-                                                    <i class="fas fa-plus"></i>
-                                                </div>
-                                                <span>Otro Juego</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Audition Latino Details -->
-                                    <div id="auditionDetails" class="game-details-card">
-                                        <h4 class="text-white mb-3">Detalles de Audition Latino</h4>
-                                        
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group style-border2">
-                                                    <input type="text" class="form-control" name="nickname_audition" placeholder="Nickname en Audition Latino">
-                                                    <i class="fas fa-user"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group style-border2">
-                                                    <select class="form-select" name="nivel_audition">
-                                                        <option value="" selected disabled>Nivel en Audition</option>
-                                                        <option value="Principiante">Principiante (1-15)</option>
-                                                        <option value="Intermedio">Intermedio (16-30)</option>
-                                                        <option value="Avanzado">Avanzado (31-45)</option>
-                                                        <option value="Experto">Experto (46+)</option>
-                                                    </select>
-                                                    <i class="fas fa-level-up-alt"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="audition-modes-selection">
-                                            <label class="form-label text-white mb-3">¿Qué modos juegas? <span class="text-theme">*</span></label>
-                                            
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="mode-option">
-                                                        <input type="checkbox" id="mode_normal" name="modos_audition[]" value="Normal">
-                                                        <label for="mode_normal">Modo Normal</label>
-                                                    </div>
-                                                    <div class="mode-option">
-                                                        <input type="checkbox" id="mode_battle" name="modos_audition[]" value="Battle">
-                                                        <label for="mode_battle">Modo Battle</label>
-                                                    </div>
-                                                    <div class="mode-option">
-                                                        <input type="checkbox" id="mode_club" name="modos_audition[]" value="Club">
-                                                        <label for="mode_club">Modo Club</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="mode-option">
-                                                        <input type="checkbox" id="mode_beat_up" name="modos_audition[]" value="Beat-Up">
-                                                        <label for="mode_beat_up">Beat-Up</label>
-                                                    </div>
-                                                    <div class="mode-option">
-                                                        <input type="checkbox" id="mode_cc" name="modos_audition[]" value="CC 4 y 8">
-                                                        <label for="mode_cc">CC 4 y 8</label>
-                                                    </div>
-                                                    <div class="mode-option">
-                                                        <input type="checkbox" id="mode_dynamic" name="modos_audition[]" value="Dynamic 4/8">
-                                                        <label for="mode_dynamic">Dynamic 4/8</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Otros juegos -->
-                                    <div class="other-game-fields game-details-card" style="display:none;">
-                                        <div class="game-details-header">
-                                            <i class="fas fa-gamepad text-theme me-2"></i>
-                                            <h4 class="text-white">Detalles de Otros Juegos</h4>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6 form-group style-border2">
-                                                <select class="form-select" name="nivel_juego" id="nivel_juego">
-                                                    <option value="" selected disabled>Nivel en el juego</option>
-                                                    <option value="Principiante">Principiante</option>
-                                                    <option value="Intermedio">Intermedio</option>
-                                                    <option value="Avanzado">Avanzado</option>
-                                                    <option value="Experto">Experto</option>
-                                                    <option value="Pro">Pro (Competitivo)</option>
-                                                </select>
-                                                <i class="fal fa-trophy"></i>
-                                            </div>
-                                            <div class="col-md-6 form-group style-border2">
-                                                <input type="text" class="form-control" name="rango_juego" id="rango_juego" placeholder="Rango actual (ej: Diamante, Oro, etc.)">
-                                                <i class="fal fa-chess-king"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-btn col-12 d-flex justify-content-between mt-4">
-                                    <button type="button" class="th-btn prev-step" data-step="2">
-                                        <i class="fas fa-arrow-left me-2"></i> Anterior
-                                    </button>
-                                    <button type="button" class="th-btn next-step" data-step="2">
-                                        Siguiente <i class="fas fa-arrow-right ms-2"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <!-- Step 3: Finalizar -->
-                            <div class="form-step" id="step3" style="display: none;">
-                                <div class="form-step-header">
-                                    <h3 class="text-white"><i class="fas fa-check-circle me-2 text-theme"></i>Finalizar Registro</h3>
-                                    <p class="text-white opacity-75">Último paso para unirte a la manada</p>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-12 form-group style-border2">
-                                        <label class="text-white mb-2">¿Por qué quieres unirte al clan Wolves?</label>
-                                        <textarea name="comentarios" id="comentarios" class="form-control" rows="4" placeholder="Cuéntanos tus motivaciones para unirte..."></textarea>
-                                        <i class="far fa-pencil"></i>
-                                    </div>
-                                    
-                                    <div class="col-12 mt-4">
-                                        <div class="terms-agreement">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="terms" required>
-                                                <label class="form-check-label text-white" for="terms">
-                                                    Acepto los <a href="#" class="text-theme">términos y condiciones</a> y la <a href="#" class="text-theme">política de privacidad</a> del clan Wolves
-                                                </label>
-                                            </div>
-                                            <div class="form-check mt-2">
-                                                <input class="form-check-input" type="checkbox" id="newsletter">
-                                                <label class="form-check-label text-white" for="newsletter">
-                                                    Quiero recibir noticias y actualizaciones sobre torneos y eventos
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-btn col-12 d-flex justify-content-between mt-4">
-                                        <button type="button" class="th-btn prev-step" data-step="3">
-                                            <i class="fas fa-arrow-left me-2"></i> Anterior
-                                        </button>
-                                        <button type="submit" class="th-btn submit-btn">
-                                            <i class="fas fa-paw me-2"></i> Unirme a la Manada
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -301,166 +243,836 @@
     </div>
 </div>
 
+<style>
+/* Estilos para el formulario de registro */
+.register-page {
+    position: relative;
+}
 
+.form-wrapper {
+    max-width: 100%;
+    margin: 0 auto;
+}
 
+.form-card {
+    background-color: rgba(15, 23, 42, 0.8);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(69, 248, 130, 0.2);
+}
+
+.form-card-header {
+    padding: 25px 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-tabs {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    padding: 0;
+    cursor: pointer;
+}
+
+.tab-btn.active {
+    opacity: 1;
+    color: #45F882;
+}
+
+.tab-number {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active .tab-number {
+    background-color: #45F882;
+    color: #0F172B;
+}
+
+.tab-connector {
+    flex-grow: 1;
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin: 0 10px;
+}
+
+.header-progress {
+    margin-bottom: 20px;
+}
+
+.progress {
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background-color: #45F882;
+    transition: width 0.5s ease;
+}
+
+.progress-text {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.subtitle-area {
+    margin-bottom: 15px;
+}
+
+.step-title {
+    color: #fff;
+    margin: 0;
+    font-size: 18px;
+}
+
+.login-link {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.login-link a {
+    color: #45F882;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.login-link a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.registration-form {
+    padding: 30px;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.form-control {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border-radius: 8px;
+    height: 50px;
+    padding: 10px 15px 10px 40px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: #45F882;
+    box-shadow: 0 0 0 0.25rem rgba(69, 248, 130, 0.25);
+    color: #fff;
+}
+
+.form-group i {
+    position: absolute;
+    left: 15px;
+    top: 42px;
+    color: rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.form-group .form-control:focus + i {
+    color: #45F882;
+}
+
+.form-text {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.wolves-feedback {
+    color: #ff4e4e;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.th-btn {
+    background-color: #45F882;
+    color: #0F172B;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.th-btn:hover {
+    background-color: #32B864;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(69, 248, 130, 0.3);
+}
+
+.btn-outline-light {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    border-radius: 8px;
+    padding: 12px 25px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.password-strength-meter {
+    margin-top: 10px;
+    display: none;
+}
+
+.strength-text {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.form-check-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+}
+
+.form-check-input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.form-check-input:checked {
+    background-color: #45F882;
+    border-color: #45F882;
+}
+
+@media (max-width: 767px) {
+    .registration-form {
+        padding: 20px;
+    }
+    
+    .form-card-header {
+        padding: 20px;
+    }
+    
+    .form-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .form-buttons button {
+        width: 100%;
+    }
+    
+    .prev-step {
+        order: 2;
+    }
+    
+    .next-step, .submit-btn {
+        order: 1;
+    }
+}
+
+/* Estilos para los campos con foco */
+.form-group.focused i {
+    color: #45F882 !important;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(69, 248, 130, 0.25);
+    border-color: rgba(69, 248, 130, 0.5);
+}
+
+/* Efecto de pulso para campos inválidos */
+.form-control.is-invalid {
+    animation: pulse-error 1.5s;
+}
+
+@keyframes pulse-error {
+    0% { box-shadow: 0 0 0 0 rgba(255, 78, 78, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 78, 78, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 78, 78, 0); }
+}
+
+/* Efecto de validación exitosa */
+.form-control.is-valid {
+    animation: pulse-success 1.5s;
+}
+
+@keyframes pulse-success {
+    0% { box-shadow: 0 0 0 0 rgba(69, 248, 130, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(69, 248, 130, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(69, 248, 130, 0); }
+}
+
+/* Estilos para los términos y condiciones */
+.form-check-input:checked {
+    background-color: #45F882;
+    border-color: #45F882;
+}
+
+.form-check-input:focus {
+    border-color: #45F882;
+    box-shadow: 0 0 0 0.25rem rgba(69, 248, 130, 0.25);
+}
+
+.form-check-label a {
+    color: #45F882;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.form-check-label a:hover {
+    text-decoration: underline;
+}
+</style>
+
+<!-- Script para manejar la validación y navegación por pasos -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Get all step navigation buttons
+    // Elementos del DOM
+    const form = document.getElementById('registration-form');
+    const steps = document.querySelectorAll('.step-content');
     const nextButtons = document.querySelectorAll('.next-step');
     const prevButtons = document.querySelectorAll('.prev-step');
-    const steps = document.querySelectorAll('.step');
-    const formSteps = document.querySelectorAll('.form-step');
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const progressBar = document.getElementById('progress-bar');
+    const currentStepText = document.getElementById('current-step');
+    const progressPercentage = document.getElementById('progress-percentage');
+    const stepTitles = document.querySelectorAll('.step-title');
     
-    // Add event listeners to next buttons
+    // CSRF Token para peticiones AJAX
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+    // Validación en tiempo real para campos específicos
+    const fieldsToValidate = ['username', 'email', 'edad'];
+    
+    fieldsToValidate.forEach(fieldName => {
+        const inputField = document.getElementById(`id_${fieldName}`);
+        if (inputField) {
+            inputField.addEventListener('blur', function() {
+                validateField(fieldName, this.value);
+            });
+        }
+    });
+    
+    // Validación de contraseña en tiempo real
+    const passwordField = document.getElementById('id_password');
+    if (passwordField) {
+        passwordField.addEventListener('input', function() {
+            checkPasswordStrength(this.value);
+        });
+    }
+    // validación para edad
+    const edadField = document.getElementById('id_edad');
+    if (edadField) {
+        edadField.addEventListener('input', function() {
+            validateEdad(this.value);
+        });
+    }
+    // validación para email
+    const emailField = document.getElementById('id_email');
+    if (emailField) {
+        emailField.addEventListener('input', function() {
+            validateEmail(this.value);
+        });
+    }
+    // validación para el username
+    const usernameField = document.getElementById('id_username');
+    if (usernameField) {
+        usernameField.addEventListener('input', function() {
+            validateUsername(this.value);
+        });
+    }
+    
+    // Validación de confirmación de contraseña
+    const passwordConfirmField = document.getElementById('id_password_confirm');
+    if (passwordConfirmField) {
+        passwordConfirmField.addEventListener('input', function() {
+            const password = passwordField.value;
+            const confirmation = this.value;
+            
+            if (password !== confirmation) {
+                this.classList.add('is-invalid');
+                this.classList.remove('is-valid');
+                const feedback = document.getElementById('password_confirm-feedback');
+                if (feedback) {
+                    feedback.textContent = 'Las contraseñas no coinciden';
+                    feedback.style.display = 'block';
+                }
+            } else {
+                this.classList.remove('is-invalid');
+                this.classList.add('is-valid');
+                const feedback = document.getElementById('password_confirm-feedback');
+                if (feedback) {
+                    feedback.textContent = '';
+                    feedback.style.display = 'none';
+                }
+            }
+        });
+    }
+    
+    // Validación de cumpleaños
+    const cumpleañosField = document.getElementById('id_cumpleaños');
+    if (cumpleañosField) {
+        cumpleañosField.addEventListener('focus', function() {
+            this.showPicker(); // Abre el selector de fecha al hacer clic
+        });
+    }
+
+    // Validación de términos y condiciones
+    const termsCheckbox = document.getElementById('terms');
+    const submitButton = document.querySelector('button[type="submit"]');
+
+    if (termsCheckbox && submitButton) {
+        // Crear elemento de feedback para términos y condiciones
+        const termsContainer = termsCheckbox.closest('.form-check');
+        let termsFeedback = document.createElement('div');
+        termsFeedback.id = 'terms-feedback';
+        termsFeedback.className = 'wolves-feedback';
+        termsFeedback.style.display = 'none';
+        termsContainer.appendChild(termsFeedback);
+        
+        // Manejar cambio del checkbox
+        termsCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                this.classList.remove('is-invalid');
+                termsFeedback.style.display = 'none';
+                submitButton.disabled = false;
+            } else {
+                this.classList.add('is-invalid');
+                termsFeedback.textContent = 'Debes aceptar los términos y condiciones para continuar';
+                termsFeedback.style.display = 'block';
+                submitButton.disabled = true;
+            }
+        });
+        
+        // Estado inicial
+        submitButton.disabled = !termsCheckbox.checked;
+    }
+    
+    // Manejar la navegación por pasos
     nextButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const currentStep = parseInt(this.getAttribute('data-step'));
-            const nextStep = currentStep + 1;
+            const currentStep = parseInt(this.closest('.step-content').dataset.step);
+            const nextStep = parseInt(this.dataset.goto);
             
-            // Validate current step before proceeding
-            if (validateStep(currentStep)) {
-                // Hide current step
-                document.getElementById('step' + currentStep).style.display = 'none';
+            // Validar los campos del paso actual antes de avanzar
+            if (validateStepFields(currentStep)) {
+                goToStep(nextStep);
                 
-                // Show next step
-                document.getElementById('step' + nextStep).style.display = 'block';
-                
-                // Update step indicators
-                steps.forEach(step => {
-                    if (parseInt(step.getAttribute('data-step')) === nextStep) {
-                        step.classList.add('active');
+                // Actualizar tabs
+                tabButtons.forEach(btn => {
+                    const step = parseInt(btn.dataset.step);
+                    if (step <= nextStep) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
                     }
                 });
                 
-                // Scroll to top of form
-                document.querySelector('.registration-container').scrollIntoView({
-                    behavior: 'smooth'
+                // Actualizar títulos
+                stepTitles.forEach((title, index) => {
+                    if (index + 1 === nextStep) {
+                        title.classList.remove('d-none');
+                    } else {
+                        title.classList.add('d-none');
+                    }
                 });
             }
         });
     });
     
-    // Add event listeners to previous buttons
     prevButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const currentStep = parseInt(this.getAttribute('data-step'));
-            const prevStep = currentStep - 1;
+            const prevStep = parseInt(this.dataset.goto);
+            goToStep(prevStep);
             
-            // Hide current step
-            document.getElementById('step' + currentStep).style.display = 'none';
-            
-            // Show previous step
-            document.getElementById('step' + prevStep).style.display = 'block';
-            
-            // Update step indicators
-            steps.forEach(step => {
-                if (parseInt(step.getAttribute('data-step')) === currentStep) {
-                    step.classList.remove('active');
+            // Actualizar tabs
+            tabButtons.forEach(btn => {
+                const step = parseInt(btn.dataset.step);
+                if (step <= prevStep) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
                 }
             });
             
-            // Scroll to top of form
-            document.querySelector('.registration-container').scrollIntoView({
-                behavior: 'smooth'
+            // Actualizar títulos
+            stepTitles.forEach((title, index) => {
+                if (index + 1 === prevStep) {
+                    title.classList.remove('d-none');
+                } else {
+                    title.classList.add('d-none');
+                }
             });
         });
     });
     
-    // Validate each step
-    function validateStep(stepNumber) {
-        const currentStep = document.getElementById('step' + stepNumber);
-        const requiredFields = currentStep.querySelectorAll('[required]');
-        let isValid = true;
+    // Permitir clic en las pestañas para navegar (solo a pasos ya visitados)
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const step = parseInt(this.dataset.step);
+            const currentActiveStep = getCurrentActiveStep();
+            
+            // Solo permitir navegar a pasos ya visitados o al siguiente paso
+            if (step <= currentActiveStep) {
+                goToStep(step);
+                
+                // Actualizar tabs
+                tabButtons.forEach(btn => {
+                    const btnStep = parseInt(btn.dataset.step);
+                    if (btnStep <= step) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+                
+                // Actualizar títulos
+                stepTitles.forEach((title, index) => {
+                    if (index + 1 === step) {
+                        title.classList.remove('d-none');
+                    } else {
+                        title.classList.add('d-none');
+                    }
+                });
+            }
+        });
+    });
+    
+    // Función para obtener el paso activo actual
+    function getCurrentActiveStep() {
+        let activeStep = 1;
+        steps.forEach((step, index) => {
+            if (step.style.display !== 'none') {
+                activeStep = index + 1;
+            }
+        });
+        return activeStep;
+    }
+    
+    // Función para ir a un paso específico
+    function goToStep(stepNumber) {
+        steps.forEach(step => {
+            step.style.display = 'none';
+        });
         
-        requiredFields.forEach(field => {
-            // Reset validation state
-            field.classList.remove('is-invalid');
-            const feedbackElement = field.nextElementSibling;
-            if (feedbackElement && feedbackElement.classList.contains('invalid-feedback')) {
-                feedbackElement.remove();
+        document.getElementById(`step${stepNumber}`).style.display = 'block';
+        
+        // Actualizar la barra de progreso
+        const progressPercent = Math.round((stepNumber / steps.length) * 100);
+        progressBar.style.width = `${progressPercent}%`;
+        progressBar.setAttribute('aria-valuenow', progressPercent);
+        currentStepText.textContent = stepNumber;
+        progressPercentage.textContent = `${progressPercent}% Completado`;
+        
+        // Animar el cambio de progreso
+        progressBar.style.transition = 'width 0.5s ease';
+        
+        // Desplazar al inicio del formulario
+        window.scrollTo({
+            top: form.offsetTop - 100,
+            behavior: 'smooth'
+        });
+    }
+    
+    // Función para validar los campos de un paso específico
+    function validateStepFields(stepNumber) {
+        let isValid = true;
+        const currentStep = document.getElementById(`step${stepNumber}`);
+        const inputs = currentStep.querySelectorAll('input, select, textarea');
+        
+        inputs.forEach(input => {
+            // Omitir campos ocultos y checkboxes/radios que no son requeridos
+            if (input.type === 'hidden' || 
+                ((input.type === 'checkbox' || input.type === 'radio') && !input.required)) {
+                return;
             }
             
-            if (!field.value.trim()) {
+            // Para checkboxes y radios
+            if (input.type === 'checkbox' || input.type === 'radio') {
+                if (input.required && !input.checked) {
+                    isValid = false;
+                    markInvalid(input, 'Este campo es obligatorio');
+                }
+                return;
+            }
+            
+            // Obtener el ID sin el prefijo 'id_'
+            const fieldName = input.id.replace('id_', '');
+            const feedbackElement = document.getElementById(`${fieldName}-feedback`);
+            
+            // Validar campo requerido
+            if (input.required && !input.value.trim()) {
+                input.classList.add('is-invalid');
+                if (feedbackElement) {
+                    feedbackElement.textContent = 'Este campo es obligatorio';
+                    feedbackElement.style.display = 'block';
+                }
                 isValid = false;
-                field.classList.add('is-invalid');
-                
-                // Add feedback message
-                const feedback = document.createElement('div');
-                feedback.className = 'invalid-feedback';
-                feedback.textContent = 'Este campo es obligatorio';
-                field.parentNode.appendChild(feedback);
+            }
+            
+            // Validaciones específicas por tipo de campo
+            if (input.id === 'id_password' && input.value.length > 0 && input.value.length < 6) {
+                input.classList.add('is-invalid');
+                if (feedbackElement) {
+                    feedbackElement.textContent = 'La contraseña debe tener al menos 6 caracteres';
+                    feedbackElement.style.display = 'block';
+                }
+                isValid = false;
+            }
+            
+            if (input.id === 'id_password_confirm' && input.value !== document.getElementById('id_password').value) {
+                input.classList.add('is-invalid');
+                if (feedbackElement) {
+                    feedbackElement.textContent = 'Las contraseñas no coinciden';
+                    feedbackElement.style.display = 'block';
+                }
+                isValid = false;
+            }
+            
+            if (input.id === 'id_edad' && input.value < 18) {
+                input.classList.add('is-invalid');
+                if (feedbackElement) {
+                    feedbackElement.textContent = 'Debes tener al menos 18 años para registrarte';
+                    feedbackElement.style.display = 'block';
+                }
+                isValid = false;
             }
         });
         
         return isValid;
     }
     
-    // Game selection logic
-    const gameCheckboxes = document.querySelectorAll('.game-checkbox');
-    const auditionFields = document.querySelector('.audition-fields');
-    const otherGameFields = document.querySelector('.other-game-fields');
+    // Función para marcar un campo como inválido
+    function markInvalid(input, message) {
+        input.classList.add('is-invalid');
+        
+        // Obtener o crear elemento de feedback
+        let feedbackElement = input.nextElementSibling;
+        if (!feedbackElement || !feedbackElement.classList.contains('wolves-feedback')) {
+            feedbackElement = document.createElement('div');
+            feedbackElement.className = 'wolves-feedback';
+            input.parentNode.insertBefore(feedbackElement, input.nextSibling);
+        }
+        
+        feedbackElement.textContent = message;
+        feedbackElement.style.display = 'block';
+    }
     
-    gameCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-            if (this.id === 'audition' && this.checked) {
-                if (auditionFields) {
-                    auditionFields.style.display = 'block';
-                }
-            } else if (this.id === 'audition' && !this.checked) {
-                if (auditionFields) {
-                    auditionFields.style.display = 'none';
-                }
+    // Función para validar la edad
+    function validateEdad(value) {
+        const edadField = document.getElementById('id_edad');
+        const feedbackElement = document.getElementById('edad-feedback');
+        
+        // Crear elemento de feedback si no existe
+        if (!feedbackElement) {
+            const newFeedback = document.createElement('div');
+            newFeedback.id = 'edad-feedback';
+            newFeedback.className = 'wolves-feedback';
+            edadField.parentNode.insertBefore(newFeedback, edadField.nextSibling);
+        }
+        
+        if (!value || value === '') {
+            edadField.classList.add('is-invalid');
+            edadField.classList.remove('is-valid');
+            document.getElementById('edad-feedback').textContent = 'La edad es obligatoria';
+            document.getElementById('edad-feedback').style.display = 'block';
+            return false;
+        }
+        
+        const edad = parseInt(value);
+        if (edad < 18 || edad > 99) {
+            edadField.classList.add('is-invalid');
+            edadField.classList.remove('is-valid');
+            document.getElementById('edad-feedback').textContent = 'La edad debe estar entre 18 y 99 años';
+            document.getElementById('edad-feedback').style.display = 'block';
+            return false;
+        }
+        
+        edadField.classList.remove('is-invalid');
+        edadField.classList.add('is-valid');
+        document.getElementById('edad-feedback').style.display = 'none';
+        return true;
+    }
+
+    // Función para validar el email
+    function validateEmail(value) {
+        const emailField = document.getElementById('id_email');
+        const feedbackElement = document.getElementById('email-feedback');
+        
+        // Crear elemento de feedback si no existe
+        if (!feedbackElement) {
+            const newFeedback = document.createElement('div');
+            newFeedback.id = 'email-feedback';
+            newFeedback.className = 'wolves-feedback';
+            emailField.parentNode.insertBefore(newFeedback, emailField.nextSibling);
+        }
+        
+        if (!value || value === '') {
+            emailField.classList.add('is-invalid');
+            emailField.classList.remove('is-valid');
+            document.getElementById('email-feedback').textContent = 'El email es obligatorio';
+            document.getElementById('email-feedback').style.display = 'block';
+            return false;
+        }
+        
+        if (value.length < 2) {
+            emailField.classList.add('is-invalid');
+            emailField.classList.remove('is-valid');
+            document.getElementById('email-feedback').textContent = 'El email debe tener al menos 2 caracteres';
+            document.getElementById('email-feedback').style.display = 'block';
+            return false;
+        }
+        
+        emailField.classList.remove('is-invalid');
+        emailField.classList.add('is-valid');
+        document.getElementById('email-feedback').style.display = 'none';
+        return true;
+    }
+
+    // Función para validar el nombre de usuario
+    function validateUsername(value) {
+        const usernameField = document.getElementById('id_username');
+        const feedbackElement = document.getElementById('username-feedback');
+        
+        // Crear elemento de feedback si no existe
+        if (!feedbackElement) {
+            const newFeedback = document.createElement('div');
+            newFeedback.id = 'username-feedback';
+            newFeedback.className = 'wolves-feedback';
+            usernameField.parentNode.insertBefore(newFeedback, usernameField.nextSibling);
+        }
+        
+        if (!value || value === '') {
+            usernameField.classList.add('is-invalid');
+            usernameField.classList.remove('is-valid');
+            document.getElementById('username-feedback').textContent = 'El nombre de usuario es obligatorio';
+            document.getElementById('username-feedback').style.display = 'block';
+            return false;
+        }
+        
+        if (value.length < 3) {
+            usernameField.classList.add('is-invalid');
+            usernameField.classList.remove('is-valid');
+            document.getElementById('username-feedback').textContent = 'El nombre de usuario debe tener al menos 3 caracteres';
+            document.getElementById('username-feedback').style.display = 'block';
+            return false;
+        }
+        
+        // Validar caracteres permitidos - letras, números, guiones y guiones bajos
+        const validChars = /^[a-zA-Z0-9_-]+$/;
+        if (!validChars.test(value)) {
+            usernameField.classList.add('is-invalid');
+            usernameField.classList.remove('is-valid');
+            document.getElementById('username-feedback').textContent = 'El nombre de usuario solo puede contener letras, números, guiones y guiones bajos';
+            document.getElementById('username-feedback').style.display = 'block';
+            return false;
+        }
+        
+        usernameField.classList.remove('is-invalid');
+        usernameField.classList.add('is-valid');
+        document.getElementById('username-feedback').style.display = 'none';
+        return true;
+    }
+
+    // Reemplaza la función validateField con esta versión sin AJAX
+    function validateField(field, value) {
+        switch (field) {
+            case 'username':
+                return validateUsername(value);
+            case 'email':
+                return validateEmail(value);
+            case 'edad':
+                return validateEdad(value);
+            default:
+                return true;
+        }
+    }
+
+    // Validación al enviar el formulario
+    form.addEventListener('submit', function(e) {
+        // Obtener el paso actual
+        const currentStep = getCurrentActiveStep();
+        
+        // Validar todos los pasos previos y el actual
+        let isValid = true;
+        for (let i = 1; i <= currentStep; i++) {
+            if (!validateStepFields(i)) {
+                isValid = false;
             }
-            
-            // Show other game fields if any game except Audition is selected
-            const anyOtherGameSelected = Array.from(gameCheckboxes).some(cb => 
-                cb.id !== 'audition' && cb.checked
-            );
-            
-            if (otherGameFields) {
-                otherGameFields.style.display = anyOtherGameSelected ? 'block' : 'none';
-            }
-        });
-    });
-    
-    // Form submission
-    const form = document.getElementById('registrationForm');
-    if (form) {
-        form.addEventListener('submit', function(e) {
+        }
+        
+        // Validar términos y condiciones si estamos en el último paso
+        if (currentStep === steps.length && termsCheckbox && !termsCheckbox.checked) {
+            isValid = false;
+            termsCheckbox.classList.add('is-invalid');
+            document.getElementById('terms-feedback').textContent = 'Debes aceptar los términos y condiciones para continuar';
+            document.getElementById('terms-feedback').style.display = 'block';
+        }
+        
+        if (!isValid) {
             e.preventDefault();
             
-            // Validate all steps before submission
-            let isValid = true;
-            for (let i = 1; i <= 3; i++) {
-                if (!validateStep(i)) {
-                    isValid = false;
-                    
-                    // Show the step with errors
-                    formSteps.forEach(step => {
-                        step.style.display = 'none';
-                    });
-                    document.getElementById('step' + i).style.display = 'block';
-                    
-                    // Update step indicators
-                    steps.forEach(step => {
-                        const stepNum = parseInt(step.getAttribute('data-step'));
-                        if (stepNum === i) {
-                            step.classList.add('active');
-                        } else if (stepNum > i) {
-                            step.classList.remove('active');
-                        }
-                    });
-                    
-                    break;
-                }
-            }
+            // Mostrar alerta en la parte superior del formulario
+            const alertMessage = document.createElement('div');
+            alertMessage.className = 'alert alert-wolves-danger alert-dismissible fade show';
+            alertMessage.role = 'alert';
+            alertMessage.innerHTML = `
+                <i class="fas fa-exclamation-circle me-2"></i>
+                Por favor corrige los errores antes de continuar
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
             
-            if (isValid) {
-                // Submit the form
-                this.submit();
-            }
-        });
-    }
+            const messagesContainer = document.getElementById('messages-container');
+            messagesContainer.appendChild(alertMessage);
+            
+            // Desplazar a la parte superior del formulario
+            window.scrollTo({
+                top: form.offsetTop - 100,
+                behavior: 'smooth'
+            });
+        }
+    });
 });
 </script>
 

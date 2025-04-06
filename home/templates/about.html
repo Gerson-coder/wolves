@@ -1,110 +1,78 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Wolves - Clan de Gaming | Inicio{% endblock %}
+{% block title %}Wolves - Clan de Gaming | Sobre Nosotros{% endblock %}
 
-{% block meta_description %}Wolves Gaming - Comunidad profesional de esports y gaming. Participa en torneos, únete a nuestros equipos y forma parte de la experiencia Wolves.{% endblock %}
+{% block meta_description %}Wolves Gaming - Comunidad profesional de esports y gaming. Somos una manada de jugadores apasionados que compiten en torneos de Audition, Valorant, League of Legends y más. Únete a nuestra familia gaming.{% endblock %}
 
 {% block content %}
 
-
-
-
-<div class="space-top"></div>
-
-
-    <div class="overflow-hidden space position-relative z-index-common">
-        <div class="gr-bg1 overlay"></div>
-        <div class="container">
-            <div class="title-area text-center">
-                <span class="sub-title style2"># Welcome to The eSports & Gaming Site</span>
-                <h2 class="sec-title text-white">Forging Legends in the Gaming Universe</h2>
-            </div>
-            <div class="row">
-                <div class="col-xl-7 mb-50 mb-xl-0">
-                    <div class="img-box2">
-                        <div class="img1">
-                            <img src="{% static 'assets/img/normal/about2-1.png' %}" alt="About">
-                        </div>
-                    </div>
+<!-- Hero Section -->
+<div class="hero-about position-relative overflow-hidden">
+    <div class="parallax-bg" data-bg-src="{% static 'assets/img/bg/wolves-bg-dark.jpg' %}"></div>
+    <div class="hero-overlay"></div>
+    <div class="container position-relative z-index-1">
+        <div class="row min-vh-50 align-items-center py-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <div class="hero-content" data-aos="fade-up" data-aos-duration="800">
+                    <span class="sub-title style2 mb-3"><i class="fas fa-paw me-2 pulse-icon"></i> #SomosLaManada</span>
+                    <h1 class="hero-title text-white display-3 fw-bold mb-4">Wolves Clan <span class="text-theme glow-text">Gaming</span></h1>
+                    <p class="text-white lead mb-5">Donde los lobos cazan en equipo y los sueños gaming se hacen realidad</p>
+                    <a href="{% url 'registrar_usuario' %}" class="th-btn style3 btn-lg">
+                        <span class="btn-text">Únete a la Manada</span>
+                        <span class="btn-icon"><i class="fas fa-paw"></i></span>
+                    </a>
                 </div>
-                <div class="col-xl-5">
-                    <div class="about-feature-wrap">
-                        <div class="slider-area">
-                            <div class="swiper th-slider about-feature-slider1" id="aboutfeature1" data-slider-options='{"breakpoints":{"0":{"slidesPerView":2,"mousewheel":false},"576":{"slidesPerView":"2","mousewheel":false},"768":{"slidesPerView":"3","mousewheel":false},"992":{"slidesPerView":"3","mousewheel":false},"1200":{"slidesPerView":"3"}},"direction":"vertical","mousewheel":true}'>
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <div class="about-feature">
-                                            <div class="about-feature-icon icon-masking">
-                                                <span class="mask-icon" data-mask-src="{% static 'assets/img/icon/about_feature_2_1.svg' %}"></span>
-                                                <img src="{% static 'assets/img/icon/about_feature_2_1.svg' %}" alt="Icon">
-                                            </div>
-                                            <div class="about-feature-content">
-                                                <h3 class="about-feature-title">Live Streaming</h3>
-                                                <p class="about-feature-text">Integration with popular streaming platforms for live coverage of esports.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="about-feature">
-                                            <div class="about-feature-icon icon-masking">
-                                                <span class="mask-icon" data-mask-src="{% static 'assets/img/icon/about_feature_2_2.svg' %}"></span>
-                                                <img src="{% static 'assets/img/icon/about_feature_2_2.svg' %}" alt="Icon">
-                                            </div>
-                                            <div class="about-feature-content">
-                                                <h3 class="about-feature-title">Gaming News</h3>
-                                                <p class="about-feature-text">Keep users informed about the gaming industry with news articles.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="about-feature">
-                                            <div class="about-feature-icon icon-masking">
-                                                <span class="mask-icon" data-mask-src="{% static 'assets/img/icon/about_feature_2_3.svg' %}"></span>
-                                                <img src="{% static 'assets/img/icon/about_feature_2_3.svg' %}" alt="Icon">
-                                            </div>
-                                            <div class="about-feature-content">
-                                                <h3 class="about-feature-title">Great Tournament</h3>
-                                                <p class="about-feature-text">Display a calendar of upcoming tournament with dates, times, and game.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="about-feature">
-                                            <div class="about-feature-icon icon-masking">
-                                                <span class="mask-icon" data-mask-src="{% static 'assets/img/icon/about_feature_2_1.svg' %}"></span>
-                                                <img src="{% static 'assets/img/icon/about_feature_2_1.svg' %}" alt="Icon">
-                                            </div>
-                                            <div class="about-feature-content">
-                                                <h3 class="about-feature-title">Live Streaming</h3>
-                                                <p class="about-feature-text">Integration with popular streaming platforms for live coverage of esports.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="about-feature">
-                                            <div class="about-feature-icon icon-masking">
-                                                <span class="mask-icon" data-mask-src="{% static 'assets/img/icon/about_feature_2_2.svg' %}"></span>
-                                                <img src="{% static 'assets/img/icon/about_feature_2_2.svg' %}" alt="Icon">
-                                            </div>
-                                            <div class="about-feature-content">
-                                                <h3 class="about-feature-title">Gaming News</h3>
-                                                <p class="about-feature-text">Keep users informed about the gaming industry with news articles.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="about-feature">
-                                            <div class="about-feature-icon icon-masking">
-                                                <span class="mask-icon" data-mask-src="{% static 'assets/img/icon/about_feature_2_3.svg' %}"></span>
-                                                <img src="{% static 'assets/img/icon/about_feature_2_3.svg' %}" alt="Icon">
-                                            </div>
-                                            <div class="about-feature-content">
-                                                <h3 class="about-feature-title">Great Tournament</h3>
-                                                <p class="about-feature-text">Display a calendar of upcoming tournament with dates, times, and game.</p>
-                                            </div>
-                                        </div>
-                                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-shape">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(15, 23, 43, 0.9)" fill-opacity="1" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,208C1248,192,1344,192,1392,192L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
+    </div>
+</div>
+
+<!-- About Section -->
+<div class="about-section position-relative overflow-hidden py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right" data-aos-duration="1000">
+                <div class="about-image-wrapper position-relative">
+                    <div class="about-image-main rounded-lg overflow-hidden">
+                        <img src="{% static 'assets/img/normal/wolves-team.png' %}" alt="Equipo Wolves" class="img-fluid">
+                    </div>
+                    
+                    <div class="about-image-dots"></div>
+                    <div class="about-image-glow"></div>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                <div class="about-content-box bg-dark p-4 p-lg-5 rounded-lg shadow-custom">
+                    <div class="section-heading mb-4">
+                        <h6 class="text-theme fw-bold text-uppercase mb-2"><i class="fas fa-history me-2"></i>Nuestra Trayectoria</h6>
+                        <h3 class="text-white fw-bold">Nuestra <span class="text-theme typewriter">Historia</span></h3>
+                        <div class="heading-divider"></div>
+                    </div>
+                    <p class="text-white">Fundado en 2015, Wolves Clan comenzó como un pequeño grupo de amigos apasionados por Audition Latino. Hoy somos una comunidad multigaming con presencia en competencias internacionales y una familia de más de 500 miembros activos.</p>
+                    <div class="row mt-4 stats-row">
+                        <div class="col-6">
+                            <div class="stat-item d-flex align-items-center mb-3">
+                                <div class="stat-icon">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h4 class="text-white mb-0 counter-up">25+</h4>
+                                    <p class="text-white-50 mb-0">Torneos ganados</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-item d-flex align-items-center mb-3">
+                                <div class="stat-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h4 class="text-white mb-0 counter-up">500+</h4>
+                                    <p class="text-white-50 mb-0">Miembros activos</p>
                                 </div>
                             </div>
                         </div>
@@ -113,316 +81,1364 @@
             </div>
         </div>
     </div>
+</div>
 
+<!-- Counter Section -->
+<div class="counter-section py-5 position-relative">
+    <div class="counter-particles" id="counter-particles"></div>
+    <div class="container">
+        <div class="counter-wrapper">
+            <div class="row g-0">
+                <div class="col-6 col-md-3">
+                    <div class="counter-card" data-aos="zoom-in" data-aos-duration="800">
+                        <div class="counter-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="counter-content">
+                            <h2 class="counter-number" data-count="8">0</h2>
+                            <span class="counter-plus text-theme">+</span>
+                            <p class="counter-text">Años de experiencia</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="counter-card" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
+                        <div class="counter-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="counter-content">
+                            <h2 class="counter-number" data-count="25">0</h2>
+                            <span class="counter-plus text-theme">+</span>
+                            <p class="counter-text">Torneos ganados</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="counter-card" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="400">
+                        <div class="counter-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="counter-content">
+                            <h2 class="counter-number" data-count="500">0</h2>
+                            <span class="counter-plus text-theme">+</span>
+                            <p class="counter-text">Miembros activos</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="counter-card" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="600">
+                        <div class="counter-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <div class="counter-content">
+                            <h2 class="counter-number" data-count="4">0</h2>
+                            <p class="counter-text">Juegos competitivos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Values Section -->
+<div class="values-section position-relative overflow-hidden py-5">
+    <div class="values-bg parallax-bg" data-bg-src="{% static 'assets/img/bg/about-bg2.png' %}"></div>
+    <div class="values-overlay"></div>
+    <div class="container position-relative z-index-1">
+        <div class="row gy-5">
+            <div class="col-xl-6" data-aos="fade-up" data-aos-duration="1000">
+                <div class="values-content">
+                    <div class="section-heading mb-4">
+                        <h6 class="text-theme fw-bold text-uppercase mb-2"><i class="fas fa-paw me-2"></i>Nuestra Filosofía</h6>
+                        <h3 class="text-white fw-bold">Los valores que nos definen <span class="text-theme">como manada</span></h3>
+                        <div class="heading-divider"></div>
+                    </div>
+                    <div class="values-list">
+                        <div class="values-item" data-aos="fade-up" data-aos-duration="600">
+                            <div class="values-icon">
+                                <i class="fas fa-paw"></i>
+                            </div>
+                            <div class="values-content">
+                                <h5 class="text-white">Unidad</h5>
+                                <p>Juntos somos más fuertes que individualmente</p>
+                            </div>
+                        </div>
+                        <div class="values-item" data-aos="fade-up" data-aos-duration="600" data-aos-delay="100">
+                            <div class="values-icon">
+                                <i class="fas fa-paw"></i>
+                            </div>
+                            <div class="values-content">
+                                <h5 class="text-white">Respeto</h5>
+                                <p>Por los compañeros, rivales y el juego</p>
+                            </div>
+                        </div>
+                        <div class="values-item" data-aos="fade-up" data-aos-duration="600" data-aos-delay="200">
+                            <div class="values-icon">
+                                <i class="fas fa-paw"></i>
+                            </div>
+                            <div class="values-content">
+                                <h5 class="text-white">Mejora continua</h5>
+                                <p>Siempre aprendiendo y creciendo</p>
+                            </div>
+                        </div>
+                        <div class="values-item" data-aos="fade-up" data-aos-duration="600" data-aos-delay="300">
+                            <div class="values-icon">
+                                <i class="fas fa-paw"></i>
+                            </div>
+                            <div class="values-content">
+                                <h5 class="text-white">Pasión</h5>
+                                <p>El gaming es nuestro estilo de vida</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="values-image mt-5" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                    <img src="{% static 'assets/img/normal/wolves-values.jpg' %}" alt="Valores Wolves" class="img-fluid rounded-lg shadow-custom">
+                </div>
+            </div>
+            <div class="col-xl-6" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                <div class="values-image mb-5" data-aos="fade-up" data-aos-duration="1000">
+                    <img src="{% static 'assets/img/normal/wolves-teamplay.jpg' %}" alt="Teamplay Wolves" class="img-fluid rounded-lg shadow-custom">
+                </div>
+                <div class="values-content" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="section-heading mb-4">
+                        <h6 class="text-theme fw-bold text-uppercase mb-2"><i class="fas fa-star me-2"></i>Nuestra Diferencia</h6>
+                        <h3 class="text-white fw-bold">¿Qué nos hace <span class="text-theme">diferentes?</span></h3>
+                        <div class="heading-divider"></div>
+                    </div>
+                    <p class="text-white">En Wolves no solo somos un clan, somos una familia. Organizamos entrenamientos semanales, torneos internos, eventos de comunidad y hasta meetups presenciales. Nuestro programa de mentores ayuda a nuevos jugadores a mejorar sus habilidades.</p>
+                    <p class="text-white mb-0">Más que resultados competitivos, nos enorgullece el ambiente de compañerismo que hemos construido. Aquí encontrarás amigos para jugar, aprender y crecer juntos en el mundo del gaming.</p>
+                </div>
+            </div>
+        </div>
+        <div class="values-badge" data-aos="zoom-in" data-aos-duration="1000">
+            <div class="values-badge-text">
+                <span class="circular-text">DESDE 2015 FORMANDO LOBOS</span>
+            </div>
+            <div class="values-badge-icon">
+                <img src="{% static 'assets/img/logo-icon.svg' %}" alt="Wolves Icon" class="rotating-slow">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Games Section -->
+<section class="games-section py-5">
+    <div class="container">
+        <div class="section-heading text-center mb-5" data-aos="fade-up" data-aos-duration="800">
+            <h6 class="text-theme fw-bold text-uppercase mb-2"><i class="fas fa-gamepad me-2"></i>Nuestros Juegos</h6>
+            <h3 class="text-white fw-bold">Competimos en</h3>
+            <div class="heading-divider mx-auto"></div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3" data-aos="flip-left" data-aos-duration="800">
+                <div class="game-card">
+                    <div class="game-card-inner">
+                        <div class="game-card-front">
+                            <div class="game-icon">
+                                <i class="fas fa-music"></i>
+                            </div>
+                            <h3>Audition Latino</h3>
+                            <div class="game-badge">
+                                <span>Equipo Competitivo</span>
+                            </div>
+                        </div>
+                        <div class="game-card-back">
+                            <h3>Audition Latino</h3>
+                            <p>Especialistas en modos Crazy9 y Beat Up. 15 torneos ganados a nivel regional.</p>
+                            <div class="game-stats">
+                                <div class="game-stat">
+                                    <span class="stat-value">15</span>
+                                    <span class="stat-label">Torneos</span>
+                                </div>
+                                <div class="game-stat">
+                                    <span class="stat-value">3</span>
+                                    <span class="stat-label">Equipos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3" data-aos="flip-left" data-aos-duration="800" data-aos-delay="200">
+                <div class="game-card">
+                    <div class="game-card-inner">
+                        <div class="game-card-front">
+                            <div class="game-icon">
+                                <i class="fas fa-crosshairs"></i>
+                            </div>
+                            <h3>Valorant</h3>
+                            <div class="game-badge">
+                                <span>2 Equipos</span>
+                            </div>
+                        </div>
+                        <div class="game-card-back">
+                            <h3>Valorant</h3>
+                            <p>Equipos en rangos Diamante a Radiant. Estrategia y trabajo en equipo.</p>
+                            <div class="game-stats">
+                                <div class="game-stat">
+                                    <span class="stat-value">5</span>
+                                    <span class="stat-label">Torneos</span>
+                                </div>
+                                <div class="game-stat">
+                                    <span class="stat-value">2</span>
+                                    <span class="stat-label">Equipos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3" data-aos="flip-left" data-aos-duration="800" data-aos-delay="400">
+                <div class="game-card">
+                    <div class="game-card-inner">
+                        <div class="game-card-front">
+                            <div class="game-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3>League of Legends</h3>
+                            <div class="game-badge">
+                                <span>Equipo Competitivo</span>
+                            </div>
+                        </div>
+                        <div class="game-card-back">
+                            <h3>League of Legends</h3>
+                            <p>Competencia en LAS y LAN. Enfoque en macro juego y coordinación.</p>
+                            <div class="game-stats">
+                                <div class="game-stat">
+                                    <span class="stat-value">8</span>
+                                    <span class="stat-label">Torneos</span>
+                                </div>
+                                <div class="game-stat">
+                                    <span class="stat-value">1</span>
+                                    <span class="stat-label">Equipo</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3" data-aos="flip-left" data-aos-duration="800" data-aos-delay="600">
+                <div class="game-card">
+                    <div class="game-card-inner">
+                        <div class="game-card-front">
+                            <div class="game-icon">
+                                <i class="fas fa-plus-circle"></i>
+                            </div>
+                            <h3>Y más...</h3>
+                            <div class="game-badge secondary">
+                                <span>Comunidad</span>
+                            </div>
+                        </div>
+                        <div class="game-card-back">
+                            <h3>Y más...</h3>
+                            <p>Comunidades activas en Fortnite, CS:GO, Dota 2 y juegos casuales.</p>
+                            <div class="game-stats">
+                                <div class="game-stat">
+                                    <span class="stat-value">10+</span>
+                                    <span class="stat-label">Juegos</span>
+                                </div>
+                                <div class="game-stat">
+                                    <span class="stat-value">200+</span>
+                                    <span class="stat-label">Jugadores</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="team-section py-5 position-relative">
+    <div class="team-bg parallax-bg" data-bg-src="{% static 'assets/img/bg/team-sec1-bg.png' %}"></div>
+    <div class="container">
+        <div class="section-heading text-center mb-5" data-aos="fade-up" data-aos-duration="800">
+            <h6 class="text-theme fw-bold text-uppercase mb-2"><i class="fas fa-users me-2"></i>Conoce a la Manada</h6>
+            <h3 class="text-white fw-bold">Nuestros Líderes</h3>
+            <div class="heading-divider mx-auto"></div>
+        </div>
+        
+        <div class="team-slider position-relative" data-aos="fade-up" data-aos-duration="1000">
+            <div class="swiper-container" id="teamSlider">
+                <div class="swiper-wrapper">
+                    <!-- Líder Audition -->
+                    <div class="swiper-slide">
+                        <div class="team-card">
+                            <div class="team-card-inner">
+                                <div class="team-card-front">
+                                    <div class="team-image">
+                                        <img src="{% static 'assets/img/team/audition-leader.jpg' %}" alt="Líder Audition">
+                                        <div class="team-game-logo">
+                                            <img src="{% static 'assets/img/games/audition-logo.png' %}" alt="Audition">
+                                        </div>
+                                    </div>
+                                    <div class="team-info">
+                                        <h4>Luna "MoonWolf" Rodríguez</h4>
+                                        <p class="text-theme">Capitana Audition</p>
+                                    </div>
+                                </div>
+                                <div class="team-card-back">
+                                    <div class="team-bio">
+                                        <h4>Luna "MoonWolf" Rodríguez</h4>
+                                        <p class="text-theme mb-3">Capitana Audition</p>
+                                        <p>Campeona nacional 2022-2023. Especialista en modo Crazy y Beat Up.</p>
+                                        <div class="team-social">
+                                            <a href="#"><i class="fab fa-twitter"></i></a>
+                                            <a href="#"><i class="fab fa-twitch"></i></a>
+                                            <a href="#"><i class="fab fa-instagram"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Líder Valorant -->
+                    <div class="swiper-slide">
+                        <div class="team-card">
+                            <div class="team-card-inner">
+                                <div class="team-card-front">
+                                    <div class="team-image">
+                                        <img src="{% static 'assets/img/team/valorant-leader.jpg' %}" alt="Líder Valorant">
+                                        <div class="team-game-logo">
+                                            <img src="{% static 'assets/img/games/valorant-logo.png' %}" alt="Valorant">
+                                        </div>
+                                    </div>
+                                    <div class="team-info">
+                                        <h4>Carlos "AlphaWolf" Méndez</h4>
+                                        <p class="text-theme">IGL Valorant</p>
+                                    </div>
+                                </div>
+                                <div class="team-card-back">
+                                    <div class="team-bio">
+                                        <h4>Carlos "AlphaWolf" Méndez</h4>
+                                        <p class="text-theme mb-3">IGL Valorant</p>
+                                        <p>Estratega principal y líder del equipo. Rango Inmortal con experiencia en torneos regionales.</p>
+                                        <div class="team-social">
+                                            <a href="#"><i class="fab fa-twitter"></i></a>
+                                            <a href="#"><i class="fab fa-twitch"></i></a>
+                                            <a href="#"><i class="fab fa-youtube"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Líder LoL -->
+                    <div class="swiper-slide">
+                        <div class="team-card">
+                            <div class="team-card-inner">
+                                <div class="team-card-front">
+                                    <div class="team-image">
+                                        <img src="{% static 'assets/img/team/lol-leader.jpg' %}" alt="Líder LoL">
+                                        <div class="team-game-logo">
+                                            <img src="{% static 'assets/img/games/lol-logo.png' %}" alt="LoL">
+                                        </div>
+                                    </div>
+                                    <div class="team-info">
+                                        <h4>Diego "ShadowWolf" González</h4>
+                                        <p class="text-theme">Capitán LoL</p>
+                                    </div>
+                                </div>
+                                <div class="team-card-back">
+                                    <div class="team-bio">
+                                        <h4>Diego "ShadowWolf" González</h4>
+                                        <p class="text-theme mb-3">Capitán LoL</p>
+                                        <p>Jugador de mid lane con 5 años de experiencia competitiva. Maestro en LAS.</p>
+                                        <div class="team-social">
+                                            <a href="#"><i class="fab fa-twitter"></i></a>
+                                            <a href="#"><i class="fab fa-discord"></i></a>
+                                            <a href="#"><i class="fab fa-youtube"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Fundador -->
+                    <div class="swiper-slide">
+                        <div class="team-card">
+                            <div class="team-card-inner">
+                                <div class="team-card-front">
+                                    <div class="team-image">
+                                        <img src="{% static 'assets/img/team/founder.jpg' %}" alt="Fundador">
+                                        <div class="team-game-logo">
+                                            <img src="{% static 'assets/img/logo-icon.svg' %}" alt="Wolves">
+                                        </div>
+                                    </div>
+                                    <div class="team-info">
+                                        <h4>Alex "OldWolf" Ramírez</h4>
+                                        <p class="text-theme">Fundador & Manager</p>
+                                    </div>
+                                </div>
+                                <div class="team-card-back">
+                                    <div class="team-bio">
+                                        <h4>Alex "OldWolf" Ramírez</h4>
+                                        <p class="text-theme mb-3">Fundador & Manager</p>
+                                        <p>Fundador del clan en 2015. Visionario y estratega detrás del crecimiento de Wolves.</p>
+                                        <div class="team-social">
+                                            <a href="#"><i class="fab fa-twitter"></i></a>
+                                            <a href="#"><i class="fab fa-instagram"></i></a>
+                                            <a href="#"><i class="fas fa-globe"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="swiper-pagination"></div>
+            </div>
+            
+            <div class="team-slider-nav">
+                <button class="team-slider-prev"><i class="far fa-arrow-left"></i></button>
+                <button class="team-slider-next"><i class="far fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section py-5">
+    <div class="container">
+        <div class="cta-wrapper" data-aos="zoom-in" data-aos-duration="800">
+            <div class="row align-items-center">
+                <div class="col-lg-8 mb-4 mb-lg-0">
+                    <div class="cta-content">
+                        <h2 class="text-white mb-3">¿Listo para unirte a la manada?</h2>
+                        <p class="text-white-50 mb-0">Somos más que un clan, somos una familia gaming que apoya el crecimiento de cada miembro. Tanto si eres competitivo como casual, aquí tienes un lugar.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <a href="{% url 'registrar_usuario' %}" class="th-btn style3 btn-lg btn-join">
+                        <span class="btn-text">Únete Ahora</span>
+                        <span class="btn-icon"><i class="fas fa-arrow-right"></i></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="scroll-top">
+    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 307.919;"></path>
+    </svg>
+</div>
+
+<style>
+:root {
+    --theme-color: #45F882;
+    --theme-color-rgb: 69, 248, 130;
+    --dark-color: #0F172B;
+    --dark-color-rgb: 15, 23, 43;
+}
+
+/* Hero Section Styles */
+.hero-about {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    padding: 100px 0;
+}
+
+.parallax-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.7));
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.hero-shape {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.sub-title.style2 {
+    background: linear-gradient(90deg, rgba(var(--theme-color-rgb), 0.2) 0%, rgba(var(--theme-color-rgb), 0) 100%);
+    padding: 10px 25px;
+    border-left: 3px solid var(--theme-color);
+    display: inline-block;
+    font-weight: 600;
+    box-shadow: 0 0 15px rgba(var(--theme-color-rgb), 0.3);
+    border-radius: 0 30px 30px 0;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.glow-text {
+    text-shadow: 0 0 10px rgba(var(--theme-color-rgb), 0.7);
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    0% { text-shadow: 0 0 10px rgba(var(--theme-color-rgb), 0.7); }
+    100% { text-shadow: 0 0 20px rgba(var(--theme-color-rgb), 1); }
+}
+
+.pulse-icon {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Button Styles */
+.th-btn.style3 {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(45deg, var(--theme-color), #2dd36f);
+    border: none;
+    color: var(--dark-color);
+    font-weight: 600;
+    padding: 12px 30px;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(var(--theme-color-rgb), 0.3);
+    z-index: 1;
+}
+
+.th-btn.style3:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #2dd36f, var(--theme-color));
+    z-index: -1;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.th-btn.style3:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 25px rgba(var(--theme-color-rgb), 0.4);
+}
+
+.th-btn.style3:hover:before {
+    opacity: 1;
+}
+
+.th-btn.style3 .btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    transition: all 0.3s ease;
+}
+
+.th-btn.style3:hover .btn-icon {
+    transform: translateX(5px);
+}
+
+.btn-lg {
+    padding: 15px 35px;
+    font-size: 1rem;
+}
+
+/* About Section Styles */
+.about-section {
+    padding: 100px 0;
+    background-color: var(--dark-color);
+}
+
+.about-image-wrapper {
+    position: relative;
+    padding: 20px;
+}
+
+.about-image-main {
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border: 3px solid rgba(var(--theme-color-rgb), 0.3);
+    overflow: hidden;
+}
+
+.about-image-main img {
+    transition: transform 0.5s ease;
+}
+
+.about-image-wrapper:hover .about-image-main img {
+    transform: scale(1.05);
+}
+
+.about-image-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 120px;
+    height: 120px;
+    background: rgba(var(--dark-color-rgb), 0.8);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    border: 3px solid var(--theme-color);
+    box-shadow: 0 0 20px rgba(var(--theme-color-rgb), 0.5);
+}
+
+.about-image-badge img {
+    width: 70%;
+    height: auto;
+}
+
+.rotating-slow {
+    animation: rotate 15s linear infinite;
+}
+
+.about-image-dots {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(rgba(var(--theme-color-rgb), 0.2) 2px, transparent 2px);
+    background-size: 20px 20px;
+    z-index: 1;
+}
+
+.about-image-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle, rgba(var(--theme-color-rgb), 0.2) 0%, rgba(var(--theme-color-rgb), 0) 70%);
+    z-index: 1;
+    filter: blur(30px);
+}
+
+.shadow-custom {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2), 0 0 20px rgba(var(--theme-color-rgb), 0.1);
+}
+
+.section-heading h6 {
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.heading-divider {
+    width: 60px;
+    height: 3px;
+    background: var(--theme-color);
+    margin-top: 15px;
+    position: relative;
+}
+
+.heading-divider:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--theme-color);
+    animation: pulse-divider 2s infinite;
+    opacity: 0;
+}
+
+@keyframes pulse-divider {
+    0% { transform: scaleX(1); opacity: 0; }
+    50% { transform: scaleX(1.5); opacity: 0.5; }
+    100% { transform: scaleX(1); opacity: 0; }
+}
+
+.typewriter {
+    overflow: hidden;
+    border-right: 3px solid var(--theme-color);
+    white-space: nowrap;
+    margin: 0 auto;
+    animation: typing 3.5s steps(30, end), blink-caret 0.75s step-end infinite;
+    display: inline-block;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: var(--theme-color) }
+}
+
+.stat-item {
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(var(--theme-color-rgb), 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: var(--theme-color);
+    font-size: 20px;
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover .stat-icon {
+    background: var(--theme-color);
+    color: var(--dark-color);
+    box-shadow: 0 0 15px rgba(var(--theme-color-rgb), 0.5);
+}
+
+/* Counter Section Styles */
+.counter-section {
+    background: linear-gradient(45deg, rgba(var(--dark-color-rgb), 0.9), rgba(var(--dark-color-rgb), 0.8)), url('{% static "assets/img/bg/counter-bg.jpg" %}') center/cover no-repeat;
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.counter-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.counter-wrapper {
+    position: relative;
+    z-index: 2;
+}
+
+.counter-card {
+    text-align: center;
+    padding: 30px 15px;
+    transition: all 0.3s ease;
+    border-right: 1px solid rgba(var(--theme-color-rgb), 0.1);
+}
+
+.counter-card:last-child {
+    border-right: none;
+}
+
+.counter-icon {
+    width: 70px;
+    height: 70px;
+    background: rgba(var(--theme-color-rgb), 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: var(--theme-color);
+    font-size: 28px;
+    transition: all 0.3s ease;
+}
+
+.counter-card:hover .counter-icon {
+    background: var(--theme-color);
+    color: var(--dark-color);
+    transform: rotateY(180deg);
+}
+
+.counter-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+    display: inline-block;
+}
+
+.counter-plus {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    display: inline-block;
+}
+
+.counter-text {
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 10px;
+    font-size: 1rem;
+}
+
+/* Values Section Styles */
+.values-section {
+    padding: 100px 0;
+    background-color: var(--dark-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.values-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.1;
+}
+
+.values-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(var(--dark-color-rgb), 0.9), rgba(var(--dark-color-rgb), 0.7));
+}
+
+.values-content {
+    position: relative;
+    z-index: 2;
+}
+
+.values-list {
+    list-style: none;
+    padding: 0;
+    margin: 30px 0;
+}
+
+.values-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.values-item:hover {
+    background: rgba(var(--theme-color-rgb), 0.1);
+    transform: translateX(10px);
+}
+
+.values-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(var(--theme-color-rgb), 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: var(--theme-color);
+    font-size: 18px;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.values-item:hover .values-icon {
+    background: var(--theme-color);
+    color: var(--dark-color);
+}
+
+.values-text {
+    flex: 1;
+}
+
+.values-text h5 {
+    color: #fff;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.values-text p {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 0;
+}
+
+/* Team Section Styles */
+.team-section {
+    padding: 100px 0;
+    background-color: var(--dark-color);
+    position: relative;
+}
+
+.team-slider {
+    position: relative;
+    padding: 30px 0;
+}
+
+.team-card {
+    perspective: 1000px;
+    height: 400px;
+    margin: 20px 10px;
+}
+
+.team-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.team-card:hover .team-card-inner {
+    transform: rotateY(180deg);
+}
+
+.team-card-front, .team-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.team-card-front {
+    background: rgba(var(--dark-color-rgb), 0.8);
+    border: 1px solid rgba(var(--theme-color-rgb), 0.3);
+}
+
+.team-card-back {
+    background: rgba(var(--dark-color-rgb), 0.9);
+    transform: rotateY(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    text-align: center;
+    border: 1px solid rgba(var(--theme-color-rgb), 0.3);
+}
+
+.team-image {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+}
+
+.team-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.team-card:hover .team-image img {
+    transform: scale(1.1);
+}
+
+.team-game-logo {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 50px;
+    height: 50px;
+    background: rgba(var(--dark-color-rgb), 0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border: 2px solid var(--theme-color);
+}
+
+.team-game-logo img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.team-info {
+    padding: 20px;
+    text-align: center;
+}
+
+.team-info h4 {
+    color: #fff;
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+}
+
+.team-bio h4 {
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.team-social {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.team-social a {
+    width: 35px;
+    height: 35px;
+    background: rgba(var(--theme-color-rgb), 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--theme-color);
+    transition: all 0.3s ease;
+}
+
+.team-social a:hover {
+    background: var(--theme-color);
+    color: var(--dark-color);
+    transform: translateY(-3px);
+}
+
+.team-slider-nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.team-slider-prev, .team-slider-next {
+    width: 50px;
+    height: 50px;
+    background: rgba(var(--theme-color-rgb), 0.2);
+    border: none;
+    border-radius: 50%;
+    color: var(--theme-color);
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.team-slider-prev:hover, .team-slider-next:hover {
+    background: var(--theme-color);
+    color: var(--dark-color);
+}
+
+/* CTA Section Styles */
+.cta-section {
+    background: linear-gradient(45deg, rgba(var(--dark-color-rgb), 0.9), rgba(var(--dark-color-rgb), 0.8)), url('{% static "assets/img/bg/cta-bg.jpg" %}') center/cover no-repeat;
+    padding: 80px 0;
+}
+
+.cta-wrapper {
+    background: rgba(var(--dark-color-rgb), 0.7);
+    border-radius: 15px;
+    padding: 50px;
+    border: 1px solid rgba(var(--theme-color-rgb), 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-wrapper:before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(var(--theme-color-rgb), 0.1) 0%, rgba(var(--theme-color-rgb), 0) 70%);
+    z-index: 0;
+    animation: rotate 30s linear infinite;
+}
+
+.cta-content {
+    position: relative;
+    z-index: 1;
+}
+
+.btn-join {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-join:after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+    transform: rotate(45deg);
+    transition: all 0.5s ease;
+    z-index: 0;
+}
+
+.btn-join:hover:after {
+    transform: rotate(90deg);
+}
+
+/* Responsive Styles */
+@media (max-width: 1199px) {
+    .hero-title {
+        font-size: 3.5rem;
+    }
+}
+
+@media (max-width: 991px) {
+    .hero-title {
+        font-size: 3rem;
+    }
     
-    <!--==============================
-Counter Area  
-==============================-->
-    <div class="space-bottom counter-area-1">
-        <div class="container">
-            <div class="counter-card-wrap">
-                <div class="counter-card">
-                    <div class="media-body">
-                        <h2 class="box-number"><span class="counter-number">1.6</span>K<span class="text-theme fw-medium">+</span></h2>
-                        <p class="box-text">Our Daily Game Users</p>
-                    </div>
-                </div>
-                <div class="counter-card">
-                    <div class="media-body">
-                        <h2 class="box-number"><span class="counter-number">50</span>M</h2>
-                        <p class="box-text">Game Downloads</p>
-                    </div>
-                </div>
-                <div class="counter-card">
-                    <div class="media-body">
-                        <h2 class="box-number"><span class="counter-number">200</span><span class="text-theme fw-medium">+</span></h2>
-                        <p class="box-text">Game Launched</p>
-                    </div>
-                </div>
-                <div class="counter-card">
-                    <div class="media-body">
-                        <h2 class="box-number"><span class="counter-number">3.6</span>M</h2>
-                        <p class="box-text">Gaming Project Delivered</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div><!--==============================
-Tournament Area  
-==============================-->
+    .counter-card {
+        border-right: none;
+        border-bottom: 1px solid rgba(var(--theme-color-rgb), 0.1);
+        padding: 20px 15px;
+    }
+    
+    .counter-card:last-child {
+        border-bottom: none;
+    }
+    
+    .cta-wrapper {
+        padding: 30px;
+    }
+}
 
-    <!--==============================
-About Area  
-==============================-->
-    <div class="about-sec-3 overflow-hidden space-top position-relative z-index-common" data-bg-src="assets/img/bg/about-bg2.png">
-        <div class="gr-bg1 overlay"></div>
-        <div class="container">
-            <div class="about-wrap3">
-                <div class="row gy-40">
-                    <div class="col-xl-6">
-                        <div class="title-area custom-anim-left wow animated" data-wow-duration="1.5s" data-wow-delay="0.2s">
-                            <span class="sub-title"># Why Choose Our Gaming Site</span>
-                            <h2 class="sec-title">Our Values Inspire And Drive Our Every Move <span class="text-theme">!</span></h2>
-                            <div class="checklist">
-                                <ul>
-                                    <li><i class="fas fa-circle-check"></i> Duis scelerisque nunc ac massa efficitur pulvinar.</li>
-                                    <li><i class="fas fa-circle-check"></i> Vivamus eget nisi scelerisque, iaculis risus vel, molestie risus.</li>
-                                    <li><i class="fas fa-circle-check"></i> Aliquam nec sapien vitae dui dapibus blandit.</li>
-                                    <li><i class="fas fa-circle-check"></i> Sed non ipsum ut mauris dictum ullamcorper ac at nibh.</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="img-box3">
-                            <div class="img1">
-                                <img src="{% static 'assets/img/normal/about3-2.png' %}" alt="About">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6">
-                        <div class="img-box3">
-                            <div class="img1">
-                                <img src="{% static 'assets/img/normal/about3-1.png' %}" alt="About">
-                            </div>
-                        </div>
-                        <div class="about-content custom-anim-left wow animated" data-wow-duration="1.5s" data-wow-delay="0.2s">
-                            <p>Gamers can join local gaming meetups, participate in gaming events, or connect with like-minded individuals through online forums and social media groups. Engaging with the community helps build connections and creates opportunities for collaborative gaming experiences.</p>
-                            <p class="mb-0">Storytelling is a crucial element in modern video game design, creating immersive and engaging experiences. Games with compelling narratives often resonate more with players, adding depth to the overall gaming experience.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="about-tag">
-                    <div class="about-experience-tag">
-                        <span class="circle-title-anime">24 YEARS EXPERIENCE OF GAMING</span>
-                    </div>
-                    <div class="about-tag-icon">
-                        <img src="{% static 'assets/img/logo-icon.svg' %}" alt="img">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div><!--==============================
-Team Area  
-==============================-->
-    <section class="team-sec-1 space-top">
-        <div class="team-shape1-1 shape-mockup" data-top="0" data-right="0"><img src="{% static 'assets/img/bg/team-sec1-bg.png' %}" alt="img"></div>
-        <div class="container th-container3">
-            <div class="row justify-content-center">
-                <div class="col-xl-6 col-lg-7 col-md-8">
-                    <div class="title-area text-center custom-anim-top wow animated" data-wow-duration="1.5s" data-wow-delay="0.2s">
-                        <span class="sub-title"># Top World Class Gamer</span>
-                        <h2 class="sec-title">Let's See Our Pro Players</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="slider-area team-slider1">
-                <div class="swiper th-slider has-shadow" id="teamSlider1" data-slider-options='{"breakpoints":{"0":{"slidesPerView":1},"576":{"slidesPerView":"2"},"768":{"slidesPerView":"3"},"992":{"slidesPerView":"4"},"1200":{"slidesPerView":"5"}}}'>
-                    <div class="swiper-wrapper">
-                        <!-- Single Item -->
-                        <div class="swiper-slide">
-                            <div class="th-team team-card">
-                                <div class="team-card-corner team-card-corner1"></div>
-                                <div class="team-card-corner team-card-corner2"></div>
-                                <div class="team-card-corner team-card-corner3"></div>
-                                <div class="team-card-corner team-card-corner4"></div>
-                                <div class="img-wrap">
-                                    <div class="team-img">
-                                        <img src="{% static 'assets/img/team/1-1.png' %}" alt="Team">
-                                    </div>
-                                    <img class="game-logo" src="{% static 'assets/img/team/game-logo1-1.png' %}" alt="Team">
-                                </div>
-                                <div class="team-card-content">
-                                    <h3 class="box-title"><a href="team-details.html">Max Alexis</a></h3>
-                                </div>
-                            </div>
-                        </div>
+@media (max-width: 767px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .about-image-badge {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .values-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .values-icon {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .team-card {
+        height: 350px;
+    }
+}
 
-                        <!-- Single Item -->
-                        <div class="swiper-slide">
-                            <div class="th-team team-card">
-                                <div class="team-card-corner team-card-corner1"></div>
-                                <div class="team-card-corner team-card-corner2"></div>
-                                <div class="team-card-corner team-card-corner3"></div>
-                                <div class="team-card-corner team-card-corner4"></div>
-                                <div class="img-wrap">
-                                    <div class="team-img">
-                                        <img src="{% static 'assets/img/team/1-2.png' %}" alt="Team">
-                                    </div>
-                                    <img class="game-logo" src="{% static 'assets/img/team/game-logo1-2.png' %}" alt="Team">
-                                </div>
-                                <div class="team-card-content">
-                                    <h3 class="box-title"><a href="team-details.html">Wilium Lili</a></h3>
-                                </div>
-                            </div>
-                        </div>
+@media (max-width: 575px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .sub-title.style2 {
+        padding: 8px 15px;
+    }
+    
+    .counter-number {
+        font-size: 2.5rem;
+    }
+    
+    .counter-plus {
+        font-size: 1.5rem;
+    }
+    
+    .cta-wrapper {
+        padding: 20px;
+    }
+}
+</style>
 
-                        <!-- Single Item -->
-                        <div class="swiper-slide">
-                            <div class="th-team team-card">
-                                <div class="team-card-corner team-card-corner1"></div>
-                                <div class="team-card-corner team-card-corner2"></div>
-                                <div class="team-card-corner team-card-corner3"></div>
-                                <div class="team-card-corner team-card-corner4"></div>
-                                <div class="img-wrap">
-                                    <div class="team-img">
-                                        <img src="{% static 'assets/img/team/1-3.png' %}" alt="Team">
-                                    </div>
-                                    <img class="game-logo" src="{% static 'assets/img/team/game-logo1-3.png' %}" alt="Team">
-                                </div>
-                                <div class="team-card-content">
-                                    <h3 class="box-title"><a href="team-details.html">Mac Marsh</a></h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Single Item -->
-                        <div class="swiper-slide">
-                            <div class="th-team team-card">
-                                <div class="team-card-corner team-card-corner1"></div>
-                                <div class="team-card-corner team-card-corner2"></div>
-                                <div class="team-card-corner team-card-corner3"></div>
-                                <div class="team-card-corner team-card-corner4"></div>
-                                <div class="img-wrap">
-                                    <div class="team-img">
-                                        <img src="{% static 'assets/img/team/1-4.png' %}" alt="Team">
-                                    </div>
-                                    <img class="game-logo" src="{% static 'assets/img/team/game-logo1-4.png' %}" alt="Team">
-                                </div>
-                                <div class="team-card-content">
-                                    <h3 class="box-title"><a href="team-details.html">Eva Raina</a></h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Single Item -->
-                        <div class="swiper-slide">
-                            <div class="th-team team-card">
-                                <div class="team-card-corner team-card-corner1"></div>
-                                <div class="team-card-corner team-card-corner2"></div>
-                                <div class="team-card-corner team-card-corner3"></div>
-                                <div class="team-card-corner team-card-corner4"></div>
-                                <div class="img-wrap">
-                                    <div class="team-img">
-                                        <img src="{% static 'assets/img/team/1-5.png' %}" alt="Team">
-                                    </div>
-                                    <img class="game-logo" src="{% static 'assets/img/team/game-logo1-5.png' %}" alt="Team">
-                                </div>
-                                <div class="team-card-content">
-                                    <h3 class="box-title"><a href="team-details.html">Robin Cloth</a></h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Single Item -->
-                        <div class="swiper-slide">
-                            <div class="th-team team-card">
-                                <div class="team-card-corner team-card-corner1"></div>
-                                <div class="team-card-corner team-card-corner2"></div>
-                                <div class="team-card-corner team-card-corner3"></div>
-                                <div class="team-card-corner team-card-corner4"></div>
-                                <div class="img-wrap">
-                                    <div class="team-img">
-                                        <img src="{% static 'assets/img/team/1-1.png' %}" alt="Team">
-                                    </div>
-                                    <img class="game-logo" src="{% static 'assets/img/team/game-logo1-1.png' %}" alt="Team">
-                                </div>
-                                <div class="team-card-content">
-                                    <h3 class="box-title"><a href="team-details.html">Max Alexis</a></h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Single Item -->
-                        <div class="swiper-slide">
-                            <div class="th-team team-card">
-                                <div class="team-card-corner team-card-corner1"></div>
-                                <div class="team-card-corner team-card-corner2"></div>
-                                <div class="team-card-corner team-card-corner3"></div>
-                                <div class="team-card-corner team-card-corner4"></div>
-                                <div class="img-wrap">
-                                    <div class="team-img">
-                                        <img src="{% static 'assets/img/team/1-2.png' %}" alt="Team">
-                                    </div>
-                                    <img class="game-logo" src="{% static 'assets/img/team/game-logo1-2.png' %}" alt="Team">
-                                </div>
-                                <div class="team-card-content">
-                                    <h3 class="box-title"><a href="team-details.html">Wilium Lili</a></h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Single Item -->
-                        <div class="swiper-slide">
-                            <div class="th-team team-card">
-                                <div class="team-card-corner team-card-corner1"></div>
-                                <div class="team-card-corner team-card-corner2"></div>
-                                <div class="team-card-corner team-card-corner3"></div>
-                                <div class="team-card-corner team-card-corner4"></div>
-                                <div class="img-wrap">
-                                    <div class="team-img">
-                                        <img src="{% static 'assets/img/team/1-3.png' %}" alt="Team">
-                                    </div>
-                                    <img class="game-logo" src="{% static 'assets/img/team/game-logo1-3.png' %}" alt="Team">
-                                </div>
-                                <div class="team-card-content">
-                                    <h3 class="box-title"><a href="team-details.html">Mac Marsh</a></h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Single Item -->
-                        <div class="swiper-slide">
-                            <div class="th-team team-card">
-                                <div class="team-card-corner team-card-corner1"></div>
-                                <div class="team-card-corner team-card-corner2"></div>
-                                <div class="team-card-corner team-card-corner3"></div>
-                                <div class="team-card-corner team-card-corner4"></div>
-                                <div class="img-wrap">
-                                    <div class="team-img">
-                                        <img src="{% static 'assets/img/team/1-4.png' %}" alt="Team">
-                                    </div>
-                                    <img class="game-logo" src="{% static 'assets/img/team/game-logo1-4.png' %}" alt="Team">
-                                </div>
-                                <div class="team-card-content">
-                                    <h3 class="box-title"><a href="team-details.html">Eva Raina</a></h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Single Item -->
-                        <div class="swiper-slide">
-                            <div class="th-team team-card">
-                                <div class="team-card-corner team-card-corner1"></div>
-                                <div class="team-card-corner team-card-corner2"></div>
-                                <div class="team-card-corner team-card-corner3"></div>
-                                <div class="team-card-corner team-card-corner4"></div>
-                                <div class="img-wrap">
-                                    <div class="team-img">
-                                        <img src="{% static 'assets/img/team/1-5.png' %}" alt="Team">
-                                    </div>
-                                    <img class="game-logo" src="{% static 'assets/img/team/game-logo1-5.png' %}" alt="Team">
-                                </div>
-                                <div class="team-card-content">
-                                    <h3 class="box-title"><a href="team-details.html">Robin Cloth</a></h3>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <button data-slider-prev="#teamSlider1" class="slider-arrow slider-prev"><i class="far fa-arrow-left"></i></button>
-                <button data-slider-next="#teamSlider1" class="slider-arrow slider-next"><i class="far fa-arrow-right"></i></button>
-            </div>
-        </div>
-    </section>
-  
-
-
-
-
-    <div class="scroll-top">
-        <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
-            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 307.919;"></path>
-        </svg>
-    </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // AOS Initialization
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true
+    });
+    
+    // Counter Animation
+    const counters = document.querySelectorAll('.counter-number');
+    const speed = 200;
+    
+    counters.forEach(counter => {
+        const updateCount = () => {
+            const target = +counter.getAttribute('data-count');
+            const count = +counter.innerText.replace('+', '');
+            const inc = target / speed;
+            
+            if (count < target) {
+                counter.innerText = Math.ceil(count + inc);
+                setTimeout(updateCount, 1);
+            } else {
+                counter.innerText = target;
+            }
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    updateCount();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        observer.observe(counter);
+    });
+    
+    // Team Slider
+    new Swiper('.team-slider', {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.team-slider-next',
+            prevEl: '.team-slider-prev',
+        },
+        breakpoints: {
+            640: {
+                slidesPerView: 2,
+            },
+            992: {
+                slidesPerView: 3,
+            },
+            1200: {
+                slidesPerView: 4,
+            },
+        }
+    });
+    
+    // Particles for counter section
+    if (document.getElementById('counter-particles')) {
+        particlesJS('counter-particles', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: '#45F882'
+                },
+                shape: {
+                    type: 'circle',
+                },
+                opacity: {
+                    value: 0.5,
+                    random: true,
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#45F882',
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: true,
+                    straight: false,
+                    out_mode: 'out',
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'grab'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 1
+                        }
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        });
+    }
+});
+</script>
 
 {% endblock %}

@@ -316,24 +316,13 @@ select:focus::placeholder {
 
 /* Game details card */
 .game-details-card {
-  position: relative;
-  background: rgba(var(--theme-dark-rgb), 0.5);
-  border-radius: var(--border-radius-md);
-  padding: var(--spacing-md);
-  margin-top: var(--spacing-md);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-}
-
-.game-details-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 3px;
-  height: 100%;
-  background: var(--theme-primary);
-  border-radius: 3px 0 0 3px;
+  display: none;
+  margin-top: 20px;
+  background: rgba(15, 23, 43, 0.5);
+  border-radius: 12px;
+  padding: 25px;
+  border: 1px solid rgba(69, 248, 130, 0.2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .game-details-header {
@@ -890,8 +879,14 @@ select:focus::placeholder {
 }
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes pulse {
@@ -1133,7 +1128,7 @@ textarea {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 15px;
-  margin-top: 15px;
+  margin-bottom: 25px;
 }
 
 @media (max-width: 576px) {
@@ -1145,7 +1140,6 @@ textarea {
 /* Game option styling */
 .game-option {
   position: relative;
-  margin-bottom: 0;
 }
 
 .game-option input[type="radio"] {
@@ -1155,70 +1149,101 @@ textarea {
   height: 0;
 }
 
-.game-option label {
+.game-option-label {
   display: flex;
   align-items: center;
-  padding: 12px 15px;
+  padding: 15px;
   background: rgba(15, 23, 43, 0.6);
   border: 1px solid rgba(69, 248, 130, 0.3);
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
+  height: 100%;
 }
 
-.game-option input[type="radio"]:checked + label {
+.game-option input[type="radio"]:checked + .game-option-label {
   background: rgba(69, 248, 130, 0.15);
   border-color: rgba(69, 248, 130, 0.8);
   box-shadow: 0 0 15px rgba(69, 248, 130, 0.3);
+  transform: translateY(-3px);
 }
 
-.game-option input[type="radio"]:focus + label {
+.game-option input[type="radio"]:focus + .game-option-label {
   box-shadow: 0 0 0 2px rgba(69, 248, 130, 0.5);
 }
 
 .game-icon {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   background: rgba(69, 248, 130, 0.2);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 10px;
+  margin-right: 12px;
   color: #45F882;
-  font-size: 16px;
+  font-size: 18px;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
-.game-option input[type="radio"]:checked + label .game-icon {
+.game-option input[type="radio"]:checked + .game-option-label .game-icon {
   background: rgba(69, 248, 130, 0.8);
   color: #0F172B;
+  transform: scale(1.1);
 }
 
 /* Game details card */
 .game-details-card {
   background: rgba(15, 23, 43, 0.5);
-  border-radius: 10px;
-  padding: 20px;
+  border-radius: 12px;
+  padding: 25px;
   margin-top: 20px;
-  border-left: 3px solid #45F882;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 0.4s ease-out;
+  border: 1px solid rgba(69, 248, 130, 0.2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.card-header-custom {
+  display: flex;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(69, 248, 130, 0.2);
+}
+
+.card-header-custom i {
+  font-size: 24px;
 }
 
 /* Audition modes selection */
 .audition-modes-selection {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 10px;
-  background: rgba(15, 23, 43, 0.4);
+  background: rgba(15, 23, 43, 0.3);
   border-radius: 10px;
-  padding: 15px;
+  padding: 20px;
+  margin-top: 25px;
+  border: 1px solid rgba(69, 248, 130, 0.1);
 }
 
-@media (max-width: 576px) {
-  .audition-modes-selection {
+.modes-header {
+  margin-bottom: 15px;
+}
+
+.modes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .modes-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .modes-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1235,117 +1260,149 @@ textarea {
 }
 
 .mode-option label {
-  display: block;
-  padding: 8px 8px 8px 35px;
-  position: relative;
-  cursor: pointer;
-  color: #fff;
-  transition: all 0.3s ease;
-  border-radius: 5px;
-}
-
-.mode-option label:before {
-  content: '';
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
-  border: 1px solid rgba(69, 248, 130, 0.5);
-  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
   background: rgba(15, 23, 43, 0.6);
+  border: 1px solid rgba(69, 248, 130, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
   transition: all 0.3s ease;
-}
-
-.mode-option input[type="checkbox"]:checked + label:before {
-  background: rgba(69, 248, 130, 0.8);
-  border-color: rgba(69, 248, 130, 0.8);
-}
-
-.mode-option input[type="checkbox"]:checked + label:after {
-  content: '\f00c';
-  font-family: 'Font Awesome 5 Free';
-  font-weight: 900;
-  position: absolute;
-  left: 13px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #0F172B;
-  font-size: 12px;
-}
-
-.mode-option input[type="checkbox"]:focus + label:before {
-  box-shadow: 0 0 0 2px rgba(69, 248, 130, 0.5);
-}
-
-.mode-option label:hover {
-  background: rgba(69, 248, 130, 0.1);
+  color: #fff;
 }
 
 .mode-option input[type="checkbox"]:checked + label {
   background: rgba(69, 248, 130, 0.15);
+  border-color: rgba(69, 248, 130, 0.6);
+  box-shadow: 0 0 10px rgba(69, 248, 130, 0.2);
 }
 
-/* Validation error styling */
-.mode-error label:before {
-  border-color: #ff4d4d !important;
+.mode-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: rgba(69, 248, 130, 0.1);
+  border-radius: 50%;
+  margin-right: 10px;
+  color: #45F882;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
-.mode-error label {
-  color: #ff4d4d;
+.mode-option input[type="checkbox"]:checked + label .mode-icon {
+  background: rgba(69, 248, 130, 0.6);
+  color: #0F172B;
+}
+
+.mode-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Custom select styling */
+.custom-select {
+  background-image: linear-gradient(45deg, transparent 50%, #45F882 50%), 
+                    linear-gradient(135deg, #45F882 50%, transparent 50%);
+  background-position: calc(100% - 20px) calc(1em + 2px), 
+                       calc(100% - 15px) calc(1em + 2px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+/* Form button group */
+.form-btn-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+@media (max-width: 576px) {
+  .form-btn-group {
+    flex-direction: column;
+  }
+  
+  .form-btn-group .th-btn {
+    width: 100%;
+  }
 }
 
 /* Animations */
-.fade-in {
-  animation: fadeIn 0.4s ease-out;
-}
-
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive adjustments */
-@media (max-width: 767px) {
-  .game-details-card {
-    padding: 15px;
-  }
-  
-  .audition-modes-selection {
-    padding: 10px;
-  }
-  
-  .form-btn-group {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .form-btn {
-    width: 100%;
-  }
+/* Improved form controls */
+.form-control, .form-select {
+  background-color: rgba(15, 23, 43, 0.6);
+  border: 1px solid rgba(69, 248, 130, 0.3);
+  color: #fff;
+  transition: all 0.3s ease;
 }
 
-/* Touch-friendly improvements */
-@media (hover: none) {
-  .game-option label,
-  .mode-option label {
-    padding-top: 12px;
-    padding-bottom: 12px;
-  }
-  
-  .game-icon {
-    width: 36px;
-    height: 36px;
-  }
-  
-  .mode-option label:before {
-    width: 22px;
-    height: 22px;
-  }
-  
-  .mode-option input[type="checkbox"]:checked + label:after {
-    font-size: 14px;
-    left: 14px;
-  }
+.form-control:focus, .form-select:focus {
+  background-color: rgba(15, 23, 43, 0.8);
+  border-color: rgba(69, 248, 130, 0.8);
+  box-shadow: 0 0 0 0.25rem rgba(69, 248, 130, 0.25);
+  color: #fff;
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Estilos personalizados para las alertas del sistema */
+.alert-wolves-danger,
+.alert-wolves-error {
+    background-color: rgba(255, 78, 78, 0.2);
+    border-left: 4px solid #ff4e4e;
+    color: #ffffff;
+}
+
+.alert-wolves-success {
+    background-color: rgba(40, 167, 69, 0.2);
+    border-left: 4px solid #28a745;
+    color: #ffffff;
+}
+
+.alert-wolves-warning {
+    background-color: rgba(255, 193, 7, 0.2);
+    border-left: 4px solid #ffc107;
+    color: #ffffff;
+}
+
+.alert-wolves-info {
+    background-color: rgba(23, 162, 184, 0.2);
+    border-left: 4px solid #17a2b8;
+    color: #ffffff;
+}
+
+/* Estilos para los mensajes de validación */
+.wolves-feedback {
+    color: #ff4e4e;
+    font-size: 0.85rem;
+    padding-left: 5px;
+    margin-top: 5px;
+    display: block;
+}
+
+/* Estilos para campos de formulario */
+.form-control.is-invalid {
+    border-color: #ff4e4e;
+    background-image: none !important;
+}
+
+.form-control.is-valid {
+    border-color: #28a745;
+    background-image: none !important;
+}
+
+/* Efecto de carga para validación AJAX */
+.loading {
+    background-image: url('/static/assets/img/loading-spinner.gif') !important;
+    background-repeat: no-repeat !important;
+    background-position: right 10px center !important;
+    background-size: 20px !important;
 }

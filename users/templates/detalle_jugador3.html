@@ -1,0 +1,3169 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Wolves - Clan de Gaming | Perfil de {{ user.nickname }}{% endblock %}
+
+{% block meta_description %}Perfil de {{ user.nickname }} en el clan Wolves. Consulta estadísticas, logros y actividad en el clan.{% endblock %}
+
+{% block content %}
+<div class="space-top"></div>
+
+
+         
+            
+<div class="profile-page-1 space">
+                <div class="profile-sec-1 space bg-repeat overflow-hidden" data-bg-src="{% static 'assets/img/bg/jiji-bg2.png' %}">
+                    <div class="container">
+                        
+            <div class="profile-header-container">
+                <!-- Barra superior con acciones rápidas y estado -->
+                <div class="profile-top-bar">
+                    <div class="user-presence">
+                        <div class="status-indicator {{ user.perfil.estado_actividad|lower }}"></div>
+                        <span class="status-text">{{ user.perfil.get_estado_actividad_display }}</span>
+                        {% if user.perfil.ultima_conexion %}
+                            <span class="last-seen"><i class="far fa-clock"></i> Última vez: {{ user.perfil.ultima_conexion|timesince }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="quick-actions">
+                        {% if user.perfil.modo_streamer %}
+                            <span class="streamer-badge" title="Modo Streamer activado"><i class="fas fa-broadcast-tower"></i></span>
+                        {% endif %}
+                        
+                        {% if user == request.user %}
+                            <button class="action-button" id="toggle-notifications">
+                                <i class="fas fa-bell"></i>
+                                <span class="badge-count">3</span>
+                            </button>
+                            <button class="action-button" id="toggle-messages">
+                                <i class="fas fa-envelope"></i>
+                                <span class="badge-count">1</span>
+                            </button>
+                            <button class="action-button" id="toggle-settings">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                        {% else %}
+                            <button class="action-button" id="report-user" title="Reportar usuario">
+                                <i class="fas fa-flag"></i>
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Banner personalizable con efectos -->
+                <div class="banner-wrapper">
+                    {% if user.banner_image %}
+                        <div class="profile-banner" style="background-image: url('{{ user.banner_image.url }}');">
+                            <div class="banner-overlay"></div>
+                        </div>
+                    {% else %}
+                        <div class="profile-banner profile-banner-default">
+                            <div class="banner-overlay"></div>
+                            <div class="banner-pattern"></div>
+                        </div>
+                    {% endif %}
+                    
+                    {% if request.user == user %}
+                        <button class="customize-banner-btn" title="Personalizar banner">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                        
+                        <!-- Opciones de personalización del banner -->
+                        <div class="banner-customization-menu" id="bannerCustomizationMenu">
+                            <div class="menu-item" id="uploadBanner">
+                                <i class="fas fa-upload"></i>
+                                <span>Subir banner</span>
+                            </div>
+                            <div class="menu-item" id="chooseBannerColor">
+                                <i class="fas fa-palette"></i>
+                                <span>Elegir color</span>
+                            </div>
+                            <div class="menu-item" id="chooseBannerPattern">
+                                <i class="fas fa-chess-board"></i>
+                                <span>Elegir patrón</span>
+                            </div>
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Avatar con opciones de personalización y efectos -->
+                    <div class="profile-avatar-container">
+                        <div class="avatar-frame-outer">
+                            <div class="avatar-frame-inner" style="--rank-color: {{ user.perfil.get_color_rango }}">
+                                {% if user.profile_image %}
+                                    <img src="{{ user.profile_image.url }}" alt="{{ user.nickname }}" class="profile-avatar">
+                                {% else %}
+                                    <div class="profile-avatar-placeholder">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="profile-status {{ user.perfil.estado_actividad|lower }}">
+                            <div class="status-pulse"></div>
+                        </div>
+                        
+                        {% if request.user == user %}
+                            <button class="customize-avatar-btn" title="Cambiar avatar">
+                                <i class="fas fa-camera"></i>
+                            </button>
+                        {% endif %}
+                        
+                        <!-- Nivel del jugador -->
+                        <div class="profile-level">
+                            <span>{{ user.perfil.nivel }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Información principal y acciones -->
+                <div class="profile-info-header">
+                    <div class="profile-main-info">
+                        <!-- Nombre e insignias -->
+                        <div class="profile-name-section">
+                            <h1 class="profile-nickname">
+                                {{ user.nickname }}
+                                {% if user.perfil.verificado %}
+                                    <i class="fas fa-check-circle verified-icon" title="Verificado"></i>
+                                {% endif %}
+                            </h1>
+                            
+                            <!-- Emblema del clan -->
+                            {% if user.perfil.clan %}
+                                <a href="{% url 'detalle_clan' user.perfil.clan.slug %}" class="clan-emblem" title="{{ user.perfil.clan.nombre }}">
+                                    <img src="{{ user.perfil.clan.emblema.url }}" alt="{{ user.perfil.clan.tag }}">
+                                    <span class="clan-tag">[{{ user.perfil.clan.tag }}]</span>
+                                </a>
+                            {% endif %}
+                            
+                            <!-- Estado personalizado -->
+                            {% if user.perfil.estado_personalizado %}
+                                <div class="custom-status">
+                                    <i class="fas fa-quote-left"></i>
+                                    <span>{{ user.perfil.estado_personalizado }}</span>
+                                    <i class="fas fa-quote-right"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Insignias y rangos -->
+                        <div class="profile-badges">
+                            <div class="badges-row">
+                                {% if user.perfil.rol_especial != 'NONE' %}
+                                <div class="badge role-badge" data-tooltip="{{ user.perfil.get_descripcion_rol }}">
+                                    <div class="badge-icon">
+                                        <i class="fas fa-{% if user.perfil.rol_especial == 'FOUNDER' %}crown{% elif user.perfil.rol_especial == 'VETERAN' %}medal{% elif user.perfil.rol_especial == 'RECRUITER' %}user-plus{% elif user.perfil.rol_especial == 'CONTENT' %}video{% elif user.perfil.rol_especial == 'MODERATOR' %}shield-alt{% else %}users{% endif %}"></i>
+                                    </div>
+                                    <span>{{ user.perfil.get_rol_especial_display }}</span>
+                                </div>
+                                {% endif %}
+                                
+                                <div class="badge rank-badge" data-tooltip="Rango actual">
+                                    <div class="badge-icon">
+                                        <i class="fas fa-{% if user.perfil.rango == 'RECRUIT' %}chess-pawn{% elif user.perfil.rango == 'SILVER' %}chess-knight{% elif user.perfil.rango == 'GOLD' %}chess-bishop{% elif user.perfil.rango == 'PLATINUM' %}chess-rook{% elif user.perfil.rango == 'DIAMOND' %}chess-queen{% elif user.perfil.rango == 'MASTER' %}chess-king{% else %}user-shield{% endif %}"></i>
+                                    </div>
+                                    <span>{{ user.perfil.get_rango_display }}</span>
+                                </div>
+                                
+                                <div class="badge specialty-badge" data-tooltip="Especialidad">
+                                    <div class="badge-icon">
+                                        <i class="fas fa-{% if user.perfil.especialidad == 'SUPPORT' %}hands-helping{% elif user.perfil.especialidad == 'TACTICAL' %}chess{% elif user.perfil.especialidad == 'SNIPER' %}crosshairs{% elif user.perfil.especialidad == 'ASSAULT' %}running{% elif user.perfil.especialidad == 'RECON' %}binoculars{% elif user.perfil.especialidad == 'MEDIC' %}first-aid{% else %}shield-alt{% endif %}"></i>
+                                    </div>
+                                    <span>{{ user.perfil.get_especialidad_display }}</span>
+                                </div>
+                                
+                                {% if user.is_subleader %}
+                                <div class="badge subleader-badge" data-tooltip="Sublíder del clan">
+                                    <div class="badge-icon"><i class="fas fa-crown"></i></div>
+                                    <span>Lider</span>
+                                </div>
+                                {% endif %}
+                                
+                                {% if user.perfil.preferencia_plataforma %}
+                                <div class="badge platform-badge" data-tooltip="Plataforma preferida">
+                                    <div class="badge-icon">
+                                        <i class="fab fa-{% if 'playstation' in user.perfil.preferencia_plataforma|lower %}playstation{% elif 'xbox' in user.perfil.preferencia_plataforma|lower %}xbox{% elif 'switch' in user.perfil.preferencia_plataforma|lower %}nintendo-switch{% elif 'mobile' in user.perfil.preferencia_plataforma|lower %}android{% else %}windows{% endif %}"></i>
+                                    </div>
+                                    <span>{{ user.perfil.preferencia_plataforma }}</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="badges-row">
+                                <!-- Logros desbloqueados recientes -->
+                                {% for logro in user.logros_recientes|slice:":3" %}
+                                <div class="badge achievement-badge" data-tooltip="{{ logro.nombre }} - {{ logro.descripcion }}">
+                                    <div class="badge-icon"><i class="{{ logro.icono }}"></i></div>
+                                    <span>{{ logro.nombre_corto }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <!-- Progreso de rango -->
+                        <div class="rank-progress-container">
+                            <div class="rank-labels">
+                                <span class="current-rank">{{ user.perfil.get_rango_display }}</span>
+                                <span class="next-rank">{{ user.perfil.get_siguiente_rango_display }}</span>
+                            </div>
+                            <div class="rank-bar">
+                                <div class="rank-progress" style="width: {{ user.perfil.get_progress_percent }}%">
+                                    <div class="rank-glow"></div>
+                                </div>
+                            </div>
+                            <div class="rank-stats">
+                                <span class="rank-xp">{{ user.perfil.puntos_honor }} / {{ user.perfil.puntos_siguiente_rango }} Puntos de Honor</span>
+                                <span class="rank-days">{{ user.perfil.dias_en_clan }} días en el clan</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Acciones del perfil -->
+                    <div class="profile-actions-container">
+                        {% if request.user == user %}
+                        <div class="profile-actions">
+                            <a href="{% url 'editar_perfil' %}" class="action-btn edit-profile">
+                                <i class="fas fa-edit"></i>
+                                <span>Editar Perfil</span>
+                            </a>
+                            <div class="dropdown-actions">
+                                <button class="action-btn more-options">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
+                                <div class="actions-dropdown">
+                                    <a href="" class="dropdown-item">
+                                        <i class="fas fa-cog"></i> Configuración
+                                    </a>
+                                    <a href="" class="dropdown-item">
+                                        <i class="fas fa-lock"></i> Privacidad
+                                    </a>
+                                    <a href="" class="dropdown-item">
+                                        <i class="fas fa-trophy"></i> Mis Logros
+                                    </a>
+                                    <a href="" class="dropdown-item">
+                                        <i class="fas fa-chart-line"></i> Estadísticas
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="profile-actions">
+                            <button class="action-btn add-friend {% if user in request.user.amigos.all %}added{% endif %}" id="btnAddFriend">
+                                <i class="fas {% if user in request.user.amigos.all %}fa-user-check{% else %}fa-user-plus{% endif %}"></i>
+                                <span>{% if user in request.user.amigos.all %}Amigos{% else %}Agregar Amigo{% endif %}</span>
+                            </button>
+                            <button class="action-btn send-message" id="btnSendMessage">
+                                <i class="fas fa-envelope"></i>
+                                <span>Mensaje</span>
+                            </button>
+                            <button class="action-btn challenge-player" id="btnChallenge">
+                                <i class="fas fa-gamepad"></i>
+                                <span>Retar</span>
+                            </button>
+                            <div class="dropdown-actions">
+                                <button class="action-btn more-options">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
+                                <div class="actions-dropdown">
+                                    <button class="dropdown-item" id="btnBlock">
+                                        <i class="fas fa-ban"></i> Bloquear
+                                    </button>
+                                    <button class="dropdown-item" id="btnReport">
+                                        <i class="fas fa-flag"></i> Reportar
+                                    </button>
+                                    <button class="dropdown-item" id="btnShare">
+                                        <i class="fas fa-share-alt"></i> Compartir Perfil
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Redes sociales -->
+                        <div class="social-links">
+                            {% if user.twitch_username %}
+                            <a href="https://twitch.tv/{{ user.twitch_username }}" target="_blank" class="social-link twitch" title="Twitch">
+                                <i class="fab fa-twitch"></i>
+                            </a>
+                            {% endif %}
+                            
+                            {% if user.youtube_channel %}
+                            <a href="{{ user.youtube_channel }}" target="_blank" class="social-link youtube" title="YouTube">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            {% endif %}
+                            
+                            {% if user.twitter_username %}
+                            <a href="https://twitter.com/{{ user.twitter_username }}" target="_blank" class="social-link twitter" title="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            {% endif %}
+                            
+                            {% if user.instagram_username %}
+                            <a href="https://instagram.com/{{ user.instagram_username }}" target="_blank" class="social-link instagram" title="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            {% endif %}
+                            
+                            {% if user.show_discord and user.discord_id %}
+                            <button class="social-link discord" title="Discord: {{ user.discord_id }}" id="copyDiscord" data-discord="{{ user.discord_id }}">
+                                <i class="fab fa-discord"></i>
+                            </button>
+                            {% endif %}
+                            
+                            {% if user.show_email %}
+                            <a href="mailto:{{ user.email }}" class="social-link email" title="Email">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contenido principal del perfil -->
+            <div class="row mt-4">
+                <!-- Columna izquierda: Info del usuario -->
+                <div class="col-lg-4">
+                    <div class="profile-card mb-4">
+                        <div class="profile-card-header">
+                            <h4><i class="fas fa-user-circle me-2 text-theme"></i> Información</h4>
+                        </div>
+                        <div class="profile-card-body">
+                            <div class="profile-info-item">
+                                <span class="info-label">Nombre:</span>
+                                <span class="info-value">{{ user.nombre }}</span>
+                            </div>
+                            {% if user.edad %}
+                            <div class="profile-info-item">
+                                <span class="info-label">Edad:</span>
+                                <span class="info-value">{{ user.edad }} años</span>
+                            </div>
+                            {% endif %}
+                            <div class="profile-info-item">
+                                <span class="info-label">Ubicación:</span>
+                                <span class="info-value">{{ user.ciudad }}, {{ user.pais }}</span>
+                            </div>
+                            {% if user.juego_principal %}
+                            <div class="profile-info-item">
+                                <span class="info-label">Juego principal:</span>
+                                <span class="info-value">{{ user.juego_principal }}</span>
+                            </div>
+                            {% endif %}
+                            <div class="profile-info-item">
+                                <span class="info-label">Modo de juego:</span>
+                                <span class="info-value">{{ user.modo_de_juego }}</span>
+                            </div>
+                            {% if user.hobby %}
+                            <div class="profile-info-item">
+                                <span class="info-label">Hobby:</span>
+                                <span class="info-value">{{ user.hobby }}</span>
+                            </div>
+                            {% endif %}
+                            <div class="profile-info-item">
+                                <span class="info-label">Miembro desde:</span>
+                                <span class="info-value">{{ user.date_joined|date:"d/m/Y" }}</span>
+                            </div>
+                            <div class="profile-info-item">
+                                <span class="info-label">Días en el clan:</span>
+                                <span class="info-value">{{ user.perfil.dias_en_clan }}</span>
+                            </div>
+                            {% if user.bio %}
+                            <div class="profile-bio mt-3">
+                                <p class="bio-text">{{ user.bio }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Redes sociales y contacto -->
+                        <div class="profile-social">
+                            {% if user.show_discord and user.discord_id %}
+                            <a href="https://discord.com/users/{{ user.discord_id }}" class="social-link" title="Discord">
+                                <i class="fab fa-discord"></i>
+                            </a>
+                            {% endif %}
+                            {% if user.twitch_username %}
+                            <a href="https://twitch.tv/{{ user.twitch_username }}" class="social-link" title="Twitch">
+                                <i class="fab fa-twitch"></i>
+                            </a>
+                            {% endif %}
+                            {% if user.youtube_channel %}
+                            <a href="{{ user.youtube_channel }}" class="social-link" title="YouTube">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            {% endif %}
+                            {% if user.show_email %}
+                            <a href="mailto:{{ user.email }}" class="social-link" title="Email">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Información de Reclutamiento -->
+                    {% if user.reclutado_por %}
+                    <div class="profile-card mb-4">
+                        <div class="profile-card-header">
+                            <h4><i class="fas fa-user-check me-2 text-theme"></i> Reclutamiento</h4>
+                        </div>
+                        <div class="profile-card-body">
+                            <div class="profile-info-item">
+                                <span class="info-label">Reclutado por:</span>
+                                <span class="info-value">
+                                    <a href="#" class="text-theme">
+                                        {{ user.reclutado_por.nickname }}
+                                    </a>
+                                </span>
+                            </div>
+                            <div class="profile-info-item">
+                                <span class="info-label">Fecha:</span>
+                                <span class="info-value">{{ user.date_joined|date:"d/m/Y" }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Columna central: Estadísticas y nivel -->
+                <div class="col-lg-8">
+                    <!-- Tarjeta de nivel y experiencia -->
+                    <div class="profile-container">
+                        <!-- Columna central única -->
+                        <div class="profile-main-column">
+                            <!-- Sección de Juego Principal (como botón desplegable) -->
+                            <div class="profile-card main-game-toggle">
+                                <button class="game-toggle-btn" onclick="toggleGameDetails()">
+                                    <i class="fas fa-gamepad"></i>
+                                    <span>Juego Principal</span>
+                                    <i class="fas fa-chevron-down toggle-icon"></i>
+                                </button>
+                            </div>
+                    
+                            <!-- Contenido desplegable del juego principal (oculto inicialmente) -->
+                            <div class="main-game-details" id="gameDetails" style="display: none;">
+                                <div class="profile-card">
+                                    <div class="card-header">
+                                        <h2 style="color: white;"><i class="fas fa-gamepad"></i> Estadísticas Detalladas</h2>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="game-rank-progress">
+                                            <div class="rank-info">
+                                                <img src="{{ perfil.juego_principal.rank_image.url }}" alt="{{ perfil.juego_principal.rank }}">
+                                                <div>
+                                                    <h3 style="color: white;">{{ perfil.juego_principal.rank }}</h3>
+                                                    <p style="color: #aaa;">{{ perfil.juego_principal.division }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="rank-progress">
+                                                <div class="progress-info">
+                                                    <span style="color: #ddd;">{{ perfil.juego_principal.rank_points }} Puntos</span>
+                                                    <span style="color: #ddd;">{{ perfil.juego_principal.rank_progress }}%</span>
+                                                </div>
+                                                <div class="progress-bar">
+                                                    <div class="progress-fill" style="width: {{ perfil.juego_principal.rank_progress }}%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                    
+                                        <div class="game-stats-detailed">
+                                            <div class="stat-chart">
+                                                <canvas id="winRateChart"></canvas>
+                                                <div class="chart-label">
+                                                    <i class="fas fa-chart-line"></i>
+                                                    <span style="color: white;">Win Rate</span>
+                                                </div>
+                                            </div>
+                                            <div class="stat-chart">
+                                                <canvas id="kdRatioChart"></canvas>
+                                                <div class="chart-label">
+                                                    <i class="fas fa-crosshairs"></i>
+                                                    <span style="color: white;">K/D Ratio</span>
+                                                </div>
+                                            </div>
+                                            <div class="stat-chart">
+                                                <canvas id="playTimeChart"></canvas>
+                                                <div class="chart-label">
+                                                    <i class="fas fa-clock"></i>
+                                                    <span style="color: white;">Horas Jugadas</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                    
+                                        <div class="recent-matches">
+                                            <h3 style="color: white;"><i class="fas fa-history"></i> Partidas Recientes</h3>
+                                            <div class="matches-list">
+                                                {% for match in partidas_recientes %}
+                                                <div class="match-item {% if match.resultado == 'victoria' %}win{% else %}loss{% endif %}">
+                                                    <div class="match-result">
+                                                        {% if match.resultado == 'victoria' %}
+                                                        <i class="fas fa-trophy"></i>
+                                                        {% else %}
+                                                        <i class="fas fa-skull"></i>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="match-info">
+                                                        <span class="match-mode" style="color: white;">{{ match.modo }}</span>
+                                                        <span class="match-map" style="color: #aaa;">{{ match.mapa }}</span>
+                                                    </div>
+                                                    <div class="match-stats">
+                                                        <span class="match-kda" style="color: white;">{{ match.kills }}/{{ match.deaths }}/{{ match.assists }}</span>
+                                                        <span class="match-duration" style="color: #aaa;">{{ match.duracion }}</span>
+                                                    </div>
+                                                    <div class="match-time" style="color: #aaa;">
+                                                        {{ match.fecha|date:"d/m H:i" }}
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                            <!-- Sección de Nivel y Experiencia -->
+                            <div class="profile-card">
+                                <div class="profile-card-header">
+                                    <h4 style="color: white;"><i class="fas fa-star me-2 text-theme"></i> Nivel y Experiencia</h4>
+                                </div>
+                                <div class="profile-card-body">
+                                    <div class="level-display">
+                                        <div class="level-circle">
+                                            <span class="level-number">{{ user.perfil.nivel }}</span>
+                                        </div>
+                                        <div class="level-info">
+                                            <div class="progress-wrapper">
+                                                <div class="level-progress">
+                                                    <div class="progress">
+                                                        <div class="progress-bar" role="progressbar" style="width: {{ user.perfil.get_progress_percent }}%"></div>
+                                                    </div>
+                                                    <div class="progress-text">
+                                                        <span style="color: white;">{{ user.perfil.puntos_exp }} / {{ user.perfil.xp_siguiente_nivel }} XP</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="level-stats">
+                                                <div class="stat-item">
+                                                    <span class="stat-value" style="color: white;">{{ user.perfil.puntos_honor }}</span>
+                                                    <span class="stat-label" style="color: #aaa;">Puntos de Honor</span>
+                                                </div>
+                                                <div class="stat-item">
+                                                    <span class="stat-value" style="color: white;">{{ user.perfil.torneos_ganados }}</span>
+                                                    <span class="stat-label" style="color: #aaa;">Torneos Ganados</span>
+                                                </div>
+                                                <div class="stat-item">
+                                                    <span class="stat-value" style="color: white;">{{ user.perfil.actividad_semanal }}</span>
+                                                    <span class="stat-label" style="color: #aaa;">Actividad Semanal</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Sección de Estadísticas -->
+                            <div class="profile-card">
+                                <div class="profile-card-header">
+                                    <h4 style="color: white;"><i class="fas fa-chart-bar me-2 text-theme"></i> Estadísticas</h4>
+                                </div>
+                                <div class="profile-card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="stats-box">
+                                                <div class="stats-item">
+                                                    <div class="stats-icon">
+                                                        <i class="fas fa-trophy"></i>
+                                                    </div>
+                                                    <div class="stats-info">
+                                                        <h5 style="color: white;">Torneos</h5>
+                                                        <div class="stats-details">
+                                                            <span style="color: #ddd;">Participados: {{ user.perfil.torneos_participados }}</span>
+                                                            <span style="color: #ddd;">Ganados: {{ user.perfil.torneos_ganados }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="stats-item">
+                                                    <div class="stats-icon">
+                                                        <i class="fas fa-calendar-alt"></i>
+                                                    </div>
+                                                    <div class="stats-info">
+                                                        <h5 style="color: white;">Eventos</h5>
+                                                        <div class="stats-details">
+                                                            <span style="color: #ddd;">Asistidos: {{ user.perfil.eventos_asistidos }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="stats-box">
+                                                <div class="stats-item">
+                                                    <div class="stats-icon">
+                                                        <i class="fas fa-tasks"></i>
+                                                    </div>
+                                                    <div class="stats-info">
+                                                        <h5 style="color: white;">Misiones</h5>
+                                                        <div class="stats-details">
+                                                            <span style="color: #ddd;">Completadas: {{ user.perfil.misiones_completadas }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="stats-item">
+                                                    <div class="stats-icon">
+                                                        <i class="fas fa-medal"></i>
+                                                    </div>
+                                                    <div class="stats-info">
+                                                        <h5 style="color: white;">Rango</h5>
+                                                        <div class="stats-details">
+                                                            <span style="color: #ddd;">{{ user.perfil.get_rango_display }}</span>
+                                                            {% if user.perfil.fecha_ultimo_ascenso %}
+                                                            <span style="color: #ddd;">Ascenso: {{ user.perfil.fecha_ultimo_ascenso|date:"d/m/Y" }}</span>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Sección de Logros -->
+                            <div class="profile-card">
+                                <div class="profile-card-header">
+                                    <h4 style="color: white;"><i class="fas fa-award me-2 text-theme"></i> Logros</h4>
+                                </div>
+                                <div class="profile-card-body">
+                                    {% if user.logros.all %}
+                                    <div class="achievement-list">
+                                        {% for logro_usuario in user.logros.all %}
+                                        <div class="achievement-item" title="{{ logro_usuario.logro.descripcion }}">
+                                            <div class="achievement-icon">
+                                                <i class="{{ logro_usuario.logro.icono }}"></i>
+                                            </div>
+                                            <div class="achievement-info">
+                                                <h5 style="color: white;">{{ logro_usuario.logro.nombre }}</h5>
+                                                <span class="achievement-date" style="color: #aaa;">{{ logro_usuario.fecha_obtenido|date:"d/m/Y" }}</span>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                    <div class="no-items-message">
+                                        <i class="fas fa-trophy"></i>
+                                        <p style="color: #aaa;">Aún no ha desbloqueado ningún logro</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <!-- Sección de Juegos -->
+                            <div class="profile-card">
+                                <div class="profile-card-header">
+                                    <h4 style="color: white;"><i class="fas fa-gamepad me-2 text-theme"></i> Juegos</h4>
+                                </div>
+                                <div class="profile-card-body">
+                                    {% if user.perfiles_juego.all %}
+                                    <div class="games-list">
+                                        {% for perfil_juego in user.perfiles_juego.all %}
+                                        <div class="game-item">
+                                            <div class="game-icon">
+                                                <i class="{{ perfil_juego.juego.icono }}"></i>
+                                            </div>
+                                            <div class="game-info">
+                                                <h5 style="color: white;">{{ perfil_juego.juego.nombre }}
+                                                    {% if perfil_juego.es_juego_principal %}
+                                                    <span class="badge main-game-badge">Principal</span>
+                                                    {% endif %}
+                                                </h5>
+                                                <div class="game-details">
+                                                    {% if perfil_juego.rango_juego %}
+                                                    <span style="color: #ddd;">Rango: {{ perfil_juego.rango_juego }}</span>
+                                                    {% endif %}
+                                                    {% if perfil_juego.personaje_principal %}
+                                                    <span style="color: #ddd;">Main: {{ perfil_juego.personaje_principal }}</span>
+                                                    {% endif %}
+                                                    <span style="color: #ddd;">{{ perfil_juego.horas_jugadas }} horas jugadas</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                    <div class="no-items-message">
+                                        <i class="fas fa-gamepad"></i>
+                                        <p style="color: #aaa;">No hay juegos asociados al perfil</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                    
+                            <!-- Sección de Equipos y Clan -->
+                            <div class="profile-card">
+                                <div class="card-header">
+                                    <h2 style="color: white;"><i class="fas fa-users"></i> Equipos y Clan</h2>
+                                </div>
+                                <div class="card-body">
+                                    <div class="clan-info">
+                                        <div class="clan-badge">
+                                            <img src="{{ clan.logo.url }}" alt="{{ clan.nombre }}">
+                                        </div>
+                                        <div class="clan-details">
+                                            <h3 style="color: white;">{{ clan.nombre }}</h3>
+                                            <p style="color: #aaa;">{{ clan.descripcion }}</p>
+                                            <div class="clan-stats">
+                                                <span style="color: #ddd;"><i class="fas fa-trophy"></i> {{ clan.torneos_ganados }} Torneos</span>
+                                                <span style="color: #ddd;"><i class="fas fa-users"></i> {{ clan.miembros.count }} Miembros</span>
+                                                <span style="color: #ddd;"><i class="fas fa-calendar"></i> Miembro desde {{ perfil.fecha_ingreso_clan|date:"m/Y" }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                    
+                                    <div class="teams-section">
+                                        <h3 style="color: white;"><i class="fas fa-people-group"></i> Equipos</h3>
+                                        <div class="teams-grid">
+                                            {% for equipo in equipos %}
+                                            <div class="team-card">
+                                                <div class="team-logo">
+                                                    <img src="{{ equipo.logo.url }}" alt="{{ equipo.nombre }}">
+                                                </div>
+                                                <div class="team-info">
+                                                    <h4 style="color: white;">{{ equipo.nombre }}</h4>
+                                                    <p style="color: #aaa;">{{ equipo.juego.nombre }}</p>
+                                                    <div class="team-roles">
+                                                        <span class="team-role" style="color: #ddd;">{{ equipo.rol }}</span>
+                                                        {% if equipo.capitan %}
+                                                        <span class="team-captain" style="color: #ddd;"><i class="fas fa-crown"></i> Capitán</span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="team-stats">
+                                                    <span style="color: #ddd;">{{ equipo.partidas_ganadas }}W - {{ equipo.partidas_perdidas }}L</span>
+                                                    <span style="color: #ddd;">{{ equipo.winrate }}% Winrate</span>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                            <!-- Sección de Configuración (solo visible para el usuario dueño del perfil) -->
+                            {% if user == usuario %}
+                            <div class="profile-card settings-card">
+                                <div class="card-header">
+                                    <h2 style="color: white;"><i class="fas fa-cog"></i> Configuración del Perfil</h2>
+                                </div>
+                                <div class="card-body">
+                                    <form class="settings-form">
+                                        <div class="settings-section">
+                                            <h3 style="color: white;"><i class="fas fa-lock"></i> Privacidad</h3>
+                                            <div class="form-group">
+                                                <label>
+                                                    <input type="checkbox" name="show_email" {% if perfil.mostrar_email %}checked{% endif %}>
+                                                    <span style="color: white;">Mostrar mi email público</span>
+                                                </label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>
+                                                    <input type="checkbox" name="show_activity" {% if perfil.mostrar_actividad %}checked{% endif %}>
+                                                    <span style="color: white;">Mostrar mi actividad reciente</span>
+                                                </label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>
+                                                    <input type="checkbox" name="show_stats" {% if perfil.mostrar_estadisticas %}checked{% endif %}>
+                                                    <span style="color: white;">Mostrar mis estadísticas detalladas</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                    
+                                        <div class="settings-section">
+                                            <h3 style="color: white;"><i class="fas fa-bell"></i> Notificaciones</h3>
+                                            <div class="form-group">
+                                                <label>
+                                                    <input type="checkbox" name="notify_tournaments" {% if perfil.notificar_torneos %}checked{% endif %}>
+                                                    <span style="color: white;">Notificarme sobre nuevos torneos</span>
+                                                </label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>
+                                                    <input type="checkbox" name="notify_team" {% if perfil.notificar_equipo %}checked{% endif %}>
+                                                    <span style="color: white;">Notificarme sobre actividad de mi equipo</span>
+                                                </label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>
+                                                    <input type="checkbox" name="notify_friends" {% if perfil.notificar_amigos %}checked{% endif %}>
+                                                    <span style="color: white;">Notificarme cuando mis amigos estén en línea</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                    
+                                        <div class="settings-section">
+                                            <h3 style="color: white;"><i class="fas fa-palette"></i> Apariencia</h3>
+                                            <div class="form-group">
+                                                <label style="color: white;">Tema del perfil</label>
+                                                <select name="theme">
+                                                    <option value="default" {% if perfil.tema == 'default' %}selected{% endif %}>Predeterminado</option>
+                                                    <option value="dark" {% if perfil.tema == 'dark' %}selected{% endif %}>Oscuro</option>
+                                                    <option value="neon" {% if perfil.tema == 'neon' %}selected{% endif %}>Neon</option>
+                                                    <option value="custom" {% if perfil.tema == 'custom' %}selected{% endif %}>Personalizado</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label style="color: white;">Color de acento</label>
+                                                <input type="color" name="accent_color" value="{{ perfil.color_accento|default:'#45F882' }}">
+                                            </div>
+                                        </div>
+                    
+                                        <div class="form-actions">
+                                            <button type="submit" class="save-btn">
+                                                <i class="fas fa-save"></i> Guardar Cambios
+                                            </button>
+                                            <button type="button" class="reset-btn">
+                                                <i class="fas fa-undo"></i> Restablecer
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Tarjeta de estadísticas -->
+                    <div class="profile-card mb-4">
+                        <div class="profile-card-header">
+                            <h4><i class="fas fa-chart-bar me-2 text-theme"></i> Estadísticas</h4>
+                        </div>
+                        <div class="profile-card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="stats-box">
+                                        <div class="stats-item">
+                                            <div class="stats-icon">
+                                                <i class="fas fa-trophy"></i>
+                                            </div>
+                                            <div class="stats-info">
+                                                <h5>Torneos</h5>
+                                                <div class="stats-details">
+                                                    <span>Participados: {{ user.perfil.torneos_participados }}</span>
+                                                    <span>Ganados: {{ user.perfil.torneos_ganados }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="stats-item">
+                                            <div class="stats-icon">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </div>
+                                            <div class="stats-info">
+                                                <h5>Eventos</h5>
+                                                <div class="stats-details">
+                                                    <span>Asistidos: {{ user.perfil.eventos_asistidos }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="stats-box">
+                                        <div class="stats-item">
+                                            <div class="stats-icon">
+                                                <i class="fas fa-tasks"></i>
+                                            </div>
+                                            <div class="stats-info">
+                                                <h5>Misiones</h5>
+                                                <div class="stats-details">
+                                                    <span>Completadas: {{ user.perfil.misiones_completadas }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="stats-item">
+                                            <div class="stats-icon">
+                                                <i class="fas fa-medal"></i>
+                                            </div>
+                                            <div class="stats-info">
+                                                <h5>Rango</h5>
+                                                <div class="stats-details">
+                                                    <span>{{ user.perfil.get_rango_display }}</span>
+                                                    {% if user.perfil.fecha_ultimo_ascenso %}
+                                                    <span>Ascenso: {{ user.perfil.fecha_ultimo_ascenso|date:"d/m/Y" }}</span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Logros -->
+                    <div class="profile-card mb-4">
+                        <div class="profile-card-header">
+                            <h4><i class="fas fa-award me-2 text-theme"></i> Logros</h4>
+                        </div>
+                        <div class="profile-card-body">
+                            {% if user.logros.all %}
+                            <div class="achievement-list">
+                                {% for logro_usuario in user.logros.all %}
+                                <div class="achievement-item" title="{{ logro_usuario.logro.descripcion }}">
+                                    <div class="achievement-icon">
+                                        <i class="{{ logro_usuario.logro.icono }}"></i>
+                                    </div>
+                                    <div class="achievement-info">
+                                        <h5>{{ logro_usuario.logro.nombre }}</h5>
+                                        <span class="achievement-date">{{ logro_usuario.fecha_obtenido|date:"d/m/Y" }}</span>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <div class="no-items-message">
+                                <i class="fas fa-trophy"></i>
+                                <p>Aún no ha desbloqueado ningún logro</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Juegos -->
+                    <div class="profile-card">
+                        <div class="profile-card-header">
+                            <h4><i class="fas fa-gamepad me-2 text-theme"></i> Juegos</h4>
+                        </div>
+                        <div class="profile-card-body">
+                            {% if user.perfiles_juego.all %}
+                            <div class="games-list">
+                                {% for perfil_juego in user.perfiles_juego.all %}
+                                <div class="game-item">
+                                    <div class="game-icon">
+                                        <i class="{{ perfil_juego.juego.icono }}"></i>
+                                    </div>
+                                    <div class="game-info">
+                                        <h5>{{ perfil_juego.juego.nombre }}
+                                            {% if perfil_juego.es_juego_principal %}
+                                            <span class="badge main-game-badge">Principal</span>
+                                            {% endif %}
+                                        </h5>
+                                        <div class="game-details">
+                                            {% if perfil_juego.rango_juego %}
+                                            <span>Rango: {{ perfil_juego.rango_juego }}</span>
+                                            {% endif %}
+                                            {% if perfil_juego.personaje_principal %}
+                                            <span>Main: {{ perfil_juego.personaje_principal }}</span>
+                                            {% endif %}
+                                            <span>{{ perfil_juego.horas_jugadas }} horas jugadas</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <div class="no-items-message">
+                                <i class="fas fa-gamepad"></i>
+                                <p>No hay juegos asociados al perfil</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+
+
+
+
+
+<style>
+/* Estilos generales */
+.text-theme {
+    color: #45F882 !important;
+}
+
+.btn-light {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(69, 248, 130, 0.3);
+    color: white;
+}
+
+.btn-light:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #45F882;
+}
+
+.btn-sm {
+    padding: 8px 15px;
+    font-size: 0.85rem;
+}
+
+/* Estilos del perfil */
+.profile-header {
+    background-color: rgba(15, 23, 43, 0.7);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(69, 248, 130, 0.15);
+    border: 1px solid rgba(69, 248, 130, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.banner-wrapper {
+    position: relative;
+    height: 200px;
+    background-color: rgba(15, 23, 43, 0.5);
+}
+
+.profile-banner {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.profile-banner-placeholder {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, rgba(69, 248, 130, 0.1), rgba(15, 23, 43, 0.8));
+}
+
+.profile-avatar-container {
+    position: absolute;
+    bottom: -50px;
+    left: 30px;
+    z-index: 2;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #0F172B;
+    object-fit: cover;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.profile-avatar-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #0F172B;
+    background-color: rgba(69, 248, 130, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: rgba(69, 248, 130, 0.7);
+}
+
+.profile-status {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #0F172B;
+}
+
+.profile-status.online {
+    background-color: #45F882;
+}
+
+.profile-status.away {
+    background-color: #FFC107;
+}
+
+.profile-status.busy {
+    background-color: #DC3545;
+}
+
+.profile-status.offline {
+    background-color: #6C757D;
+}
+
+.profile-info-header {
+    padding: 60px 30px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.profile-nickname {
+    font-size: 2rem;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.profile-badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.rank-badge {
+    background-color: rgba(69, 248, 130, 0.2);
+    color: #45F882;
+    border: 1px solid rgba(69, 248, 130, 0.3);
+}
+
+.role-badge {
+    background-color: rgba(255, 193, 7, 0.2);
+    color: #FFC107;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.specialty-badge {
+    background-color: rgba(13, 110, 253, 0.2);
+    color: #0D6EFD;
+    border: 1px solid rgba(13, 110, 253, 0.3);
+}
+
+.subleader-badge {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #DC3545;
+    border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+.main-game-badge {
+    background-color: rgba(69, 248, 130, 0.2);
+    color: #45F882;
+    font-size: 0.7rem;
+    padding: 3px 8px;
+}
+
+.th-btn {
+    background: linear-gradient(90deg, #45F882 0%, #32B864 100%);
+    color: #0F172B;
+    font-weight: 600;
+    padding: 10px 25px;
+    border-radius: 5px;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(69, 248, 130, 0.5);
+    display: inline-flex;
+    align-items: center;
+}
+
+.th-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(69, 248, 130, 0.7);
+    color: #0F172B;
+}
+
+/* Tarjetas del perfil */
+.profile-card {
+    background-color: rgba(15, 23, 43, 0.7);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(69, 248, 130, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.profile-card-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(69, 248, 130, 0.2);
+}
+
+.profile-card-header h4 {
+    color: white;
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.profile-card-body {
+    padding: 20px;
+}
+
+/* Información del usuario */
+.profile-info-item {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.info-label {
+    min-width: 120px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+}
+
+.info-value {
+    color: white;
+}
+
+.profile-bio {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(69, 248, 130, 0.2);
+}
+
+.bio-text {
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+}
+
+.profile-social {
+    display: flex;
+    gap: 15px;
+    padding: 15px 20px;
+    border-top: 1px solid rgba(69, 248, 130, 0.2);
+}
+
+.social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(69, 248, 130, 0.3);
+}
+
+.social-link:hover {
+    background: #45F882;
+    color: #0F172B;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(69, 248, 130, 0.5);
+}
+
+/* Nivel y experiencia */
+.level-display {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.level-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #45F882, #32B864);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 0 20px rgba(69, 248, 130, 0.5);
+}
+
+.level-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0F172B;
+}
+
+.level-info {
+    flex-grow: 1;
+}
+
+.progress-wrapper {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.level-progress {
+    position: relative;
+}
+
+.progress {
+    height: 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, #45F882, #32B864);
+    height: 100%;
+}
+
+.progress-text {
+    position: absolute;
+    bottom: -20px;
+    right: 0;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.level-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.stat-value {
+    color: #45F882;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.stat-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+}
+
+/* Estadísticas */
+.stats-box {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.stats-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: rgba(15, 23, 43, 0.7);
+    border-radius: 10px;
+    border: 1px solid rgba(69, 248, 130, 0.2);
+}
+
+.stats-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(69, 248, 130, 0.2), rgba(69, 248, 130, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #45F882;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.stats-info {
+    flex-grow: A;
+}
+
+.stats-info h5 {
+    color: white;
+    margin: 0 0 5px 0;
+    font-size: 1rem;
+}
+
+.stats-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.stats-details span {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+}
+
+/* Logros */
+.achievement-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.achievement-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: rgba(15, 23, 43, 0.7);
+    border-radius: 10px;
+    border: 1px solid rgba(69, 248, 130, 0.2);
+    transition: all 0.3s ease;
+}
+
+.achievement-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(69, 248, 130, 0.3);
+}
+
+.achievement-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(255, 193, 7, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #FFC107;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.achievement-info h5 {
+    color: white;
+    margin: 0 0 5px 0;
+    font-size: 0.9rem;
+}
+
+.achievement-date {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.75rem;
+}
+
+/* Juegos */
+.games-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.game-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: rgba(15, 23, 43, 0.7);
+    border-radius: 10px;
+    border: 1px solid rgba(69, 248, 130, 0.2);
+}
+
+.game-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(255, 193, 7, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #FFC107;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.game-info h5 {
+    color: white;
+    margin: 0 0 5px 0;
+    font-size: 0.9rem;
+}
+
+.game-date {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.75rem;
+}
+
+/* Estilos para el perfil de usuario */
+.profile-page-1 {
+    background-color: var(--wolves-bg);
+}
+/* Estilos para el juego principal detallado */
+.main-game-card {
+    border: 1px solid rgba(69, 248, 130, 0.3);
+    box-shadow: 0 0 30px rgba(69, 248, 130, 0.1);
+}
+
+.game-rank-progress {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: rgba(15, 23, 43, 0.5);
+    border-radius: 10px;
+}
+
+.rank-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.rank-info img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.rank-info h3 {
+    color: var(--light);
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.rank-info p {
+    color: var(--light-70);
+    margin: 5px 0 0;
+    font-size: 0.9rem;
+}
+
+.rank-progress {
+    flex: 1;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    color: var(--light-70);
+    font-size: 0.85rem;
+}
+
+.game-stats-detailed {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.stat-chart {
+    background-color: rgba(15, 23, 43, 0.5);
+    border-radius: 8px;
+    padding: 15px;
+    border: 1px solid rgba(69, 248, 130, 0.1);
+    height: 200px;
+    position: relative;
+}
+
+.chart-label {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--light-70);
+    font-size: 0.9rem;
+}
+
+.chart-label i {
+    color: var(--primary);
+}
+
+.recent-matches h3 {
+    color: var(--light);
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.matches-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.match-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 6px;
+    background-color: rgba(15, 23, 43, 0.5);
+    border-left: 4px solid transparent;
+}
+
+.match-item.win {
+    border-left-color: var(--primary);
+}
+
+.match-item.loss {
+    border-left-color: var(--accent);
+}
+
+.match-result {
+    width: 30px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.match-item.win .match-result i {
+    color: var(--primary);
+}
+
+.match-item.loss .match-result i {
+    color: var(--accent);
+}
+
+.match-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.match-mode {
+    color: var(--light);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.match-map {
+    color: var(--light-70);
+    font-size: 0.8rem;
+}
+
+.match-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 20px;
+}
+
+.match-kda {
+    color: var(--light);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.match-duration {
+    color: var(--light-70);
+    font-size: 0.8rem;
+}
+
+.match-time {
+    color: var(--light-70);
+    font-size: 0.8rem;
+    min-width: 70px;
+    text-align: right;
+}
+
+/* Estilos para equipos y clan */
+.clan-info {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(69, 248, 130, 0.1);
+}
+
+.clan-badge {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--primary);
+    box-shadow: 0 0 15px rgba(69, 248, 130, 0.3);
+}
+
+.clan-badge img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.clan-details {
+    flex: 1;
+}
+
+.clan-details h3 {
+    color: var(--light);
+    margin: 0 0 5px;
+    font-size: 1.3rem;
+}
+
+.clan-details p {
+    color: var(--light-70);
+    margin: 0 0 10px;
+    font-size: 0.9rem;
+}
+
+.clan-stats {
+    display: flex;
+    gap: 15px;
+}
+
+.clan-stats span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--light-70);
+    font-size: 0.8rem;
+}
+
+.clan-stats i {
+    color: var(--primary);
+    font-size: 0.9rem;
+}
+
+.teams-section h3 {
+    color: var(--light);
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.teams-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.team-card {
+    background-color: rgba(15, 23, 43, 0.5);
+    border-radius: 8px;
+    padding: 15px;
+    border: 1px solid rgba(69, 248, 130, 0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    gap: 15px;
+}
+
+.team-card:hover {
+    border-color: rgba(69, 248, 130, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.team-logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.team-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.team-info {
+    flex: 1;
+}
+
+.team-info h4 {
+    color: var(--light);
+    margin: 0 0 3px;
+    font-size: 1rem;
+}
+
+.team-info p {
+    color: var(--light-70);
+    margin: 0 0 5px;
+    font-size: 0.8rem;
+}
+
+.team-roles {
+    display: flex;
+    gap: 8px;
+}
+
+.team-role {
+    background-color: rgba(69, 248, 130, 0.1);
+    color: var(--primary);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.team-captain {
+    background-color: rgba(255, 215, 0, 0.1);
+    color: #FFD700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.team-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 0.8rem;
+}
+
+.team-stats span:first-child {
+    color: var(--light);
+    font-weight: 500;
+}
+
+.team-stats span:last-child {
+    color: var(--light-70);
+}
+
+/* Estilos para la configuración */
+.settings-card {
+    border: 1px solid rgba(69, 248, 130, 0.3);
+    box-shadow: 0 0 30px rgba(69, 248, 130, 0.1);
+}
+
+.settings-section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(69, 248, 130, 0.1);
+}
+
+.settings-section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.settings-section h3 {
+    color: var(--light);
+    font-size: 1rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.settings-section h3 i {
+    color: var(--primary);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--light-70);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.form-group label input[type="checkbox"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(69, 248, 130, 0.5);
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form-group label input[type="checkbox"]:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.form-group label input[type="checkbox"]:checked::after {
+    content: '\f00c';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--dark);
+    font-size: 0.7rem;
+}
+
+.form-group label span {
+    flex: 1;
+}
+
+.form-group select, 
+.form-group input[type="color"] {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(69, 248, 130, 0.3);
+    color: var(--light);
+    padding: 8px 12px;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 250px;
+    transition: all 0.3s ease;
+}
+
+.form-group select:focus, 
+.form-group input[type="color"]:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 10px rgba(69, 248, 130, 0.3);
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.save-btn, .reset-btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.save-btn {
+    background-color: var(--primary);
+    color: var(--dark);
+    border: none;
+}
+
+.save-btn:hover {
+    background-color: var(--light);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(69, 248, 130, 0.5);
+}
+
+.reset-btn {
+    background-color: transparent;
+    color: var(--light-70);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.reset-btn:hover {
+    color: var(--light);
+    border-color: var(--light-70);
+}
+
+/* Responsive adicional */
+@media (max-width: 768px) {
+    .game-rank-progress {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .game-stats-detailed {
+        grid-template-columns: 1fr;
+    }
+    
+    .clan-info {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .clan-stats {
+        justify-content: center;
+    }
+    
+    .team-card {
+        flex-direction: column;
+    }
+    
+    .team-stats {
+        align-items: flex-start;
+        margin-top: 10px;
+    }
+}
+
+/* Animaciones adicionales */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0px); }
+}
+
+.team-card:hover {
+    animation: float 2s ease-in-out infinite;
+}
+
+.stat-card {
+    background-color: rgba(15, 23, 43, 0.7);
+    border-radius: 10px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-color: rgba(69, 248, 130, 0.3);
+    background-color: rgba(69, 248, 130, 0.05);
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dark);
+    font-size: 1.2rem;
+}
+
+.stat-data {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--light);
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--light-50);
+    margin-top: 3px;
+}
+
+.stat-chart {
+    width: 60px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-trend {
+    font-size: 1.4rem;
+}
+
+.trend-up {
+    color: var(--primary);
+}
+
+.trend-down {
+    color: var(--accent);
+}
+
+/* Barra de XP */
+.xp-bar-container {
+    margin-top: 15px;
+}
+
+.xp-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.85rem;
+    color: var(--light-70);
+}
+
+.xp-bar {
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+.xp-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--light-green));
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.xp-bar-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0) 0%, 
+        rgba(255, 255, 255, 0.3) 50%, 
+        rgba(255, 255, 255, 0) 100%);
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Columna lateral derecha */
+.profile-card-side {
+    width: 250px;
+    padding: 20px;
+    background-color: rgba(10, 18, 37, 0.5);
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0 10px 10px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.side-section {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.side-section h3 {
+    margin: 0 0 10px 0;
+    font-size: 1rem;
+    color: var(--light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.side-section h3 i {
+    color: var(--primary);
+}
+
+.game-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.game-tag {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+    padding: 5px 8px;
+    font-size: 0.8rem;
+    color: var(--light-70);
+}
+
+.game-tag img {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+}
+
+.game-tag.main {
+    background-color: rgba(69, 248, 130, 0.1);
+    border: 1px solid rgba(69, 248, 130, 0.2);
+    color: var(--primary);
+}
+
+.info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.info-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.info-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 5px;
+    background-color: rgba(69, 248, 130, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    font-size: 0.9rem;
+}
+
+.info-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-label {
+    font-size: 0.7rem;
+    color: var(--light-50);
+}
+
+.info-value {
+    font-size: 0.85rem;
+    color: var(--light);
+}
+
+.location-flag {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.location-flag img {
+    width: 16px;
+    height: 12px;
+    border-radius: 2px;
+}
+
+.achievement-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.achievement-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.achievement-item:hover {
+    transform: translateX(5px);
+    background-color: rgba(69, 248, 130, 0.05);
+    border-color: rgba(69, 248, 130, 0.2);
+}
+
+.achievement-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dark);
+    font-size: 1.2rem;
+}
+
+.achievement-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.achievement-name {
+    font-size: 0.85rem;
+    color: var(--light);
+    font-weight: 600;
+}
+
+.achievement-desc {
+    font-size: 0.75rem;
+    color: var(--light-50);
+}
+
+.achievement-date {S
+    font-size: 0.7rem;
+    color: var(--primary);
+    margin-top: 3px;
+}
+
+/* Elementos flotantes decorativos */
+.floating-decorations {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.floating-item {
+    position: absolute;
+    color: var(--primary-glow);
+    opacity: 0.2;
+    font-size: 2rem;
+    animation: float 10s ease-in-out infinite;
+}
+
+.floating-item.f1 {
+    top: 10%;
+    left: 5%;
+    animation-delay: 0s;
+}
+
+.floating-item.f2 {
+    top: 20%;
+    right: 10%;
+    animation-delay: 2s;
+}
+
+.floating-item.f3 {
+    bottom: 15%;
+    left: 15%;
+    animation-delay: 4s;
+}
+
+.floating-item.f4 {
+    bottom: 30%;
+    right: 5%;
+    animation-delay: 6s;
+}
+
+@keyframes float {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(10px, 10px) rotate(5deg); }
+    50% { transform: translate(0, 20px) rotate(0deg); }
+    75% { transform: translate(-10px, 10px) rotate(-5deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .profile-card {
+        flex-wrap: wrap;
+    }
+    
+    .profile-card-sidebar {
+        width: 250px;
+        order: 1;
+    }
+    
+    .profile-card-main {
+        flex: 1;
+        min-width: calc(100% - 550px);
+        order: 2;
+    }
+    
+    .profile-card-side {
+        width: 250px;
+        order: 3;
+    }
+}
+
+@media (max-width: 992px) {
+    .profile-card {
+        flex-direction: column;
+    }
+    
+    .profile-card-sidebar {
+        width: 100%;
+        order: 1;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding-bottom: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    
+    .avatar-showcase {
+        flex: 0 0 150px;
+    }
+    
+    .profile-card-main {
+        width: 100%;
+        order: 2;
+    }
+    
+    .profile-card-side {
+        width: 100%;
+        order: 3;
+        border-left: none;
+        border-radius: 0 0 10px 10px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .stats-cards {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .side-sections-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    
+    .side-section {
+        flex: 1;
+        min-width: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-card-sidebar {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .user-identity {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+    
+    .username-block {
+        text-align: center;
+    }
+    
+    .profile-username {
+        justify-content: center;
+    }
+    
+    .specialties {
+        justify-content: center;
+    }
+    
+    .rank-progress-panel {
+        justify-content: center;
+    }
+    
+    .stats-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .info-item, .achievement-item {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 576px) {
+    .stat-chart {
+        display: none;
+    }
+    
+    .profile-username {
+        font-size: 1.8rem;
+    }
+    
+    .social-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+/* Animaciones y efectos */
+.profile-card {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.stats-cards > div {
+    opacity: 0;
+    animation: fadeInRight 0.4s ease-out forwards;
+}
+
+.stats-cards > div:nth-child(1) { animation-delay: 0.2s; }
+.stats-cards > div:nth-child(2) { animation-delay: 0.3s; }
+.stats-cards > div:nth-child(3) { animation-delay: 0.4s; }
+.stats-cards > div:nth-child(4) { animation-delay: 0.5s; }
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.achievement-item {
+    opacity: 0;
+    animation: fadeInLeft 0.4s ease-out forwards;
+}
+
+.achievement-item:nth-child(1) { animation-delay: 0.3s; }
+.achievement-item:nth-child(2) { animation-delay: 0.4s; }
+.achievement-item:nth-child(3) { animation-delay: 0.5s; }
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Variables de color */
+:root {
+    --primary: #45F882;
+    --primary-dark: #36C668;
+    --primary-glow: rgba(69, 248, 130, 0.3);
+    --light-green: #70FFAB;
+    --dark: #0F172B;
+    --darker: #0A1225;
+    --light: #FFFFFF;
+    --light-70: rgba(255, 255, 255, 0.7);
+    --light-50: rgba(255, 255, 255, 0.5);
+    --accent: #FF5F85;
+    --accent-glow: rgba(255, 95, 133, 0.3);
+    --twitch: #9147FF;
+    --discord: #5865F2;
+    --youtube: #FF0000;
+    --twitter: #1DA1F2;
+    --instagram: #E1306C;
+}
+
+.action-btn.more-options:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--light);
+}
+
+/* Social links */
+.social-links {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.social-link {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.social-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    z-index: -1;
+    transition: all 0.2s ease;
+}
+
+.social-link:hover::before {
+    transform: scale(1.2);
+}
+
+.social-link.discord {
+    color: var(--discord);
+}
+
+.social-link.twitch {
+    color: var(--twitch);
+}
+
+.social-link.youtube {
+    color: var(--youtube);
+}
+
+.social-link.twitter {
+    color: var(--twitter);
+}
+
+.social-link.instagram {
+    color: var(--instagram);
+}
+
+.social-link.steam {
+    color: var(--steam);
+}
+
+.social-link.tiktok {
+    color: var(--tiktok);
+}
+
+.social-link.spotify {
+    color: var(--spotify);
+}
+
+.social-link.website {
+    color: var(--light-70);
+}
+
+.social-link:hover {
+    transform: translateY(-3px);
+}
+
+.social-link.discord:hover {
+    color: var(--discord);
+    box-shadow: 0 5px 15px rgba(88, 101, 242, 0.4);
+}
+
+.social-link.twitch:hover {
+    color: var(--twitch);
+    box-shadow: 0 5px 15px rgba(145, 71, 255, 0.4);
+}
+
+.social-link.youtube:hover {
+    color: var(--youtube);
+    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+}
+
+.social-link.twitter:hover {
+    color: var(--twitter);
+    box-shadow: 0 5px 15px rgba(29, 161, 242, 0.4);
+}
+
+.social-link.instagram:hover {
+    color: var(--instagram);
+    box-shadow: 0 5px 15px rgba(225, 48, 108, 0.4);
+}
+
+/* Métricas del perfil */
+.profile-metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.metric-item {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 10px;
+    min-width: 100px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.metric-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.metric-item:hover::before {
+    opacity: 1;
+}
+
+.metric-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--light);
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.metric-label {
+    font-size: 0.8rem;
+    color: var(--light-50);
+    margin-top: 5px;
+    transition: color 0.3s ease;
+}
+
+.metric-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.metric-item:hover .metric-value {
+    transform: scale(1.1);
+    color: var(--primary);
+}
+
+.metric-item:hover .metric-label {
+    color: var(--light-70);
+}
+
+.metric-icon {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    font-size: 2rem;
+    color: rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.metric-item:hover .metric-icon {
+    color: rgba(69, 248, 130, 0.1);
+    transform: rotate(15deg) scale(1.2);
+}
+
+/* Componentes adicionales */
+.banner-customization-menu {
+    position: absolute;
+    top: 50px;
+    right: 15px;
+    background-color: var(--darker);
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    width: 200px;
+    z-index: 10;
+    display: none;
+    animation: fadeIn 0.2s ease;
+}
+
+.banner-customization-menu.show {
+    display: block;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.menu-item i {
+    color: var(--primary);
+}
+
+.menu-item span {
+    color: var(--light-70);
+    font-size: 0.9rem;
+}
+
+/* Tooltip personalizado */
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--darker);
+    color: var(--light);
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 1000;
+}
+
+[data-tooltip]::before {
+    content: '';
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--darker) transparent transparent transparent;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 1000;
+}
+
+[data-tooltip]:hover::after,
+[data-tooltip]:hover::before {
+    opacity: 1;
+    visibility: visible;
+    bottom: 130%;
+}
+
+/* Animaciones para el encabezado */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.profile-header-container {
+    animation: fadeIn 0.4s ease;
+}
+
+.profile-nickname {
+    animation: slideInRight 0.4s ease 0.1s both;
+}
+
+.profile-badges {
+    animation: slideInRight 0.4s ease 0.2s both;
+}
+
+.profile-level {
+    animation: pulse 2s infinite;
+}
+
+/* Variables adicionales de colores */
+:root {
+    --primary: #45F882;
+    --primary-dark: #36C668;
+    --primary-glow: rgba(69, 248, 130, 0.3);
+    --accent: #FF5F85;
+    --accent-glow: rgba(255, 95, 133, 0.3);
+    --dark: #0F172B;
+    --darker: #0A1225;
+    --light: #FFFFFF;
+    --light-90: rgba(255, 255, 255, 0.9);
+    --light-70: rgba(255, 255, 255, 0.7);
+    --light-50: rgba(255, 255, 255, 0.5);
+    --light-30: rgba(255, 255, 255, 0.3);
+    --light-20: rgba(255, 255, 255, 0.2);
+    --light-10: rgba(255, 255, 255, 0.1);
+    --discord: #5865F2;
+    --twitch: #9147FF;
+    --youtube: #FF0000;
+    --twitter: #1DA1F2;
+    --instagram: #E1306C;
+}
+
+/* Responsividad mejorada */
+@media (max-width: 992px) {
+    .profile-header {
+        flex-direction: column;
+    }
+    
+    .profile-avatar-container {
+        margin: -50px auto 20px;
+    }
+    
+    .profile-info-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .profile-name-section {
+        margin-bottom: 15px;
+    }
+    
+    .profile-metrics {
+        justify-content: center;
+    }
+    
+    .profile-badges .badges-row {
+        justify-content: center;
+    }
+    
+    .profile-actions-container {
+        margin-top: 20px;
+        align-items: center;
+    }
+    
+    .social-links {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-top-bar {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .quick-actions {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .profile-level {
+        right: 10px;
+    }
+    
+    .profile-badges .badge {
+        padding: 5px 8px;
+        font-size: 0.7rem;
+    }
+    
+    .badge-icon {
+        width: 20px;
+        height: 20px;
+        font-size: 0.8rem;
+    }
+    
+    .profile-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .profile-metrics {
+        gap: 8px;
+    }
+    
+    .metric-item {
+        padding: 8px;
+        min-width: auto;
+    }
+    
+    .metric-value {
+        font-size: 1.2rem;
+    }
+    
+    .metric-label {
+        font-size: 0.7rem;
+    }
+}
+</style>
+
+<!-- Script para inicializar gráficos y funcionalidades -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar charts
+        initCharts();
+        
+        // Animar contador de XP
+        animateCounter('xp-counter');
+        animateCounter('tourneys-count');
+        animateCounter('amigos-count');
+        
+        // Efectos de parallax
+        window.addEventListener('scroll', function() {
+            const hero = document.querySelector('.parallax-bg');
+            const scrollY = window.scrollY;
+            hero.style.backgroundPositionY = `${scrollY * 0.5}px`;
+        });
+        
+        // Inicializar tooltips
+        tippy('[data-tooltip]', {
+            theme: 'wolves',
+            placement: 'top',
+            animation: 'scale'
+        });
+    }
+
+
+    
+    
+    function initCharts() {
+        // Win Rate Chart (círculo)
+        const winRateCtx = document.getElementById('winRateChart');
+        if (winRateCtx) {
+            new Chart(winRateCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Victorias', 'Derrotas'],
+                    datasets: [{
+                        data: [{{ perfil.partidas_ganadas|default:"65" }}, {{ perfil.partidas_perdidas|default:"35" }}],
+                        backgroundColor: ['#45F882', '#FF5F85'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: '70%',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false }
+                    }
+                }
+            });
+        }
+        
+        // XP Chart (línea)
+        const xpChartCtx = document.getElementById('xpChart');
+        if (xpChartCtx) {
+            new Chart(xpChartCtx, {
+                type: 'line',
+                data: {
+                    labels: ['', '', '', '', '', ''],
+                    datasets: [{
+                        data: [10, 30, 25, 45, 40, 60],
+                        borderColor: '#45F882',
+                        backgroundColor: 'rgba(69, 248, 130, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false }
+                    },
+                    scales: {
+                        y: { display: false },
+                        x: { display: false }
+                    },
+                    elements: {
+                        point: { radius: 0 }
+                    }
+                }
+            });
+        }
+    }
+
+    
+    function animateCounter(elementId) {
+        const element = document.getElementById(elementId);
+        if (!element) return;
+        
+        const finalValue = parseInt(element.innerText);
+        if (isNaN(finalValue)) return;
+        
+        let startValue = 0;
+        const duration = 2000;
+        const increment = finalValue / (duration / 20);
+        
+        const timer = setInterval(() => {
+            startValue += increment;
+            if (startValue >= finalValue) {
+                element.innerText = finalValue;
+                clearInterval(timer);
+            } else {
+                element.innerText = Math.floor(startValue);
+            }
+        }, 20);
+    }
+
+ 
+document.addEventListener('DOMContentLoaded', function() {
+    // Tooltips para las insignias
+    const badges = document.querySelectorAll('[data-tooltip]');
+    badges.forEach(badge => {
+        const tooltip = badge.getAttribute('data-tooltip');
+        if (tooltip) {
+            // Si tienes Tippy.js
+            if (typeof tippy !== 'undefined') {
+                tippy(badge, {
+                    content: tooltip,
+                    placement: 'top',
+                    theme: 'gameverse'
+                });
+            }
+        }
+    });
+    
+    // Mostrar/ocultar menú de personalización del banner
+    const customizeBannerBtn = document.querySelector('.customize-banner-btn');
+    const bannerMenu = document.getElementById('bannerCustomizationMenu');
+    
+    if (customizeBannerBtn && bannerMenu) {
+        customizeBannerBtn.addEventListener('click', function() {
+            bannerMenu.style.display = bannerMenu.style.display === 'block' ? 'none' : 'block';
+        });
+        
+        // Cerrar menú al hacer clic fuera de él
+        document.addEventListener('click', function(event) {
+            if (!bannerMenu.contains(event.target) && !customizeBannerBtn.contains(event.target)) {
+                bannerMenu.style.display = 'none';
+            }
+        });
+    }
+    
+    // Copiar ID de Discord al portapapeles
+    const discordBtn = document.getElementById('copyDiscord');
+    if (discordBtn) {
+        discordBtn.addEventListener('click', function() {
+            const discordId = this.getAttribute('data-discord');
+            navigator.clipboard.writeText(discordId).then(() => {
+                // Feedback visual de copiado
+                const originalTitle = this.getAttribute('title');
+                this.setAttribute('title', '¡Copiado!');
+                setTimeout(() => {
+                    this.setAttribute('title', originalTitle);
+                }, 2000);
+            });
+        });
+    }
+    
+    // Menú desplegable de más opciones
+    const moreOptionsBtn = document.querySelector('.more-options');
+    const actionsDropdown = document.querySelector('.actions-dropdown');
+    
+    if (moreOptionsBtn && actionsDropdown) {
+        moreOptionsBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            actionsDropdown.style.display = actionsDropdown.style.display === 'block' ? 'none' : 'block';
+        });
+        
+        document.addEventListener('click', function(event) {
+            if (!actionsDropdown.contains(event.target) && !moreOptionsBtn.contains(event.target)) {
+                actionsDropdown.style.display = 'none';
+            }
+        });
+    }
+    
+    // Simulación de verificación de estado en línea
+    const onlineIndicator = document.querySelector('.status-indicator');
+    if (onlineIndicator) {
+        setInterval(function() {
+            // En un entorno real, aquí harías una petición AJAX
+            fetch('/api/check-online-status/')
+                .then(response => response.json())
+                .catch(() => {
+                    // Simulación de cambio aleatorio (para demo)
+                    if (Math.random() > 0.8) {
+                        const statusClasses = ['online', 'away', 'busy', 'offline'];
+                        const currentClass = Array.from(onlineIndicator.classList).find(cls => 
+                            statusClasses.includes(cls));
+                        
+                        onlineIndicator.classList.remove(currentClass);
+                        
+                        // Elegir un nuevo estado aleatorio
+                        const newStatus = statusClasses[Math.floor(Math.random() * statusClasses.length)];
+                        onlineIndicator.classList.add(newStatus);
+                        
+                        // Actualizar el texto del estado
+                        const statusText = document.querySelector('.status-text');
+                        if (statusText) {
+                            const statusLabels = {
+                                'online': 'En línea',
+                                'away': 'Ausente',
+                                'busy': 'Ocupado',
+                                'offline': 'Desconectado'
+                            };
+                            statusText.textContent = statusLabels[newStatus];
+                        }
+                    }
+                });
+        }, 30000);
+    }
+});
+
+</script>
+{% endblock %}
+
