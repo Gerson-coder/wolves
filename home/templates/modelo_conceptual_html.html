@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelo Conceptual SIGTI - Pantalla Completa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --primary-dark: #2980b9;
+            --accent-color: #2ecc71;
+            --accent-dark: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-bg: #f5f7fa;
+            --dark-color: #2c3e50;
+            --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --hover-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .page-title {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            z-index: 30;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 5px 20px;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+        }
+
+        /* Modelo Conceptual */
+        .model-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: white;
+        }
+
+        /* Estilos para las entidades */
+        .entity-diagram {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-origin: center center;
+            transform: scale(1.15);
+        }
+
+        .entity {
+            position: absolute;
+            width: 240px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            z-index: 5;
+        }
+
+        .entity-primary {
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .entity-support {
+            border-top: 5px solid var(--accent-color);
+        }
+
+        .entity-header {
+            padding: 15px;
+            color: var(--dark-color);
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.3rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: rgba(240, 240, 240, 0.5);
+        }
+
+        .entity-body {
+            padding: 15px;
+        }
+
+        .attribute {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 1rem;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .attribute:last-child {
+            border-bottom: none;
+        }
+
+        .attribute i {
+            margin-right: 12px;
+            color: var(--primary-color);
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .entity-support .attribute i {
+            color: var(--accent-color);
+        }
+
+        .primary-key {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .entity-support .primary-key {
+            color: var(--accent-color);
+        }
+
+        /* Relaciones */
+        .relationship-line {
+            position: absolute;
+            height: 3px;
+            background-color: var(--primary-dark);
+            transform-origin: left;
+            z-index: 1;
+        }
+
+        .relationship-label {
+            position: absolute;
+            background-color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+            text-align: center;
+            min-width: 80px;
+            font-weight: 500;
+        }
+
+        .cardinality {
+            display: inline-block;
+            background-color: var(--warning-color);
+            color: white;
+            padding: 1px 6px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin: 0 3px;
+        }
+
+        /* Notas */
+        .note {
+            position: absolute;
+            width: 220px;
+            background-color: #fff8dc;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            padding: 15px;
+            z-index: 3;
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .note-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+            font-size: 1.1rem;
+        }
+
+        .note-content {
+            font-size: 1rem;
+        }
+
+        .note ul, .note ol {
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+
+        /* Leyenda */
+        .legend {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            padding: 15px;
+            z-index: 20;
+            min-width: 200px;
+        }
+
+        .legend-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-align: center;
+            color: var(--dark-color);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .legend-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+        }
+
+        .color-primary {
+            background-color: var(--primary-color);
+        }
+
+        .color-accent {
+            background-color: var(--accent-color);
+        }
+
+        .color-warning {
+            background-color: var(--warning-color);
+        }
+    </style>
+</head>
+<body>
+    <h1 class="page-title">Modelo Conceptual SIGTI - Sistema de Gestión de Tickets</h1>
+    
+    <div class="model-container">
+        <div class="legend" id="legend">
+            <h3 class="legend-title">Leyenda</h3>
+            <div class="legend-item">
+                <div class="legend-icon"><div class="legend-color color-primary"></div></div>
+                <span>Entidades Principales</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-icon"><div class="legend-color color-accent"></div></div>
+                <span>Entidades de Soporte</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-icon"><div class="legend-color color-warning"></div></div>
+                <span>Notas y Restricciones</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-icon"><i class="fas fa-key" style="color: var(--primary-color);"></i></div>
+                <span>Clave Primaria (PK)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-icon"><span class="cardinality">1:n</span></div>
+                <span>Cardinalidad</span>
+            </div>
+        </div>
+
+        <div class="entity-diagram" id="entityDiagram">
+            <!-- Entidades Principales -->
+            <div class="entity entity-primary" id="entity-usuario" style="top: 120px; left: 100px;">
+                <div class="entity-header">
+                    <i class="fas fa-user"></i> Usuario
+                </div>
+                <div class="entity-body">
+                    <div class="attribute"><i class="fas fa-signature"></i> nombre</div>
+                    <div class="attribute"><i class="fas fa-id-card"></i> dni</div>
+                    <div class="attribute"><i class="fas fa-briefcase"></i> cargo</div>
+                    <div class="attribute"><i class="fas fa-building"></i> area</div>
+                    <div class="attribute"><i class="fas fa-envelope"></i> email</div>
+                    <div class="attribute"><i class="fas fa-phone"></i> telefono</div>
+                    <div class="attribute"><i class="fas fa-calendar"></i> fecha_registro</div>
+                    <div class="attribute"><i class="fas fa-toggle-on"></i> estado</div>
+                    <div class="attribute primary-key"><i class="fas fa-key"></i> id_usuario (PK)</div>
+                </div>
+            </div>
+
+            <div class="entity entity-primary" id="entity-sar" style="top: 120px; left: 520px;">
+                <div class="entity-header">
+                    <i class="fas fa-file-alt"></i> SAR
+                </div>
+                <div class="entity-body">
+                    <div class="attribute"><i class="fas fa-hashtag"></i> codigo</div>
+                    <div class="attribute"><i class="fas fa-calendar-plus"></i> fecha_creacion</div>
+                    <div class="attribute"><i class="fas fa-calendar-times"></i> fecha_limite</div>
+                    <div class="attribute"><i class="fas fa-tag"></i> tipo</div>
+                    <div class="attribute"><i class="fas fa-exclamation-circle"></i> urgencia</div>
+                    <div class="attribute"><i class="fas fa-align-left"></i> descripcion</div>
+                    <div class="attribute"><i class="fas fa-check-circle"></i> estado</div>
+                    <div class="attribute"><i class="fas fa-signature"></i> firma_digital</div>
+                    <div class="attribute primary-key"><i class="fas fa-key"></i> id_sar (PK)</div>
+                </div>
+            </div>
+
+            <div class="entity entity-primary" id="entity-ticket" style="top: 420px; left: 520px;">
+                <div class="entity-header">
+                    <i class="fas fa-ticket-alt"></i> Ticket
+                </div>
+                <div class="entity-body">
+                    <div class="attribute"><i class="fas fa-hashtag"></i> codigo</div>
+                    <div class="attribute"><i class="fas fa-calendar-day"></i> fecha_asignacion</div>
+                    <div class="attribute"><i class="fas fa-sort-amount-up"></i> prioridad</div>
+                    <div class="attribute"><i class="fas fa-layer-group"></i> complejidad</div>
+                    <div class="attribute"><i class="fas fa-hourglass-half"></i> horas_estimadas</div>
+                    <div class="attribute"><i class="fas fa-tasks"></i> estado</div>
+                    <div class="attribute primary-key"><i class="fas fa-key"></i> id_ticket (PK)</div>
+                </div>
+            </div>
+
+            <div class="entity entity-primary" id="entity-solucion" style="top: 650px; left: 310px;">
+                <div class="entity-header">
+                    <i class="fas fa-check-double"></i> Solución
+                </div>
+                <div class="entity-body">
+                    <div class="attribute"><i class="fas fa-align-left"></i> descripcion</div>
+                    <div class="attribute"><i class="fas fa-calendar-check"></i> fecha_implementacion</div>
+                    <div class="attribute"><i class="fas fa-code-branch"></i> version</div>
+                    <div class="attribute"><i class="fab fa-github"></i> repositorio</div>
+                    <div class="attribute"><i class="fas fa-vial"></i> resultado_pruebas</div>
+                    <div class="attribute primary-key"><i class="fas fa-key"></i> id_solucion (PK)</div>
+                </div>
+            </div>
+
+            <div class="entity entity-primary" id="entity-documento" style="top: 250px; left: 940px;">
+                <div class="entity-header">
+                    <i class="fas fa-file"></i> Documento
+                </div>
+                <div class="entity-body">
+                    <div class="attribute"><i class="fas fa-signature"></i> nombre</div>
+                    <div class="attribute"><i class="fas fa-file-pdf"></i> tipo</div>
+                    <div class="attribute"><i class="fas fa-weight-hanging"></i> tamano</div>
+                    <div class="attribute"><i class="fas fa-fingerprint"></i> hash_archivo</div>
+                    <div class="attribute"><i class="fas fa-upload"></i> fecha_carga</div>
+                    <div class="attribute primary-key"><i class="fas fa-key"></i> id_documento (PK)</div>
+                </div>
+            </div>
+
+            <!-- Entidades de Soporte -->
+            <div class="entity entity-support" id="entity-notificacion" style="top: 120px; left: 940px;">
+                <div class="entity-header">
+                    <i class="fas fa-bell"></i> Notificación
+                </div>
+                <div class="entity-body">
+                    <div class="attribute"><i class="fas fa-tag"></i> tipo</div>
+                    <div class="attribute"><i class="fas fa-align-left"></i> contenido</div>
+                    <div class="attribute"><i class="fas fa-paper-plane"></i> fecha_envio</div>
+                    <div class="attribute"><i class="fas fa-check-double"></i> estado</div>
+                    <div class="attribute primary-key"><i class="fas fa-key"></i> id_notificacion (PK)</div>
+                </div>
+            </div>
+
+            <div class="entity entity-support" id="entity-auditoria" style="top: 510px; left: 730px;">
+                <div class="entity-header">
+                    <i class="fas fa-clipboard-check"></i> Auditoría
+                </div>
+                <div class="entity-body">
+                    <div class="attribute"><i class="fas fa-clipboard-check"></i> accion</div>
+                    <div class="attribute"><i class="fas fa-calendar"></i> fecha</div>
+                    <div class="attribute"><i class="fas fa-poll"></i> resultado</div>
+                    <div class="attribute primary-key"><i class="fas fa-key"></i> id_auditoria (PK)</div>
+                </div>
+            </div>
+
+            <div class="entity entity-support" id="entity-sla" style="top: 650px; left: 730px;">
+                <div class="entity-header">
+                    <i class="fas fa-stopwatch"></i> SLA
+                </div>
+                <div class="entity-body">
+                    <div class="attribute"><i class="fas fa-concierge-bell"></i> tipo_servicio</div>
+                    <div class="attribute"><i class="fas fa-reply"></i> tiempo_respuesta</div>
+                    <div class="attribute"><i class="fas fa-business-time"></i> tiempo_resolucion</div>
+                    <div class="attribute"><i class="fas fa-chart-line"></i> metricas</div>
+                    <div class="attribute primary-key"><i class="fas fa-key"></i> id_sla (PK)</div>
+                </div>
+            </div>
+
+            <!-- Notas -->
+            <div class="note" id="note-restricciones" style="top: 70px; left: 310px;">
+                <div class="note-title">
+                    <i class="fas fa-exclamation-triangle"></i> Restricciones:
+                </div>
+                <div class="note-content">
+                    <ul>
+                        <li>Un usuario pertenece a un área específica</li>
+                        <li>Máx. 3 solicitudes activas simultáneas</li>
+                        <li>Nombres de usuario son únicos</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="note" id="note-estados" style="top: 70px; left: 730px;">
+                <div class="note-title">
+                    <i class="fas fa-list-ol"></i> Estados de SAR:
+                </div>
+                <div class="note-content">
+                    <ol>
+                        <li>Borrador</li>
+                        <li>Validado</li>
+                        <li>Rechazado</li>
+                        <li>Cerrado</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Relaciones - Líneas -->
+            <div class="relationship-line" id="rel-usuario-sar" style="top: 180px; left: 340px; width: 180px;"></div>
+            <div class="relationship-line" id="rel-usuario-ticket" style="top: 250px; left: 220px; width: 320px; transform: rotate(45deg);"></div>
+            <div class="relationship-line" id="rel-usuario-notificacion" style="top: 180px; left: 340px; width: 600px;"></div>
+            <div class="relationship-line" id="rel-sar-ticket" style="top: 360px; left: 640px; width: 140px; transform: rotate(90deg);"></div>
+            <div class="relationship-line" id="rel-sar-documento" style="top: 270px; left: 760px; width: 180px;"></div>
+            <div class="relationship-line" id="rel-ticket-solucion" style="top: 530px; left: 550px; width: 180px; transform: rotate(60deg);"></div>
+            <div class="relationship-line" id="rel-ticket-auditoria" style="top: 520px; left: 670px; width: 100px; transform: rotate(15deg);"></div>
+            <div class="relationship-line" id="rel-ticket-sla" style="top: 580px; left: 640px; width: 120px; transform: rotate(60deg);"></div>
+
+            <!-- Relaciones - Etiquetas -->
+            <div class="relationship-label" id="label-usuario-sar" style="top: 160px; left: 380px;">
+                Genera <span class="cardinality">1:n</span>
+            </div>
+            <div class="relationship-label" id="label-usuario-ticket" style="top: 280px; left: 320px;">
+                Asignado <span class="cardinality">1:n</span>
+            </div>
+            <div class="relationship-label" id="label-usuario-notificacion" style="top: 140px; left: 630px;">
+                Recibe <span class="cardinality">1:n</span>
+            </div>
+            <div class="relationship-label" id="label-sar-ticket" style="top: 370px; left: 650px;">
+                Deriva a <span class="cardinality">1:1</span>
+            </div>
+            <div class="relationship-label" id="label-sar-documento" style="top: 250px; left: 800px;">
+                Contiene <span class="cardinality">1:n</span>
+            </div>
+            <div class="relationship-label" id="label-ticket-solucion" style="top: 560px; left: 450px;">
+                Resuelve con <span class="cardinality">1:1</span>
+            </div>
+            <div class="relationship-label" id="label-ticket-auditoria" style="top: 500px; left: 690px;">
+                Tiene <span class="cardinality">1:n</span>
+            </div>
+            <div class="relationship-label" id="label-ticket-sla" style="top: 600px; left: 650px;">
+                Regulado por <span class="cardinality">n:1</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Variables
+            const entities = document.querySelectorAll('.entity');
+            const relationshipLines = document.querySelectorAll('.relationship-line');
+            const relationshipLabels = document.querySelectorAll('.relationship-label');
+
+            // Animación de entrada
+            function animateEntrance() {
+                entities.forEach((entity, index) => {
+                    setTimeout(() => {
+                        entity.style.opacity = '1';
+                        entity.style.transform = 'translateY(0)';
+                    }, 100 * index);
+                });
+
+                setTimeout(() => {
+                    relationshipLines.forEach((line, index) => {
+                        setTimeout(() => {
+                            line.style.opacity = '1';
+                        }, 50 * index);
+                    });
+
+                    relationshipLabels.forEach((label, index) => {
+                        setTimeout(() => {
+                            label.style.opacity = '1';
+                        }, 50 * index);
+                    });
+                }, entities.length * 100);
+            }
+
+            // Configuración inicial
+            entities.forEach(entity => {
+                entity.style.opacity = '0';
+                entity.style.transform = 'translateY(20px)';
+                entity.style.transition = 'all 0.5s ease';
+            });
+
+            relationshipLines.forEach(line => {
+                line.style.opacity = '0';
+                line.style.transition = 'all 0.3s ease';
+            });
+
+            relationshipLabels.forEach(label => {
+                label.style.opacity = '0';
+                label.style.transition = 'all 0.3s ease';
+            });
+
+            // Iniciar animación después de un breve retraso
+            setTimeout(animateEntrance, 300);
+        });
+    </script>
+</body>
+</html> 

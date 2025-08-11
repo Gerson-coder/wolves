@@ -10,6 +10,10 @@ import logging
 from django.shortcuts import get_object_or_404
 from .forms import UserForm
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
+from django.db.models import Q
+from django.db.models import Count
+
 from .models import CreateUser, Perfil, LogroUsuario, Create_subs
 
 # Configuración de logging
@@ -168,6 +172,50 @@ def recuperar_contrasena(request):
 
     return render(request, 'contraseña_olvidada.html')
 
+
+def jugadores(request):
+   
+    # Obtener todos los jugadores con sus perfiles relacionados
+    jugadores_list = CreateUser.objects.select_related('perfil').filter(is_active=True)
+    
+    # Búsqueda por nickname
+    search = request.GET.get('search')
+    if search:
+        jugadores_list = jugadores_list.filter(
+            Q(nickname__icontains=search) | 
+            Q(username__icontains=search) |
+            Q(first_name__icontains=search)
+        )
+    
+    # Filtro por rango
+    rango = request.GET.get('rango')
+    if rango:
+        jugadores_list = jugadores_list.filter(perfil__rango=rango)
+    
+    # Ordenar por nivel (descendente) y después por puntos de experiencia
+    jugadores_list = jugadores_list.order_by('-perfil__nivel', '-perfil__puntos_exp', 'nickname')
+    
+    # Paginación
+    paginator = Paginator(jugadores_list, 12)  # 12 jugadores por página
+    page_number = request.GET.get('page')
+    jugadores = paginator.get_page(page_number)
+    
+    # Estadísticas para mostrar
+    total_jugadores = CreateUser.objects.filter(is_active=True).count()
+    jugadores_online = CreateUser.objects.filter(
+        is_active=True, 
+        perfil__estado_actividad='ONLINE'
+    ).count()
+    
+    context = {
+        'jugadores': jugadores,
+        'total_jugadores': total_jugadores,
+        'jugadores_online': jugadores_online,
+        'search': search,
+        'rango_filter': rango,
+    }
+
+    return render(request, 'jugadores.html', context)
             
     
 

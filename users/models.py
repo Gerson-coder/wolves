@@ -41,6 +41,21 @@ SPECIALTIES = [
     ('COLLECTOR', 'Coleccionista'),
 ]
 
+
+class Create_Lider(models.Model):
+    nombre = models.CharField(max_length=100)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    description = models.TextField(blank=True, null=True, help_text="Descripción del lider")
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+    
+    class Meta:
+        verbose_name = 'Líder'
+        verbose_name_plural = 'Líderes'
+
+    def __str__(self):
+        return self.nombre
+    
+
 class Create_subs(models.Model):
     nombre = models.CharField(max_length=100)
     nickname = models.CharField(max_length=100)
@@ -62,8 +77,9 @@ class CreateUser(AbstractUser):
     edad = models.PositiveIntegerField(null=True)
     nickname = models.CharField(max_length=100, null=True)
     cumpleaños = models.DateTimeField(null=True)
+    lv_audi = models.PositiveIntegerField(default=0)
     pais = models.CharField(max_length=100)
-    ciudad = models.CharField(max_length=100)
+    ciudad = models.CharField(max_length=100)   
     hobby = models.CharField(max_length=20, blank=True)
     estado_cpl = models.CharField(max_length=100)
     juego_principal = models.CharField(max_length=100, blank=True, null=True)

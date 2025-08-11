@@ -1,11 +1,77 @@
-
-
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %}
 
 {% block title %}Wolves - Clan de Gaming | Inicio{% endblock %}
 
 {% block meta_description %}Wolves Gaming - Comunidad profesional de esports y gaming. Participa en torneos, únete a nuestros equipos y forma parte de la experiencia Wolves.{% endblock %}
+
+{% block extra_css %}
+<style>
+    .badge-points {
+        font-size: 1.2rem;
+        padding: 8px 12px;
+        border-radius: 8px;
+    }
+    .badge-day {
+        background-color: #007bff;
+    }
+    .badge-total {
+        background-color: #28a745;
+    }
+    .text-center4 {
+        text-align: center!important;
+    }
+    .puntos-dia {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #007bff;
+    }
+    .puntos-acumulados {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #28a745;
+    }
+    
+    /* Estilos para el selector de fechas personalizado */
+    .date-picker-custom {
+        position: relative;
+        width: 100%;
+    }
+    
+    .date-picker-custom input[type="date"] {
+        background-color: rgba(30, 30, 42, 0.8);
+        color: #fff;
+        border-color: #3a3a4e;
+        padding: 10px 15px;
+        border-radius: 0.25rem;
+        width: 100%;
+        font-size: 1rem;
+    }
+    
+    .date-picker-custom input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+        cursor: pointer;
+    }
+    
+    .date-selector {
+        background-color: rgba(20, 20, 30, 0.7);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .date-range-info {
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { opacity: 0.7; }
+        50% { opacity: 1; }
+        100% { opacity: 0.7; }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
 
@@ -17,90 +83,389 @@ Video Area
 ==============================-->
     <div class="point-table-area-1 space overflow-hidden" data-bg-src="{% static 'assets/img/bg/tournament-table-sec1-bg.png' %}">
         <div class="container">
-            <div class="title-area text-center custom-anim-top wow animated" data-wow-duration="1.5s" data-wow-delay="0.2s">
-                <span class="sub-title style2"># Point Table</span>
-                <h2 class="sec-title">Game On, Power Up, Win Big <span class="text-theme">!</span></h2>
+                        <div class="title-area text-center custom-anim-top wow animated" data-wow-duration="1.5s" data-wow-delay="0.2s">
+                <span class="sub-title style2"># Tabla de Asistencia por Grupos</span>
+                <h2 class="sec-title">Participa, Acumula, Gana <span class="text-theme">!</span></h2>
+            </div>
+            
+            <!-- Descripción del sistema de clasificación -->
+            <div class="group-description text-center mb-30">
+                <p>La clasificación en los grupos se basa en la posición final en la tabla general de asistencias:</p>
+            </div>
+            
+          
+
+
+<style>
+.date-selector-container {
+    max-width: 800px;
+    margin: 0 auto 40px;
+    padding: 2rem;
+    border-radius: 12px;
+    background: rgba(20, 20, 30, 0.8);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(var(--theme-color-rgb), 0.3);
+}
+
+.date-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.date-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+    border-radius: 50%;
+    background: linear-gradient(to right, var(--theme-color), var(--theme-color2));
+    color: white;
+    font-size: 24px;
+}
+
+.date-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.date-subtitle {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+}
+
+.date-range-alert {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1.2rem;
+    margin-bottom: 1.8rem;
+    background-color: rgba(var(--theme-color-rgb), 0.15);
+    border-left: 4px solid var(--theme-color);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: #fff;
+}
+
+.alert-icon {
+    margin-right: 0.7rem;
+    color: var(--theme-color);
+    font-size: 18px;
+}
+
+.date-selection-form {
+    margin-top: 1.5rem;
+}
+
+.form-container {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.date-input-group, .date-select-group {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.2s;
+}
+
+.date-input-group:focus-within, .date-select-group:focus-within {
+    border-color: var(--theme-color);
+    box-shadow: 0 0 0 3px rgba(var(--theme-color-rgb), 0.2);
+}
+
+.input-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem;
+    background-color: rgba(30, 30, 42, 0.8);
+    color: var(--theme-color);
+    height: 100%;
+    margin: 0;
+}
+
+.date-input, .date-select {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border: none;
+    outline: none;
+    font-size: 0.95rem;
+    color: #fff;
+    background-color: rgba(30, 30, 42, 0.5);
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* Corregir el color de fondo al hacer clic */
+.date-input:focus, .date-select:focus {
+    background-color: rgba(30, 30, 42, 0.8);
+    color: #fff;
+}
+
+/* Estilo para el calendario */
+.date-input::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: invert(1);
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    background-color: transparent;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.date-input::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+}
+
+/* Estilo para el botón de búsqueda que coincida con el encabezado de la tabla */
+.submit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0 1.5rem;
+    background: #45f882; /* Color verde que coincide con el encabezado de la tabla */
+    color: #14141e; /* Texto oscuro para mejor contraste */
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(69, 248, 130, 0.4);
+    background: #3ae476; /* Un tono más oscuro al hacer hover */
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        flex-direction: column;
+    }
+    
+    .submit-button {
+        padding: 0.8rem;
+        margin-top: 0.5rem;
+    }
+}
+
+/* Estilos adicionales para el icono de calendario */
+.date-input-hidden {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
+
+.date-icon-wrapper {
+    width: 44px;
+    height: 100%;
+    position: relative;
+}
+
+.date-input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: rgba(30, 30, 42, 0.5);
+}
+
+.input-label {
+    width: auto;
+    cursor: pointer;
+    padding: 0.8rem 1rem;
+    background-color: rgba(30, 30, 42, 0.8);
+}
+
+.fecha-display {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    color: #fff;
+}
+</style>
+            <!-- Información de grupos -->
+            <div class="group-info mb-40">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="group-card group-a">
+                            <div class="group-title">
+                                <i class="fas fa-trophy"></i> GRUPO A
+                            </div>
+                            <p>Los 10 primeros puestos en la tabla general</p>
+                            <p class="prize">Premio: 20,000 AxesoCash vía regalo</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="group-card group-b">
+                            <div class="group-title">
+                                <i class="fas fa-medal"></i> GRUPO B
+                            </div>
+                            <p>Del puesto 11 al 25 en la tabla general</p>
+                            <p class="prize">Premio: 15,000 AxesoCash vía regalo</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="group-card group-c">
+                            <div class="group-title">
+                                <i class="fas fa-award"></i> GRUPO C
+                            </div>
+                            <p>Del puesto 26 en adelante en la tabla general</p>
+                            <p class="prize">Premio: 10,000 AxesoCash vía regalo</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="table-responsive">
-                <table class="table tournament-table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Team Squad</th>
-                            <th scope="col">Matches</th>
-                            <th scope="col">Matches</th>
-                            <th scope="col">Place PTS.</th>
-                            <th scope="col">Finishes</th>
-                            <th scope="col">Total PTS.</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td><a href="tournament.html"><img src="{% static 'assets/img/tournament/1-1.png' %}" alt="img">PRO Player</a></td>
-                            <td>4</td>
-                            <td>0</td>
-                            <td>21</td>
-                            <td>25</td>
-                            <td>47</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td><a href="tournament.html"><img src="{% static 'assets/img/tournament/1-2.png' %}" alt="img">The Lion King</a></td>
-                            <td>4</td>
-                            <td>1</td>
-                            <td>29</td>
-                            <td>16</td>
-                            <td>45</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td><a href="tournament.html"><img src="{% static 'assets/img/tournament/1-3.png' %}" alt="img">The Assassin King</a></td>
-                            <td>4</td>
-                            <td>1</td>
-                            <td>25</td>
-                            <td>20</td>
-                            <td>45</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td><a href="tournament.html"><img src="{% static 'assets/img/tournament/1-4.png' %}" alt="img">Cyberpunk</a></td>
-                            <td>4</td>
-                            <td>0</td>
-                            <td>32</td>
-                            <td>12</td>
-                            <td>44</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">5</th>
-                            <td><a href="tournament.html"><img src="{% static 'assets/img/tournament/1-5.png' %}" alt="img">Team Gorilla</a></td>
-                            <td>4</td>
-                            <td>1</td>
-                            <td>24</td>
-                            <td>19</td>
-                            <td>43</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">6</th>
-                            <td><a href="tournament.html"><img src="{% static 'assets/img/tournament/1-6.png' %}" alt="img">King Of Badgamer</a></td>
-                            <td>4</td>
-                            <td>0</td>
-                            <td>17</td>
-                            <td>21</td>
-                            <td>38</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">7</th>
-                            <td><a href="tournament.html"><img src="{% static 'assets/img/tournament/1-7.png' %}" alt="img">Team Ninja</a></td>
-                            <td>4</td>
-                            <td>0</td>
-                            <td>18</td>
-                            <td>18</td>
-                            <td>36</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- Fechas-->
+            <div class="group-description text-center mb-30">
+                <p>Las fechas de inicio y fin del evento son:</p>
+                <p>Inicio: 04 Jul, 2025</p>
+                <p>Fin: 26 Sep, 2025</p>
+            </div>
+
+
+
+
+                       <!-- Selector de fechas mejorado - Versión visual mejorada -->
+            <div class="date-selector-container mb-40">
+                <div class="date-header">
+                    <div class="date-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3 class="date-title">Consulta los puntos por fecha</h3>
+                    <p class="date-subtitle">Selecciona un día del evento para ver los resultados</p>
+                </div>
+
+                <div class="date-range-alert">
+                    <div class="alert-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <span>Período del evento: <strong>04/Jul/2025</strong> al <strong>26/Sep/2025</strong></span>
+                </div>
+
+                <form class="date-selection-form" id="fechaForm" method="get">
+                    <div class="form-container">
+                        <div class="date-select-group">
+                            <label for="fecha_id" class="input-label">
+                                <i class="fas fa-calendar-check"></i>
+                            </label>
+                            <select name="fecha_id" id="date-selector" class="date-select">
+                                <option value="">Todos los registros </option>
+                                {% for fecha in todas_fechas %}
+                                    <option value="{{ fecha.id }}" {% if fecha_seleccionada.id == fecha.id %}selected{% endif %}>
+                                        {{ fecha.nombre }} - {{ fecha.fecha|date:"d M, Y" }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="date-input-group">
+                            <label for="fecha" class="input-label">
+                                <i class="fas fa-calendar-day"></i>
+                            </label>
+                            <div class="date-icon-wrapper">
+                                <input type="date" id="fecha-personalizada" name="fecha" class="date-input-hidden" 
+                                    min="2025-07-04" max="2025-09-26">
+                            </div>
+                            <div id="fecha-display" class="fecha-display">
+                                {% if fecha_personalizada %}
+                                    {{ fecha_personalizada|date:"d/m/Y" }}
+                                {% else %}
+                                    Seleccionar fecha
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="submit-button">
+                            <i class="fas fa-search"></i>
+                            Buscar puntos
+                        </button>
+                        <a href="{% url 'registrar_asistencia' %}" class="submit-button">Registrar asistencia</a>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Título de la vista según selección -->
+            <div class="view-title text-center mb-30">
+                {% if fecha_seleccionada %}
+                 
+                    <p class="text-white">Fecha: {{ fecha_seleccionada.fecha|date:"d/m/Y" }}</p>
+                {% else %}
+                    <h3 class="text-white">Tabla general de puntos acumulados</h3>
+                    <p class="text-white">Mostrando el último registro de cada jugador</p>
+                {% endif %}
+            </div>
+            
+            {% for grupo in grupos_ordenados %}
+            <!-- GRUPO {{ grupo }} -->
+            <div class="group-section group-{{grupo|lower}}-section">
+                <div class="table-responsive">
+                    <table class="table tournament-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nickname</th>
+                                <th scope="col">Apodo</th>
+                                <th scope="col">Puntos del día</th>
+                                <th scope="col">Puntos acumulados</th>
+                                <th scope="col" class="text-center4">Grupo</th>
+                                <style>
+                                    .text-center4 {
+                                        text-align: center!important;
+                                    }
+                                </style>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for asistencia in asistencias_por_grupo|get_item:grupo %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>
+                                    <a href="javascript:void(0)">
+                                        {% if asistencia.avatar %}
+                                            <img src="{{asistencia.avatar.url}}" alt="{{asistencia.nickname}}">
+                                        {% else %}
+                                            <img src="{% static 'assets/img/tournament/1-1.png' %}" alt="Avatar predeterminado">
+                                        {% endif %}
+                                        {{asistencia.nickname}}
+                                    </a>
+                                </td>
+                                <td>{{asistencia.apodo}}</td>
+                                <td class="text-center">
+                                    <span class="puntos-dia">{{ asistencia.puntos }}</span>
+                                </td>
+                                <td class="text-center">
+                                    <span class="puntos-acumulados">{{ asistencia.puntos_acumulados }}</span>
+                                </td>
+                                <td class="text-center"><span class="group-badge group-{{grupo|lower}}">{{asistencia.grupo}}</span></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endfor %}
+            
+            <div class="rules-info text-center mt-40">
+                <p><i class="fas fa-info-circle"></i> Las asistencias mostradas corresponden al periodo actual (04 Jul - 26 Sep, 2025)</p>
+                <p><i class="fas fa-calendar-check"></i> La actualización de asistencias se realiza diariamente a las 11:00 pm hora peruana</p>
             </div>
         </div>
     </div>
@@ -153,5 +518,88 @@ Client Area
             <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 307.919;"></path>
         </svg>
     </div>
+
+    <!-- Script para manejar la selección de fechas -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Referencias a elementos DOM
+            const dateSelector = document.getElementById('date-selector');
+            const fechaPersonalizada = document.getElementById('fecha-personalizada');
+            const fechaForm = document.getElementById('fechaForm');
+            const dateIcon = document.querySelector('.fa-calendar-day');
+            const dateIconContainer = document.querySelector('.input-label');
+            const fechaDisplay = document.getElementById('fecha-display');
+            
+            // Función para formatear la fecha como dd/mm/yyyy
+            function formatDate(date) {
+                const day = date.getDate().toString().padStart(2, '0');
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}/${month}/${year}`;
+            }
+            
+            // Actualizar el display cuando cambie la fecha
+            fechaPersonalizada.addEventListener('change', function() {
+                const selectedDate = new Date(this.value);
+                fechaDisplay.textContent = formatDate(selectedDate);
+            });
+            
+            // Si hay un icono de calendario, hacerlo clickeable
+            if (dateIcon) {
+                dateIcon.addEventListener('click', function() {
+                    fechaPersonalizada.showPicker();
+                });
+            }
+            
+            // También hacer clickeable el contenedor del icono
+            if (dateIconContainer) {
+                dateIconContainer.addEventListener('click', function() {
+                    fechaPersonalizada.showPicker();
+                });
+            }
+            
+            // Establecer la fecha seleccionada si viene de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('fecha')) {
+                fechaPersonalizada.value = urlParams.get('fecha');
+            }
+            
+            // Función para seleccionar la última fecha por defecto
+            function seleccionarUltimaFecha() {
+                if (dateSelector.options.length > 1 && !dateSelector.value && !fechaPersonalizada.value) {
+                    // Seleccionar la última opción disponible (la fecha más reciente)
+                    dateSelector.selectedIndex = dateSelector.options.length - 1;
+                    fechaForm.submit();
+                }
+            }
+            
+            // Si no hay fecha seleccionada, seleccionar la última automáticamente
+            var hayFechaSeleccionada = "{{ fecha_seleccionada|yesno:'true,false' }}";
+            if (hayFechaSeleccionada === "false" && !urlParams.has('fecha')) {
+                // Pequeño retraso para asegurar que la página esté completamente cargada
+                setTimeout(seleccionarUltimaFecha, 100);
+            }
+            
+            // Manejar cambio en la fecha personalizada
+            fechaPersonalizada.addEventListener('change', function() {
+                // Al seleccionar una fecha personalizada, limpiar el selector de fechas predefinidas
+                dateSelector.selectedIndex = 0;
+                
+                // Enviar el formulario para actualizar la vista
+                fechaForm.submit();
+            });
+            
+            // Manejar cambio en el selector principal
+            dateSelector.addEventListener('change', function() {
+                // Limpiar la fecha personalizada cuando se usa el selector principal
+                fechaPersonalizada.value = '';
+                
+                // Si se selecciona una opción, enviar el formulario
+                if (this.value) {
+                    fechaForm.submit();
+                }
+            });
+        });
+    </script>
 
 {% endblock %}

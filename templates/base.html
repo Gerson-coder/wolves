@@ -301,30 +301,7 @@
                                     </nav>
                                     <button type="button" class="th-menu-toggle d-block d-lg-none"><i class="far fa-bars"></i></button>
                                 </div>
-                                <div class="col-auto d-none d-lg-block">
-                                    <div class="header-button d-flex d-lg-block">
-                                        {% if user.is_authenticated %}
-                                        <div class="dropdown user-dropdown">
-                                            <button class="btn header-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fas fa-user-circle me-2"></i> {{ user.nickname|default:user.username }}
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-dark">
-                                                <li><a class="dropdown-item" href="{% url 'perfil_usuario' %}">Mi Perfil</a></li>
-                                                <li><a class="dropdown-item" href="#">Configuración</a></li>
-                                                <li><hr class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item" href="{% url 'logout_usuario' %}">Cerrar Sesión</a></li>
-                                            </ul>
-                                        </div>
-                                        {% else %}
-                                        <a href="{% url 'login_usuario' %}" class="btn header-btn d-none d-sm-block">
-                                            <i class="far fa-user me-2"></i> Iniciar Sesión
-                                        </a>
-                                        <a href="{% url 'registrar_usuario' %}" class="btn header-btn style2">
-                                            <i class="fas fa-paw me-2"></i> Únete al Clan
-                                        </a>
-                                        {% endif %}
-                                    </div>
-                                </div>
+                          
                             </div>
                         </div>
                     </div>

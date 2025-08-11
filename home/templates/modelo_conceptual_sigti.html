@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelo Conceptual SIGTI - Sistema de Gestión de Tickets</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --primary-dark: #2980b9;
+            --secondary-color: #e74c3c;
+            --accent-color: #2ecc71;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 15px rgba(0, 0, 0, 0.2);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-accent {
+            background-color: var(--accent-color);
+        }
+
+        .btn-accent:hover {
+            background-color: #27ae60;
+        }
+
+        .model-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            background-color: white;
+            box-shadow: var(--shadow);
+            margin: 0 auto;
+            transition: var(--transition);
+        }
+
+        .model-content {
+            transform-origin: center;
+            transition: transform 0.3s ease;
+        }
+
+        .entities {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            padding: 40px;
+        }
+
+        .entity-group {
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .group-title {
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.8rem;
+            color: var(--dark-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .entity-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .entity {
+            width: 280px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid #e1e4e8;
+            position: relative;
+            z-index: 1;
+        }
+
+        .entity:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .entity-header {
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+            position: relative;
+        }
+
+        .support-entity .entity-header {
+            background: linear-gradient(135deg, var(--accent-color), #27ae60);
+        }
+
+        .entity-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+            margin: 0;
+        }
+
+        .entity-body {
+            padding: 20px;
+        }
+
+        .attribute {
+            display: flex;
+            margin-bottom: 8px;
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .attribute:hover {
+            background-color: #f8f9fa;
+        }
+
+        .attribute i {
+            margin-right: 10px;
+            color: var(--primary-color);
+            width: 20px;
+            text-align: center;
+        }
+
+        .support-entity .attribute i {
+            color: var(--accent-color);
+        }
+
+        .primary-key {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .support-entity .primary-key {
+            color: var(--accent-color);
+        }
+
+        .attribute-type {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-left: auto;
+        }
+
+        .relationships {
+            position: relative;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .relationship {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .relationship:hover {
+            background-color: #e9ecef;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .entity-name {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .relationship-type {
+            margin: 0 15px;
+            padding: 5px 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50px;
+            font-size: 0.9rem;
+        }
+
+        .cardinality {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin: 0 10px;
+        }
+
+        .notes {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .note {
+            background-color: #fff9c4;
+            border-left: 4px solid #ffd54f;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+        }
+
+        .note-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+
+        .note-content {
+            font-size: 0.95rem;
+        }
+
+        .note ul {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+
+        .legend {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .legend-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+            color: var(--dark-color);
+        }
+
+        .legend-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .legend-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        .entity-count-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--secondary-color);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        @media screen and (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            header p {
+                font-size: 1rem;
+            }
+            
+            .entities {
+                padding: 20px;
+            }
+            
+            .entity {
+                width: 100%;
+                max-width: 320px;
+            }
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translate3d(0, 40px, 0);
+                opacity: 0;
+            }
+            to {
+                transform: translate3d(0, 0, 0);
+                opacity: 1;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+
+        .slide-up {
+            animation: slideInUp 0.5s ease-out forwards;
+        }
+
+        .staggered-item {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="fade-in">
+            <h1>Modelo Conceptual SIGTI</h1>
+            <p>Sistema de Gestión de Tickets e Incidencias para Departamentos de TI</p>
+        </header>
+
+        <div class="controls">
+            <button class="btn" id="zoomIn"><i class="fas fa-search-plus"></i> Acercar</button>
+            <button class="btn" id="zoomOut"><i class="fas fa-search-minus"></i> Alejar</button>
+            <button class="btn" id="resetZoom"><i class="fas fa-sync-alt"></i> Restablecer</button>
+            <button class="btn btn-accent" id="toggleRelationships"><i class="fas fa-project-diagram"></i> Destacar Relaciones</button>
+            <button class="btn btn-secondary" id="exportImage"><i class="fas fa-download"></i> Exportar Imagen</button>
+        </div>
+
+        <div class="model-container">
+            <div class="model-content">
+                <!-- Entidades Principales -->
+                <div class="entity-group staggered-item">
+                    <h2 class="group-title">Entidades Principales</h2>
+                    <div class="entity-cards">
+                        <div class="entity" id="entity-usuario">
+                            <div class="entity-header">
+                                <h3 class="entity-title">Usuario</h3>
+                                <span class="entity-count-badge">9</span>
+                            </div>
+                            <div class="entity-body">
+                                <div class="attribute">
+                                    <i class="fas fa-key"></i>
+                                    <span class="primary-key">id_usuario (PK)</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-user"></i>
+                                    <span>nombre</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-id-card"></i>
+                                    <span>dni</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-briefcase"></i>
+                                    <span>cargo</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-building"></i>
+                                    <span>area</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>email</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-phone"></i>
+                                    <span>telefono</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>fecha_registro</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-toggle-on"></i>
+                                    <span>estado</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="entity" id="entity-sar">
+                            <div class="entity-header">
+                                <h3 class="entity-title">SAR</h3>
+                                <span class="entity-count-badge">8</span>
+                            </div>
+                            <div class="entity-body">
+                                <div class="attribute">
+                                    <i class="fas fa-key"></i>
+                                    <span class="primary-key">id_sar (PK)</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-hashtag"></i>
+                                    <span>codigo</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-calendar-plus"></i>
+                                    <span>fecha_creacion</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-calendar-times"></i>
+                                    <span>fecha_limite</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-tag"></i>
+                                    <span>tipo</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <span>urgencia</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-align-left"></i>
+                                    <span>descripcion</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>estado</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="entity" id="entity-ticket">
+                            <div class="entity-header">
+                                <h3 class="entity-title">Ticket</h3>
+                                <span class="entity-count-badge">7</span>
+                            </div>
+                            <div class="entity-body">
+                                <div class="attribute">
+                                    <i class="fas fa-key"></i>
+                                    <span class="primary-key">id_ticket (PK)</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-hashtag"></i>
+                                    <span>codigo</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-calendar-day"></i>
+                                    <span>fecha_asignacion</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-sort-amount-up"></i>
+                                    <span>prioridad</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-layer-group"></i>
+                                    <span>complejidad</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-hourglass-half"></i>
+                                    <span>horas_estimadas</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-tasks"></i>
+                                    <span>estado</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="entity" id="entity-solucion">
+                            <div class="entity-header">
+                                <h3 class="entity-title">Solución</h3>
+                                <span class="entity-count-badge">5</span>
+                            </div>
+                            <div class="entity-body">
+                                <div class="attribute">
+                                    <i class="fas fa-key"></i>
+                                    <span class="primary-key">id_solucion (PK)</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-align-left"></i>
+                                    <span>descripcion</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <span>fecha_implementacion</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-code-branch"></i>
+                                    <span>version</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fab fa-github"></i>
+                                    <span>repositorio</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="entity" id="entity-documento">
+                            <div class="entity-header">
+                                <h3 class="entity-title">Documento</h3>
+                                <span class="entity-count-badge">6</span>
+                            </div>
+                            <div class="entity-body">
+                                <div class="attribute">
+                                    <i class="fas fa-key"></i>
+                                    <span class="primary-key">id_documento (PK)</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-file-alt"></i>
+                                    <span>nombre</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-file-pdf"></i>
+                                    <span>tipo</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-weight-hanging"></i>
+                                    <span>tamano</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-fingerprint"></i>
+                                    <span>hash_archivo</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-upload"></i>
+                                    <span>fecha_carga</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Entidades de Soporte -->
+                <div class="entity-group staggered-item">
+                    <h2 class="group-title">Entidades de Soporte</h2>
+                    <div class="entity-cards">
+                        <div class="entity support-entity" id="entity-notificacion">
+                            <div class="entity-header">
+                                <h3 class="entity-title">Notificación</h3>
+                                <span class="entity-count-badge">5</span>
+                            </div>
+                            <div class="entity-body">
+                                <div class="attribute">
+                                    <i class="fas fa-key"></i>
+                                    <span class="primary-key">id_notificacion (PK)</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-bell"></i>
+                                    <span>tipo</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-align-left"></i>
+                                    <span>contenido</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-paper-plane"></i>
+                                    <span>fecha_envio</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-check-double"></i>
+                                    <span>estado</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="entity support-entity" id="entity-auditoria">
+                            <div class="entity-header">
+                                <h3 class="entity-title">Auditoría</h3>
+                                <span class="entity-count-badge">4</span>
+                            </div>
+                            <div class="entity-body">
+                                <div class="attribute">
+                                    <i class="fas fa-key"></i>
+                                    <span class="primary-key">id_auditoria (PK)</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-clipboard-check"></i>
+                                    <span>accion</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>fecha</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-poll"></i>
+                                    <span>resultado</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="entity support-entity" id="entity-sla">
+                            <div class="entity-header">
+                                <h3 class="entity-title">SLA</h3>
+                                <span class="entity-count-badge">4</span>
+                            </div>
+                            <div class="entity-body">
+                                <div class="attribute">
+                                    <i class="fas fa-key"></i>
+                                    <span class="primary-key">id_sla (PK)</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-concierge-bell"></i>
+                                    <span>tipo_servicio</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-reply"></i>
+                                    <span>tiempo_respuesta</span>
+                                </div>
+                                <div class="attribute">
+                                    <i class="fas fa-business-time"></i>
+                                    <span>tiempo_resolucion</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Relaciones -->
+                <div class="relationships staggered-item" id="relationships">
+                    <h2 class="group-title">Relaciones entre Entidades</h2>
+                    
+                    <div class="relationship">
+                        <span class="entity-name">Usuario</span>
+                        <span class="cardinality">1</span>
+                        <span class="relationship-type">Genera</span>
+                        <span class="cardinality">n</span>
+                        <span class="entity-name">SAR</span>
+                    </div>
+                    
+                    <div class="relationship">
+                        <span class="entity-name">Usuario</span>
+                        <span class="cardinality">1</span>
+                        <span class="relationship-type">Asignado</span>
+                        <span class="cardinality">n</span>
+                        <span class="entity-name">Ticket</span>
+                    </div>
+                    
+                    <div class="relationship">
+                        <span class="entity-name">SAR</span>
+                        <span class="cardinality">1</span>
+                        <span class="relationship-type">Deriva a</span>
+                        <span class="cardinality">1</span>
+                        <span class="entity-name">Ticket</span>
+                    </div>
+                    
+                    <div class="relationship">
+                        <span class="entity-name">Ticket</span>
+                        <span class="cardinality">1</span>
+                        <span class="relationship-type">Resuelve con</span>
+                        <span class="cardinality">1</span>
+                        <span class="entity-name">Solución</span>
+                    </div>
+                    
+                    <div class="relationship">
+                        <span class="entity-name">SAR</span>
+                        <span class="cardinality">1</span>
+                        <span class="relationship-type">Contiene</span>
+                        <span class="cardinality">n</span>
+                        <span class="entity-name">Documento</span>
+                    </div>
+                    
+                    <div class="relationship">
+                        <span class="entity-name">Ticket</span>
+                        <span class="cardinality">n</span>
+                        <span class="relationship-type">Regulado por</span>
+                        <span class="cardinality">1</span>
+                        <span class="entity-name">SLA</span>
+                    </div>
+                    
+                    <div class="relationship">
+                        <span class="entity-name">Usuario</span>
+                        <span class="cardinality">1</span>
+                        <span class="relationship-type">Recibe</span>
+                        <span class="cardinality">n</span>
+                        <span class="entity-name">Notificación</span>
+                    </div>
+                    
+                    <div class="relationship">
+                        <span class="entity-name">Ticket</span>
+                        <span class="cardinality">1</span>
+                        <span class="relationship-type">Tiene</span>
+                        <span class="cardinality">n</span>
+                        <span class="entity-name">Auditoría</span>
+                    </div>
+                </div>
+                
+                <!-- Notas -->
+                <div class="notes staggered-item">
+                    <h2 class="group-title">Notas y Restricciones</h2>
+                    
+                    <div class="note">
+                        <h3 class="note-title">Restricciones de Usuario</h3>
+                        <div class="note-content">
+                            <ul>
+                                <li>Un usuario pertenece a un área específica</li>
+                                <li>Máximo 3 solicitudes activas simultáneas por usuario</li>
+                                <li>Nombres de usuario deben ser únicos en el sistema</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="note">
+                        <h3 class="note-title">Estados de SAR</h3>
+                        <div class="note-content">
+                            <ol>
+                                <li><strong>Borrador:</strong> Solicitud inicial, pendiente de completar</li>
+                                <li><strong>Validado:</strong> Solicitud revisada y aprobada</li>
+                                <li><strong>Rechazado:</strong> Solicitud denegada</li>
+                                <li><strong>Cerrado:</strong> Solicitud finalizada</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="note">
+                        <h3 class="note-title">Ciclo de vida de Tickets</h3>
+                        <div class="note-content">
+                            <p>Los tickets siguen un flujo definido:</p>
+                            <ol>
+                                <li>Creación → Asignación → Desarrollo → Pruebas → Cierre</li>
+                            </ol>
+                            <p>Cada transición de estado genera un registro de auditoría automáticamente.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Leyenda -->
+                <div class="legend staggered-item">
+                    <h2 class="legend-title">Leyenda</h2>
+                    
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <div class="legend-icon"><i class="fas fa-key"></i></div>
+                            <span>PK = Primary Key (Clave Primaria)</span>
+                        </div>
+                        
+                        <div class="legend-item">
+                            <div class="legend-icon">1..n</div>
+                            <span>Cardinalidad (uno a muchos)</span>
+                        </div>
+                        
+                        <div class="legend-item">
+                            <div class="legend-icon"><i class="fas fa-underline"></i></div>
+                            <span>Atributos subrayados = Obligatorios</span>
+                        </div>
+                        
+                        <div class="legend-item">
+                            <div class="legend-icon"><i class="fas fa-link"></i></div>
+                            <span>Relaciones entre entidades</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>© 2023 Sistema de Gestión de Tickets e Incidencias (SIGTI) - Proyecto de Ingeniería de Requerimientos</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Variables
+            let scale = 1;
+            const modelContent = document.querySelector('.model-content');
+            const zoomStep = 0.1;
+            let highlightRelationships = false;
+            
+            // Controles de zoom
+            document.getElementById('zoomIn').addEventListener('click', function() {
+                if (scale < 1.5) {
+                    scale += zoomStep;
+                    updateZoom();
+                }
+            });
+            
+            document.getElementById('zoomOut').addEventListener('click', function() {
+                if (scale > 0.5) {
+                    scale -= zoomStep;
+                    updateZoom();
+                }
+            });
+            
+            document.getElementById('resetZoom').addEventListener('click', function() {
+                scale = 1;
+                updateZoom();
+            });
+            
+            // Actualizar zoom
+            function updateZoom() {
+                modelContent.style.transform = `scale(${scale})`;
+            }
+            
+            // Destacar relaciones
+            document.getElementById('toggleRelationships').addEventListener('click', function() {
+                highlightRelationships = !highlightRelationships;
+                const relationships = document.querySelectorAll('.relationship');
+                const entities = document.querySelectorAll('.entity');
+                
+                if (highlightRelationships) {
+                    this.innerHTML = '<i class="fas fa-project-diagram"></i> Modo Normal';
+                    
+                    relationships.forEach(rel => {
+                        rel.style.backgroundColor = '#e3f2fd';
+                        rel.style.boxShadow = '0 0 10px rgba(52, 152, 219, 0.5)';
+                        rel.style.transform = 'scale(1.05)';
+                    });
+                    
+                    // Atenuar entidades
+                    entities.forEach(entity => {
+                        entity.style.opacity = '0.7';
+                    });
+                } else {
+                    this.innerHTML = '<i class="fas fa-project-diagram"></i> Destacar Relaciones';
+                    
+                    relationships.forEach(rel => {
+                        rel.style.backgroundColor = '#f8f9fa';
+                        rel.style.boxShadow = 'none';
+                        rel.style.transform = 'scale(1)';
+                    });
+                    
+                    // Restaurar entidades
+                    entities.forEach(entity => {
+                        entity.style.opacity = '1';
+                    });
+                }
+            });
+            
+            // Exportar imagen
+            document.getElementById('exportImage').addEventListener('click', function() {
+                alert("Funcionalidad de exportación: En un entorno de producción, esta característica permitiría guardar el diagrama como una imagen PNG/PDF");
+            });
+            
+            // Animación de entrada
+            const staggeredItems = document.querySelectorAll('.staggered-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('slide-up');
+                        }, 150 * index);
+                    }
+                });
+            });
+            
+            staggeredItems.forEach(item => {
+                observer.observe(item);
+            });
+            
+            // Eventos interactivos para entidades
+            const entityCards = document.querySelectorAll('.entity');
+            
+            entityCards.forEach(entity => {
+                entity.addEventListener('click', function() {
+                    // Destacar la entidad seleccionada y sus relaciones
+                    highlightRelatedEntities(entity.id);
+                });
+            });
+            
+            function highlightRelatedEntities(entityId) {
+                // En una implementación completa, esto destacaría visualmente
+                // todas las entidades relacionadas con la entidad seleccionada
+                
+                // Ejemplo de lógica (simplificada para este caso):
+                const entityName = entityId.replace('entity-', '');
+                console.log(`Entidad seleccionada: ${entityName}`);
+                
+                // Eliminar el resaltado anterior
+                document.querySelectorAll('.entity').forEach(e => {
+                    e.style.boxShadow = 'var(--shadow)';
+                    e.style.transform = 'none';
+                });
+                
+                document.querySelectorAll('.relationship').forEach(r => {
+                    r.style.backgroundColor = '#f8f9fa';
+                });
+                
+                // Resaltar la entidad seleccionada
+                document.getElementById(entityId).style.boxShadow = '0 0 15px rgba(46, 204, 113, 0.7)';
+                document.getElementById(entityId).style.transform = 'translateY(-5px)';
+                
+                // Resaltar las relaciones relevantes (simplificado)
+                document.querySelectorAll('.relationship').forEach(r => {
+                    if (r.textContent.toLowerCase().includes(entityName.toLowerCase())) {
+                        r.style.backgroundColor = '#e3f2fd';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

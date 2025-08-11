@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home',
     'users',
+    'ger',
 ]
 
 MIDDLEWARE = [
@@ -109,15 +110,15 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
+# https://docs.djangoproject.com/en/5.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Lima'  # Set to Peru timezone
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False  # Set to False to avoid timezone issues with the database
 AUTH_USER_MODEL = 'users.CreateUser' 
 
 # Static files (CSS, JavaScript, Images)

@@ -1,0 +1,320 @@
+/* Estilos adicionales para el Modelo Conceptual SIGTI */
+
+/* Estados de SAR */
+.estado-sar {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin: 3px;
+}
+
+.estado-borrador {
+    background-color: #e9ecef;
+    color: #495057;
+    border: 1px solid #ced4da;
+}
+
+.estado-validado {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border: 1px solid #badbcc;
+}
+
+.estado-rechazado {
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+}
+
+.estado-cerrado {
+    background-color: #cff4fc;
+    color: #055160;
+    border: 1px solid #b6effb;
+}
+
+/* Estados de Ticket */
+.estado-ticket {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin: 3px;
+    gap: 5px;
+}
+
+.estado-creado {
+    background-color: #e8f4fd;
+    color: #0c63e4;
+    border: 1px solid #c5e0fb;
+}
+
+.estado-asignado {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+.estado-desarrollo {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.estado-pruebas {
+    background-color: #e2e3e5;
+    color: #383d41;
+    border: 1px solid #d6d8db;
+}
+
+.estado-cerrado-ticket {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* Badges y etiquetas */
+.badge-sla {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sla-bajo {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.sla-medio {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.sla-alto {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+.sla-critico {
+    background-color: #ff8d8d;
+    color: #721c24;
+}
+
+/* Transiciones y flujos de trabajo */
+.workflow-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    margin: 20px 0;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+.workflow-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding: 0 15px;
+}
+
+.workflow-step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 25px;
+    right: -15%;
+    width: 30%;
+    height: 2px;
+    background: #ced4da;
+}
+
+.workflow-step:not(:last-child)::before {
+    content: "→";
+    position: absolute;
+    top: 17px;
+    right: -15px;
+    color: #6c757d;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.workflow-icon {
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    margin-bottom: 10px;
+    color: #3498db;
+    font-size: 1.5rem;
+}
+
+.workflow-title {
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #495057;
+}
+
+.workflow-desc {
+    font-size: 0.8rem;
+    color: #6c757d;
+    text-align: center;
+    max-width: 120px;
+}
+
+/* Animaciones adicionales */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+@keyframes highlight-relationship {
+    0% {
+        background-color: #f8f9fa;
+    }
+    50% {
+        background-color: rgba(52, 152, 219, 0.2);
+    }
+    100% {
+        background-color: #f8f9fa;
+    }
+}
+
+.relationship:hover {
+    animation: highlight-relationship 1s ease-in-out;
+}
+
+/* Mejoras para visualización móvil */
+@media screen and (max-width: 576px) {
+    .workflow-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+    
+    .workflow-step:not(:last-child)::after,
+    .workflow-step:not(:last-child)::before {
+        display: none;
+    }
+    
+    .workflow-step::after {
+        content: "↓";
+        position: absolute;
+        bottom: -25px;
+        color: #6c757d;
+        font-weight: bold;
+    }
+    
+    .workflow-step:last-child::after {
+        display: none;
+    }
+}
+
+/* Estilo para diagrama de relaciones */
+.relation-diagram {
+    position: relative;
+    height: 400px;
+    margin: 40px 0;
+    background-color: rgba(240, 242, 245, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.relation-entity {
+    position: absolute;
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.relation-entity:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.relation-line {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, #3498db, #2ecc71);
+    z-index: 1;
+    transform-origin: left center;
+}
+
+.relation-label {
+    position: absolute;
+    background-color: white;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    z-index: 3;
+}
+
+/* Efectos de hover para entidades */
+.entity-highlight-effect {
+    transition: all 0.3s ease;
+}
+
+.entity-highlight-effect:hover {
+    transform: translateY(-8px) scale(1.03);
+    z-index: 10;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+/* Estilos para tooltips de información */
+.info-tooltip {
+    position: relative;
+    cursor: help;
+}
+
+.info-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: 250px;
+    padding: 8px 12px;
+    background-color: rgba(44, 62, 80, 0.9);
+    color: #ffffff;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 100;
+}
+
+.info-tooltip:hover::after {
+    opacity: 1;
+} 

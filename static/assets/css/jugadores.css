@@ -1,0 +1,597 @@
+/* Jugadores Page Styles */
+
+/* Stats Cards */
+.stats-card {
+    background: linear-gradient(145deg, #1a1a2e, #16213e);
+    border: 1px solid #2d3748;
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.stats-card:hover::before {
+    transform: translateX(100%);
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+    border-color: #3182ce;
+    box-shadow: 0 15px 35px rgba(49, 130, 206, 0.2);
+}
+
+.stats-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #3182ce;
+}
+
+.stats-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.stats-label {
+    color: #a0aec0;
+    margin: 0;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Search and Filter Area */
+.search-filter-area {
+    background: rgba(26, 26, 46, 0.8);
+    border: 1px solid #2d3748;
+    border-radius: 12px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+}
+
+.search-box .form-control {
+    background: rgba(45, 55, 72, 0.8);
+    border: 1px solid #4a5568;
+    color: #fff;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-box .form-control:focus {
+    background: rgba(45, 55, 72, 1);
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+    color: #fff;
+}
+
+.filter-box .form-select {
+    background: rgba(45, 55, 72, 0.8);
+    border: 1px solid #4a5568;
+    color: #fff;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    min-width: 150px;
+}
+
+.filter-box .form-select:focus {
+    background: rgba(45, 55, 72, 1);
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+    color: #fff;
+}
+
+/* 
+==================== GUÍA PARA MODIFICAR EL TAMAÑO DE LAS TARJETAS ====================
+
+Para hacer las tarjetas MÁS GRANDES, puedes modificar:
+
+1. TAMAÑO MÁXIMO (max-width):
+   - 320px = Tamaño actual (mediano)
+   - 350px = Más grande
+   - 400px = Muy grande
+   - 450px = Extra grande
+
+2. GRID DEL TEMPLATE (jugadores.html línea 102):
+   - col-lg-3 = 4 tarjetas por fila (actual)
+   - col-lg-4 = 3 tarjetas por fila (más grandes)
+   - col-lg-6 = 2 tarjetas por fila (muy grandes)
+
+3. ASPECT RATIO:
+   - aspect-ratio: 1 = Cuadradas (actual)
+   - aspect-ratio: 4/5 = Más altas que anchas
+   - aspect-ratio: 5/4 = Más anchas que altas
+
+4. ALTURA DE SECCIONES:
+   - Imagen: 70% (player-image-section)
+   - Info: 30% (player-info-section)
+   
+==================================================================================
+*/
+
+/* Enhanced Player Cards */
+.player-card {
+    position: relative;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+    background: linear-gradient(145deg, #1a1a2e, #16213e);
+    border: 1px solid #2d3748;
+    height: 700px; /* Altura fija, fácil de modificar */
+    display: flex;
+    flex-direction: column;
+    max-width: 320px; /* TAMAÑO: Aumenta este número para tarjetas más grandes */
+    margin: 0 auto;
+}
+
+.player-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border-color: #3182ce;
+}
+
+.player-status {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    z-index: 15;
+    animation: pulse 2s infinite;
+}
+
+.player-status.online {
+    background-color: #48bb78;
+}
+
+.player-status.away {
+    background-color: #79ed36;
+}
+
+.player-status.busy {
+    background-color: #e53e3e;
+}
+
+.player-status.offline {
+    background-color: #718096;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(72, 187, 120, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(72, 187, 120, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(72, 187, 120, 0);
+    }
+}
+
+/* Player Image Section */
+.player-image-section {
+    position: relative;
+    height: 50%; /* CORREGIDO: 50% para la imagen, como en el primer card */
+    overflow: hidden;
+}
+    
+.team-img {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+}
+
+.team-img::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="80" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="40" cy="60" r="1.5" fill="rgba(255,255,255,0.07)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.player-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Muestra la imagen completa sin recortar */
+    object-position: center center; /* CENTRADO: Horizontal y verticalmente */
+    transition: all 0.3s ease;
+    display: block; /* AGREGADO: Asegura que se comporte como bloque */
+    margin: 0 auto; /* AGREGADO: Centrado adicional */
+}
+
+.player-card:hover .player-avatar {
+    transform: scale(1.02);
+}
+
+/* Player Info Section */
+.player-info-section {
+    height: 50%; /* CORREGIDO: 50% para la información, equilibrado con la imagen */
+    padding: 0.8rem; /* PADDING: Reducido para aprovechar mejor el espacio */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: rgba(26, 26, 46, 0.9);
+}
+
+/* Player Name */
+.player-name {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.player-name h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.player-name a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.player-name a:hover {
+    color: #3182ce;
+}
+
+/* Quick Stats */
+.quick-stats {
+    margin-bottom: 0.5rem;
+    flex-grow: 1; /* CRECIMIENTO: Ocupa el espacio disponible */
+    overflow-y: auto; /* SCROLL: Si hay muchos campos, permite scroll */
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.2rem;
+    font-size: 0.8rem;
+    padding: 0.1rem 0; /* PADDING: Un poco de espacio vertical */
+}
+
+.stat-row:last-child {
+    margin-bottom: 0;
+}
+
+.stat-label {
+    color: #a0aec0;
+    font-weight: 500;
+}
+
+.stat-value {
+    color: #3182ce;
+    font-weight: bold;
+    background: rgba(49, 130, 206, 0.15);
+    padding: 0.1rem 0.3rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+}
+
+/* XP Progress */
+.xp-progress {
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar-small {
+    height: 4px;
+    background: linear-gradient(90deg, #3182ce, #63b3ed);
+    border-radius: 2px;
+    transition: width 0.6s ease;
+    margin-bottom: 0.2rem;
+}
+
+.progress-label {
+    color: #a0aec0;
+    font-size: 0.65rem;
+    text-align: center;
+    display: block;
+}
+
+/* Player Role */
+.player-role {
+    text-align: center;
+}
+
+.role-tag {
+    padding: 0.2rem 0.5rem;
+    border-radius: 8px;
+    font-size: 0.6rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+}
+
+/* Rank Badge */
+.rank-badge {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.2rem 0.6rem;
+    border-radius: 10px;
+    font-size: 0.65rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 2px solid #fff;
+    min-width: 60px;
+    text-align: center;
+    backdrop-filter: blur(5px);
+    z-index: 10;
+}
+
+.rank-recluta {
+    background: linear-gradient(45deg, #4299e1, #3182ce);
+    color: #fff;
+}
+
+.rank-member {
+    background: linear-gradient(45deg, #2b6cb0, #2c5aa0);
+    color: #fff;
+}
+
+.rank-veteran {
+    background: linear-gradient(45deg, #1e40af, #1d4ed8);
+    color: #fff;
+}
+
+.rank-elite {
+    background: linear-gradient(45deg, #1e3a8a, #1e40af);
+    color: #fff;
+}
+
+.rank-master {
+    background: linear-gradient(45deg, #323ef1, #1040dd);
+    color: #fff;
+}
+
+.rank-legend {
+    background: linear-gradient(45deg, #312e81, #1e1b4b);
+    color: #fff;
+    animation: glow 2s ease-in-out infinite alternate;
+    box-shadow: 0 0 15px rgba(49, 46, 129, 0.6);
+}
+
+@keyframes glow {
+    from {
+        box-shadow: 0 0 10px rgba(49, 46, 129, 0.5);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(49, 46, 129, 0.8);
+    }
+}
+
+
+
+/* Role Colors for role-tag - Paleta Azul Cohesiva */
+.role-tag.role-admin {
+    background: linear-gradient(45deg, #1e3a8a, #1e40af);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(30, 58, 138, 0.3);
+}
+
+.role-tag.role-subleader {
+    background: linear-gradient(45deg, #0739c0, #390efa);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(7, 57, 192, 0.3);
+}
+
+.role-tag.role-captain {
+    background: linear-gradient(45deg, #2563eb, #1d4ed8);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+.role-tag.role-trainer {
+    background: linear-gradient(45deg, #1e40af, #1e3a8a);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(30, 64, 175, 0.3);
+}
+
+.role-tag.role-moderator {
+    background: linear-gradient(45deg, #3182ce, #2c5aa0);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(49, 130, 206, 0.3);
+}
+
+.role-tag.role-event_manager {
+    background: linear-gradient(45deg, #2dd4bf, #0891b2);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(45, 212, 191, 0.3);
+}
+
+.role-tag.role-content_creator {
+    background: linear-gradient(45deg, #6366f1, #4f46e5);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+.role-tag.role-amateur {
+    background: linear-gradient(45deg, #60a5fa, #3b82f6);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(96, 165, 250, 0.3);
+}
+
+/* Badge Hover Effects */
+.role-tag:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+}
+
+
+
+/* Enhanced Pagination */
+.th-pagination ul li.active a {
+    background: linear-gradient(45deg, #3182ce, #63b3ed);
+    color: #fff;
+    border-color: #3182ce;
+}
+
+.pagination-info {
+    color: #a0aec0;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .search-filter-area form {
+        flex-direction: column;
+        gap: 1rem !important;
+    }
+    
+    .search-box,
+    .filter-box {
+        width: 100%;
+    }
+    
+    .stats-card {
+        margin-bottom: 1rem;
+        padding: 1.5rem 1rem;
+    }
+    
+    .stats-number {
+        font-size: 2rem;
+    }
+    
+    .player-card {
+        margin-bottom: 2rem;
+        max-width: 280px; /* AUMENTADO: Para tablets mantener un buen tamaño */
+        aspect-ratio: 2/3; /* CORREGIDO: Misma proporción que desktop */
+    }
+    
+    .player-info-section {
+        padding: 0.7rem; /* REDUCIDO: Para tablets */
+    }
+    
+    .player-name h4 {
+        font-size: 0.9rem;
+    }
+    
+    .stat-row {
+        font-size: 0.75rem;
+    }
+    
+    .stat-value {
+        font-size: 0.7rem;
+    }
+    
+    .progress-label {
+        font-size: 0.6rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .player-card {
+        max-width: 240px; /* AUMENTADO: Para móviles un tamaño más cómodo */
+        aspect-ratio: 2/3; /* CORREGIDO: Misma proporción que desktop */
+    }
+    
+    .stats-card {
+        padding: 1rem;
+    }
+    
+    .stats-number {
+        font-size: 1.8rem;
+    }
+    
+    .search-filter-area {
+        padding: 1.5rem;
+    }
+    
+    .player-info-section {
+        padding: 0.6rem;
+    }
+    
+    .player-name h4 {
+        font-size: 0.85rem;
+    }
+    
+    .rank-badge {
+        font-size: 0.6rem;
+        padding: 0.15rem 0.4rem;
+        min-width: 50px;
+    }
+}
+
+/* Loading States */
+.loading {
+    opacity: 0.7;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+/* No Results State */
+.no-results {
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.no-results i {
+    color: #4a5568;
+    margin-bottom: 1rem;
+}
+
+.no-results h4 {
+    color: #a0aec0;
+    margin-bottom: 1rem;
+}
+
+.no-results p {
+    color: #718096;
+}
+
+/* Hover Effects */
+.th-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(49, 130, 206, 0.3);
+}
+
+/* Animation for cards loading */
+.player-card {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Stagger animation for multiple cards */
+.player-card:nth-child(1) { animation-delay: 0.1s; }
+.player-card:nth-child(2) { animation-delay: 0.2s; }
+.player-card:nth-child(3) { animation-delay: 0.3s; }
+.player-card:nth-child(4) { animation-delay: 0.4s; }
+.player-card:nth-child(5) { animation-delay: 0.5s; }
+.player-card:nth-child(6) { animation-delay: 0.6s; }

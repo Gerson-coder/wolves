@@ -1,0 +1,313 @@
+{% extends 'base.html' %}
+
+{% block title %}Canciones{% endblock %}
+
+{% block styles %}
+<style>
+    :root {
+        --primary-color: #3498db;
+        --primary-dark: #2980b9;
+        --secondary-color: #e74c3c;
+        --accent-color: #f1c40f;
+        --text-color: #ffffff;
+        --text-muted: #cccccc;
+        --light-bg: #1e2126;
+        --card-bg: #272a31;
+        --border-color: #3a3f48;
+    }
+
+    body {
+        color: var(--text-color);
+    }
+
+    .canciones-header {
+        background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+        color: white;
+        padding: 2.5rem 0 1.5rem;
+        margin-bottom: 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .canciones-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill-opacity="0.05"><path d="M30,40 C30,20 50,20 50,40 C50,60 70,60 70,40" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="30" cy="40" r="5" fill="white"/><circle cx="70" cy="40" r="5" fill="white"/></svg>');
+        background-repeat: repeat;
+        background-size: 100px;
+        opacity: 0.3;
+    }
+
+    .canciones-header h1 {
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    .table-custom {
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        background-color: var(--card-bg);
+        color: var(--text-color);
+    }
+
+    .table-custom thead {
+        background: linear-gradient(90deg, var(--primary-dark), var(--primary-color));
+    }
+
+    .table-custom th {
+        font-weight: 600;
+        color: white;
+        border: none;
+    }
+
+    .table-custom tbody tr {
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .table-custom tbody tr:hover {
+        background-color: rgba(52, 152, 219, 0.2);
+    }
+
+    .puntuacion-badge {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 1rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .card-form {
+        border: none;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s;
+        background-color: var(--card-bg);
+        color: var(--text-color);
+    }
+
+    .card-form:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-header-custom {
+        background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+        padding: 1.25rem;
+    }
+
+    .card-body {
+        background-color: var(--card-bg);
+        color: var(--text-color);
+    }
+
+    .form-label {
+        color: var(--text-color);
+        font-weight: 500;
+    }
+
+    .form-control {
+        background-color: #1a1d23;
+        border-color: var(--border-color);
+        color: var(--text-color);
+    }
+
+    .form-control:focus {
+        background-color: #1a1d23;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        color: var(--text-color);
+    }
+
+    .input-group-text {
+        background-color: var(--primary-dark);
+        border-color: var(--border-color);
+        color: var(--text-color);
+    }
+
+    .btn-custom-primary {
+        background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+        border: none;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s;
+    }
+
+    .btn-custom-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-custom-danger {
+        background: linear-gradient(90deg, var(--secondary-color), #c0392b);
+        border: none;
+    }
+
+    .duracion-format {
+        color: var(--text-muted);
+        font-weight: 500;
+    }
+
+    .genero-badge {
+        background-color: var(--accent-color);
+        color: #000000;
+        padding: 0.25rem 0.5rem;
+        border-radius: 1rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .empty-state {
+        padding: 3rem;
+        text-align: center;
+        background-color: var(--light-bg);
+        border-radius: 0.5rem;
+        border: 2px dashed var(--border-color);
+        color: var(--text-muted);
+    }
+
+    .empty-state i {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+        display: block;
+    }
+    
+    h1, h2, h3, h4, h5, h6, p, span, div {
+        color: var(--text-color);
+    }
+    
+    .text-muted {
+        color: var(--text-muted) !important;
+    }
+    
+    .badge {
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="canciones-header text-center">
+        <h1>Biblioteca de Canciones</h1>
+        <p class="lead">Gestiona tu colección musical</p>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2>Lista de Canciones</h2>
+                <div>
+                    <span class="badge bg-primary">Total: {{ canciones|length }}</span>
+                </div>
+            </div>
+            
+            {% if canciones %}
+                <div class="table-responsive">
+                    <table class="table table-hover table-custom">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Género</th>
+                                <th>Duración</th>
+                                <th>Artista</th>
+                                <th>Puntuación</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cancion in canciones %}
+                                <tr>
+                                    <td>{{ cancion.nombre }}</td>
+                                    <td><span class="genero-badge">{{ cancion.genero }}</span></td>
+                                    <td><span class="duracion-format">{{ cancion.duracion }} seg</span></td>
+                                    <td>{{ cancion.artista }}</td>
+                                    <td><span class="puntuacion-badge">{{ cancion.puntuacion }}/10</span></td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-custom-primary">Editar</a>
+                                        <a href="#" class="btn btn-sm btn-custom-danger">Eliminar</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-music"></i>
+                    <p class="h4">No hay canciones registradas</p>
+                    <p class="text-muted">¡Añade tu primera canción con el formulario!</p>
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card card-form">
+                <div class="card-header card-header-custom">
+                    <h3 class="card-title mb-0 text-white">Añadir Nueva Canción</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'canciones' %}">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre de la canción</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-music"></i></span>
+                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre de la canción" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="genero" class="form-label">Género</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-guitar"></i></span>
+                                <input type="text" class="form-control" id="genero" name="genero" placeholder="Pop, Rock, etc." required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="duracion" class="form-label">Duración (segundos)</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                                <input type="number" class="form-control" id="duracion" name="duracion" min="1" placeholder="180" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="artista" class="form-label">Artista</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                <input type="text" class="form-control" id="artista" name="artista" placeholder="Nombre del artista" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="puntuacion" class="form-label">Puntuación (1-10)</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-star"></i></span>
+                                <input type="number" class="form-control" id="puntuacion" name="puntuacion" min="1" max="10" placeholder="8" required>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-lg btn-custom-primary">
+                                <i class="fas fa-save me-2"></i> Guardar Canción
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

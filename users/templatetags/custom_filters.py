@@ -13,3 +13,8 @@ def multiply(value, arg):
 @register.filter
 def subtract(value, arg):
     return value - arg 
+
+@register.filter
+def get_item(dictionary, key):
+    """Obtiene el valor de un diccionario por su clave."""
+    return dictionary.get(key, []) 

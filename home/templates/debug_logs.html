@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Wolves - Debug Logs{% endblock %}
+
+{% block extra_css %}
+<style>
+    .log-container {
+        background-color: rgba(20, 20, 30, 0.8);
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 30px;
+        color: #e0e0e0;
+        font-family: monospace;
+        max-height: 800px;
+        overflow-y: auto;
+    }
+    
+    .log-entry {
+        padding: 8px 12px;
+        margin-bottom: 5px;
+        border-radius: 4px;
+        background-color: rgba(30, 30, 42, 0.7);
+        border-left: 4px solid #555;
+    }
+    
+    .log-entry.start {
+        border-left-color: #45f882;
+        background-color: rgba(69, 248, 130, 0.1);
+    }
+    
+    .log-entry.end {
+        border-left-color: #45a0f8;
+        background-color: rgba(69, 160, 248, 0.1);
+    }
+    
+    .log-entry.error {
+        border-left-color: #f84545;
+        background-color: rgba(248, 69, 69, 0.1);
+    }
+    
+    .log-timestamp {
+        color: #aaa;
+        font-size: 0.85rem;
+        margin-right: 10px;
+    }
+    
+    .log-level {
+        display: inline-block;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 0.8rem;
+        margin-right: 10px;
+        min-width: 60px;
+        text-align: center;
+    }
+    
+    .log-level.debug {
+        background-color: #45a0f8;
+        color: #000;
+    }
+    
+    .log-level.info {
+        background-color: #45f882;
+        color: #000;
+    }
+    
+    .log-level.error {
+        background-color: #f84545;
+        color: #fff;
+    }
+    
+    .log-message {
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+    
+    .log-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .log-stats {
+        background-color: rgba(30, 30, 42, 0.7);
+        padding: 10px 15px;
+        border-radius: 5px;
+        font-size: 0.9rem;
+    }
+    
+    .log-controls {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .log-filter {
+        background-color: rgba(30, 30, 42, 0.7);
+        border: 1px solid #555;
+        color: #fff;
+        padding: 8px 15px;
+        border-radius: 5px;
+    }
+    
+    .refresh-btn {
+        background-color: #45f882;
+        color: #14141e;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .refresh-btn:hover {
+        background-color: #3ae476;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="space-top"></div>
+
+<div class="tournament-area-1 space" data-bg-src="{% static 'assets/img/bg/tournament-table-sec1-bg.png' %}">
+    <div class="container">
+        <div class="title-area text-center">
+            <span class="sub-title style2"># Depuración</span>
+            <h2 class="sec-title">Logs de Asistencia <span class="text-theme">!</span></h2>
+        </div>
+        
+        <div class="log-header">
+            <div class="log-stats">
+                <p><strong>Total entradas:</strong> {{ total_entries }}</p>
+                <p><strong>Archivo:</strong> {{ log_file }}</p>
+            </div>
+            <a href="{% url 'ver_debug_logs' %}" class="refresh-btn">
+                <i class="fas fa-sync-alt"></i> Actualizar
+            </a>
+        </div>
+        
+        <div class="log-controls">
+            <input type="text" id="log-search" class="log-filter" placeholder="Buscar en logs...">
+            <select id="log-level-filter" class="log-filter">
+                <option value="all">Todos los niveles</option>
+                <option value="DEBUG">DEBUG</option>
+                <option value="INFO">INFO</option>
+                <option value="ERROR">ERROR</option>
+            </select>
+            <select id="log-type-filter" class="log-filter">
+                <option value="all">Todos los tipos</option>
+                <option value="start">Inicios</option>
+                <option value="end">Finales</option>
+                <option value="error">Errores</option>
+            </select>
+        </div>
+        
+        <div class="log-container">
+            {% for entry in log_entries %}
+                <div class="log-entry {% if entry.is_start %}start{% elif entry.is_end %}end{% elif entry.is_error %}error{% endif %}" 
+                     data-level="{{ entry.level }}" 
+                     data-type="{% if entry.is_start %}start{% elif entry.is_end %}end{% elif entry.is_error %}error{% else %}normal{% endif %}">
+                    <span class="log-timestamp">{{ entry.timestamp }}</span>
+                    <span class="log-level {{ entry.level|lower }}">{{ entry.level }}</span>
+                    <span class="log-message">{{ entry.message }}</span>
+                </div>
+            {% empty %}
+                <div class="log-entry">No hay entradas de log disponibles</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('log-search');
+        const levelFilter = document.getElementById('log-level-filter');
+        const typeFilter = document.getElementById('log-type-filter');
+        const logEntries = document.querySelectorAll('.log-entry');
+        
+        function filterLogs() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const levelValue = levelFilter.value;
+            const typeValue = typeFilter.value;
+            
+            logEntries.forEach(entry => {
+                const message = entry.querySelector('.log-message').textContent.toLowerCase();
+                const level = entry.dataset.level;
+                const type = entry.dataset.type;
+                
+                const matchesSearch = searchTerm === '' || message.includes(searchTerm);
+                const matchesLevel = levelValue === 'all' || level === levelValue;
+                const matchesType = typeValue === 'all' || type === typeValue;
+                
+                if (matchesSearch && matchesLevel && matchesType) {
+                    entry.style.display = '';
+                } else {
+                    entry.style.display = 'none';
+                }
+            });
+        }
+        
+        searchInput.addEventListener('input', filterLogs);
+        levelFilter.addEventListener('change', filterLogs);
+        typeFilter.addEventListener('change', filterLogs);
+        
+        // Scroll al final del contenedor de logs
+        const logContainer = document.querySelector('.log-container');
+        logContainer.scrollTop = logContainer.scrollHeight;
+    });
+</script>
+{% endblock %} 

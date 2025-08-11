@@ -10,5 +10,6 @@ urlpatterns = [
     path('cambiar-avatar/', views.cambiar_avatar, name='cambiar_avatar'),
     path('detalle_jugador/<str:username>/', views.perfil_usuario, name='detalle_jugador'),
     path('recuperar-contrasena/', views.recuperar_contrasena, name='recuperar_contrasena'),
+    path('jugadores/', views.jugadores, name='jugadores'),
 ]
 

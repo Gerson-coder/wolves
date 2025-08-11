@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flujo de Trabajo SIGTI - Sistema de Gestión de Tickets</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/assets/css/modelo_conceptual_styles.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --primary-dark: #2980b9;
+            --secondary-color: #e74c3c;
+            --accent-color: #2ecc71;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --gray-color: #95a5a6;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .workflow-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--dark-color);
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 3px;
+        }
+
+        /* Estilos para el diagrama de flujo horizontal */
+        .horizontal-flow {
+            display: flex;
+            justify-content: space-between;
+            margin: 50px 0;
+            position: relative;
+            overflow-x: auto;
+            padding: 20px 10px;
+        }
+
+        .horizontal-flow::before {
+            content: "";
+            position: absolute;
+            top: 70px;
+            left: 60px;
+            right: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            z-index: 1;
+        }
+
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            min-width: 140px;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .flow-step:hover .step-number {
+            transform: scale(1.2);
+            background-color: var(--accent-color);
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .flow-step:hover .step-icon {
+            color: var(--accent-color);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark-color);
+            text-align: center;
+        }
+
+        .step-desc {
+            color: var(--gray-color);
+            text-align: center;
+            font-size: 0.9rem;
+            max-width: 180px;
+        }
+
+        /* Estilos para la tabla de estados */
+        .states-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .states-table thead {
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+            color: white;
+        }
+
+        .states-table th,
+        .states-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .states-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .states-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-primary {
+            background-color: #e8f4fd;
+            color: var(--primary-color);
+        }
+
+        .badge-success {
+            background-color: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .badge-warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-danger {
+            background-color: #f8d7da;
+            color: #842029;
+        }
+
+        /* Estilos para el ciclo de vida circular */
+        .lifecycle-circle {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            margin: 50px auto;
+        }
+
+        .circle-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .circle-phase {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .circle-phase:hover {
+            transform: scale(1.15);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+        }
+
+        .phase-icon {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .phase-name {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* Posiciones para las fases del ciclo */
+        .phase-1 {
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .phase-2 {
+            top: 120px;
+            right: 60px;
+        }
+
+        .phase-3 {
+            bottom: 120px;
+            right: 60px;
+        }
+
+        .phase-4 {
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .phase-5 {
+            bottom: 120px;
+            left: 60px;
+        }
+
+        .phase-6 {
+            top: 120px;
+            left: 60px;
+        }
+
+        /* Líneas conectoras */
+        .connector {
+            position: absolute;
+            background-color: rgba(52, 152, 219, 0.3);
+            z-index: 1;
+        }
+
+        /* Estilos para los actores y roles */
+        .roles-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .role-card {
+            width: 220px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .role-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .role-header {
+            background: linear-gradient(45deg, var(--primary-dark), var(--primary-color));
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .role-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .role-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .role-body {
+            padding: 15px;
+        }
+
+        .role-desc {
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+
+        .role-list {
+            list-style-type: none;
+        }
+
+        .role-list li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #e1e4e8;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .role-list li:last-child {
+            border-bottom: none;
+        }
+
+        .role-list li i {
+            margin-right: 8px;
+            color: var(--primary-color);
+        }
+
+        /* Estilos para el footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+
+        /* Estilos responsivos */
+        @media screen and (max-width: 768px) {
+            .horizontal-flow {
+                flex-direction: column;
+                align-items: center;
+                gap: 40px;
+            }
+            
+            .horizontal-flow::before {
+                top: 0;
+                bottom: 0;
+                left: 50%;
+                right: auto;
+                width: 4px;
+                height: auto;
+                transform: translateX(-50%);
+            }
+            
+            .lifecycle-circle {
+                width: 100%;
+                height: auto;
+                margin: 80px auto;
+            }
+            
+            .circle-center {
+                position: relative;
+                margin: 0 auto 100px;
+                transform: none;
+                top: auto;
+                left: auto;
+            }
+            
+            .circle-phase {
+                position: relative;
+                margin: 15px auto;
+                top: auto;
+                left: auto;
+                right: auto;
+                bottom: auto;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Flujo de Trabajo SIGTI</h1>
+            <p>Sistema de Gestión de Tickets e Incidencias para Departamentos de TI</p>
+        </header>
+
+        <!-- Diagrama de Flujo Horizontal -->
+        <section class="workflow-section">
+            <h2 class="section-title">Proceso de Gestión de Tickets</h2>
+            <div class="horizontal-flow">
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="step-title">Solicitud</div>
+                    <div class="step-desc">Usuario genera un SAR especificando requerimientos</div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div class="step-title">Validación</div>
+                    <div class="step-desc">El SAR es revisado y validado por supervisor</div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <div class="step-title">Ticket</div>
+                    <div class="step-desc">Se crea un ticket y se clasifica por prioridad</div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="step-title">Asignación</div>
+                    <div class="step-desc">El ticket se asigna al especialista adecuado</div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">5</div>
+                    <div class="step-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="step-title">Desarrollo</div>
+                    <div class="step-desc">Implementación de la solución técnica</div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">6</div>
+                    <div class="step-icon">
+                        <i class="fas fa-check-double"></i>
+                    </div>
+                    <div class="step-title">Cierre</div>
+                    <div class="step-desc">Verificación y documentación de la solución</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Estados de SAR -->
+        <section class="workflow-section">
+            <h2 class="section-title">Estados de Solicitudes</h2>
+            <p>Las solicitudes de atención y requerimientos (SAR) pasan por diferentes estados durante su ciclo de vida:</p>
+            
+            <table class="states-table">
+                <thead>
+                    <tr>
+                        <th>Estado</th>
+                        <th>Descripción</th>
+                        <th>Acciones posibles</th>
+                        <th>Responsable</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge badge-primary">Borrador</span></td>
+                        <td>Solicitud inicial, pendiente de completar</td>
+                        <td>Editar, Enviar, Cancelar</td>
+                        <td>Usuario solicitante</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-warning">Enviada</span></td>
+                        <td>Solicitud enviada para validación</td>
+                        <td>Validar, Rechazar, Solicitar cambios</td>
+                        <td>Supervisor de área</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-success">Validada</span></td>
+                        <td>Solicitud revisada y aprobada</td>
+                        <td>Crear ticket, Asignar</td>
+                        <td>Coordinador TI</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-danger">Rechazada</span></td>
+                        <td>Solicitud denegada por inviable o incompleta</td>
+                        <td>Revisar, Modificar, Cerrar</td>
+                        <td>Usuario solicitante</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-primary">En proceso</span></td>
+                        <td>Ticket creado y en desarrollo</td>
+                        <td>Monitorear, Comentar</td>
+                        <td>Especialista asignado</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-success">Cerrada</span></td>
+                        <td>Solicitud finalizada con solución implementada</td>
+                        <td>Evaluar, Reabrir (si aplica)</td>
+                        <td>Usuario solicitante</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Ciclo de vida del Ticket -->
+        <section class="workflow-section">
+            <h2 class="section-title">Ciclo de Vida del Ticket</h2>
+            
+            <div class="lifecycle-circle">
+                <div class="circle-center">
+                    Ciclo de<br>Tickets
+                </div>
+                
+                <div class="circle-phase phase-1">
+                    <div class="phase-icon">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+                    <div class="phase-name">Creación</div>
+                </div>
+                
+                <div class="circle-phase phase-2">
+                    <div class="phase-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="phase-name">Asignación</div>
+                </div>
+                
+                <div class="circle-phase phase-3">
+                    <div class="phase-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div class="phase-name">Desarrollo</div>
+                </div>
+                
+                <div class="circle-phase phase-4">
+                    <div class="phase-icon">
+                        <i class="fas fa-vial"></i>
+                    </div>
+                    <div class="phase-name">Pruebas</div>
+                </div>
+                
+                <div class="circle-phase phase-5">
+                    <div class="phase-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="phase-name">Verificación</div>
+                </div>
+                
+                <div class="circle-phase phase-6">
+                    <div class="phase-icon">
+                        <i class="fas fa-archive"></i>
+                    </div>
+                    <div class="phase-name">Cierre</div>
+                </div>
+            </div>
+            
+            <p style="text-align: center; margin-top: 30px;">Cada transición entre estados genera automáticamente un registro de auditoría para mantener la trazabilidad.</p>
+        </section>
+
+        <!-- Roles y Responsabilidades -->
+        <section class="workflow-section">
+            <h2 class="section-title">Actores y Roles</h2>
+            <div class="roles-container">
+                <div class="role-card">
+                    <div class="role-header">
+                        <div class="role-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="role-title">Usuario</div>
+                    </div>
+                    <div class="role-body">
+                        <div class="role-desc">Personal de la organización que solicita atención de TI</div>
+                        <ul class="role-list">
+                            <li><i class="fas fa-chevron-right"></i> Crear solicitudes (SAR)</li>
+                            <li><i class="fas fa-chevron-right"></i> Dar seguimiento a tickets</li>
+                            <li><i class="fas fa-chevron-right"></i> Validar soluciones</li>
+                            <li><i class="fas fa-chevron-right"></i> Evaluar atención recibida</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="role-card">
+                    <div class="role-header">
+                        <div class="role-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="role-title">Supervisor</div>
+                    </div>
+                    <div class="role-body">
+                        <div class="role-desc">Responsable de área que valida solicitudes</div>
+                        <ul class="role-list">
+                            <li><i class="fas fa-chevron-right"></i> Revisar solicitudes</li>
+                            <li><i class="fas fa-chevron-right"></i> Validar o rechazar SAR</li>
+                            <li><i class="fas fa-chevron-right"></i> Priorizar necesidades</li>
+                            <li><i class="fas fa-chevron-right"></i> Aprobar soluciones</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="role-card">
+                    <div class="role-header">
+                        <div class="role-icon">
+                            <i class="fas fa-user-cog"></i>
+                        </div>
+                        <div class="role-title">Coordinador TI</div>
+                    </div>
+                    <div class="role-body">
+                        <div class="role-desc">Gestiona la asignación y seguimiento de tickets</div>
+                        <ul class="role-list">
+                            <li><i class="fas fa-chevron-right"></i> Crear tickets</li>
+                            <li><i class="fas fa-chevron-right"></i> Asignar especialistas</li>
+                            <li><i class="fas fa-chevron-right"></i> Gestionar SLAs</li>
+                            <li><i class="fas fa-chevron-right"></i> Monitorear cumplimiento</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="role-card">
+                    <div class="role-header">
+                        <div class="role-icon">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <div class="role-title">Especialista</div>
+                    </div>
+                    <div class="role-body">
+                        <div class="role-desc">Personal técnico que implementa soluciones</div>
+                        <ul class="role-list">
+                            <li><i class="fas fa-chevron-right"></i> Analizar tickets</li>
+                            <li><i class="fas fa-chevron-right"></i> Implementar soluciones</li>
+                            <li><i class="fas fa-chevron-right"></i> Documentar acciones</li>
+                            <li><i class="fas fa-chevron-right"></i> Realizar pruebas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="workflow-section">
+            <h2 class="section-title">Métricas y SLAs</h2>
+            
+            <div class="states-table" style="overflow-x: auto;">
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Tipo de Ticket</th>
+                            <th>Tiempo Respuesta</th>
+                            <th>Tiempo Resolución</th>
+                            <th>Prioridad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Incidencia crítica</td>
+                            <td>15 minutos</td>
+                            <td>2 horas</td>
+                            <td><span class="badge-sla sla-critico">Crítica</span></td>
+                        </tr>
+                        <tr>
+                            <td>Incidencia alta</td>
+                            <td>30 minutos</td>
+                            <td>4 horas</td>
+                            <td><span class="badge-sla sla-alto">Alta</span></td>
+                        </tr>
+                        <tr>
+                            <td>Incidencia media</td>
+                            <td>2 horas</td>
+                            <td>8 horas</td>
+                            <td><span class="badge-sla sla-medio">Media</span></td>
+                        </tr>
+                        <tr>
+                            <td>Incidencia baja</td>
+                            <td>4 horas</td>
+                            <td>24 horas</td>
+                            <td><span class="badge-sla sla-bajo">Baja</span></td>
+                        </tr>
+                        <tr>
+                            <td>Requerimiento estándar</td>
+                            <td>8 horas</td>
+                            <td>3 días</td>
+                            <td><span class="badge-sla sla-bajo">Estándar</span></td>
+                        </tr>
+                        <tr>
+                            <td>Proyecto menor</td>
+                            <td>24 horas</td>
+                            <td>5 días</td>
+                            <td><span class="badge-sla sla-bajo">Planificada</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2023 Sistema de Gestión de Tickets e Incidencias (SIGTI) - Proyecto de Ingeniería de Requerimientos</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Añadir animación a los elementos del flujo cuando estén en el viewport
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, 150 * index);
+                    }
+                });
+            });
+            
+            // Aplicar animación a los pasos del flujo
+            document.querySelectorAll('.flow-step').forEach((step, index) => {
+                step.style.opacity = '0';
+                step.style.transform = 'translateY(20px)';
+                step.style.transition = 'all 0.5s ease';
+                observer.observe(step);
+            });
+            
+            // Aplicar animación a las fases del ciclo
+            document.querySelectorAll('.circle-phase').forEach((phase, index) => {
+                phase.style.opacity = '0';
+                phase.style.transition = 'all 0.5s ease';
+                setTimeout(() => {
+                    phase.style.opacity = '1';
+                }, 300 * index);
+            });
+            
+            // Añadir interactividad a las tarjetas de roles
+            document.querySelectorAll('.role-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    this.classList.toggle('expanded');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

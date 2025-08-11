@@ -1,6 +1,6 @@
-from .models import CreateUser,Create_subs,Perfil,PerfilJuego,Juego,Logro,LogroUsuario,Evento,Notificacion,Rango,RangoUsuario
+from .models import CreateUser,Create_subs,Perfil,PerfilJuego,Juego,Logro,LogroUsuario,Evento,Notificacion,Rango,RangoUsuario,Create_Lider
 from django.contrib import admin
-
+admin.site.register(Create_Lider)
 admin.site.register(CreateUser)
 admin.site.register(Create_subs)
 admin.site.register(Perfil)

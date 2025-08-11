@@ -1,0 +1,634 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Wolves - Clan de Gaming | Inicio{% endblock %}
+
+{% block meta_description %}Wolves Gaming - Comunidad profesional de esports y gaming. Participa en torneos, únete a nuestros equipos y forma parte de la experiencia Wolves.{% endblock %}
+
+{% block content %}
+
+<div class="space-top"></div>
+
+
+    <!--==============================
+Video Area  
+==============================-->
+    <div class="point-table-area-1 space overflow-hidden" data-bg-src="{% static 'assets/img/bg/tournament-table-sec1-bg.png' %}">
+        <div class="container">
+            <div class="title-area text-center custom-anim-top wow animated" data-wow-duration="1.5s" data-wow-delay="0.2s">
+                <span class="sub-title style2"># Registro de Asistencia</span>
+                <h2 class="sec-title">Registro de Asistencia Diaria <span class="text-theme">!</span></h2>
+            </div>
+            
+            <!-- Descripción del sistema de clasificación -->
+            <div class="group-description text-center mb-30">
+                <p>Panel para registrar asistencias.</p>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="form-card">
+                        <form method="post" enctype="multipart/form-data" class="attendance-form">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label for="nickname" class="form-label fw-bold text-white h5"><i class="fas fa-user text-theme"></i> Nickname *</label>
+                                    <input type="text" name="nickname" id="nickname" class="custom-input-full" required>
+                                </div>
+                                
+                                <div class="col-md-6 form-group">
+                                    <label for="apodo" class="form-label fw-bold text-white h5"><i class="fas fa-tag text-theme"></i> Apodo</label>
+                                    <input type="text" name="apodo" id="apodo" class="custom-input-full">
+                                    <small id="apodo-info" class="form-text text-white"></small>
+                                </div>
+                                
+                        
+                                
+                                <div class="col-md-6 form-group">
+                                    <label for="puntos" class="form-label fw-bold text-white h5"><i class="fas fa-star text-theme"></i> Puntos del día *</label>
+                                    <input type="number" name="puntos" id="puntos" class="custom-input-full" min="0" required>
+                                </div>
+                                
+                                <div class="col-md-6 form-group">
+                                    <label for="fecha" class="form-label fw-bold text-white h5"><i class="fas fa-calendar text-theme"></i> Fecha *</label>
+                                    <div class="date-wrapper">
+                                        <div class="calendar-icon-only">
+                                            <i class="fas fa-calendar-alt date-trigger-icon"></i>
+                                        </div>
+                                        <input type="date" name="fecha" id="fecha" class="date-field-hidden" required>
+                                        <div id="fecha-display" class="date-display">{% now 'd/m/Y' %}</div>
+                                    </div>
+                                </div>
+                                <style>
+                                    .date-wrapper {
+                                        position: relative;
+                                        width: 100%;
+                                        display: flex;
+                                        align-items: center;
+                                    }
+                                    
+                                    /* Nuevos estilos para inputs sin iconos */
+                                    .custom-input-full {
+                                        width: 100%;
+                                        padding: 12px 15px;
+                                        background-color: rgba(30, 30, 42, 0.8);
+                                        border: 1px solid rgba(255, 255, 255, 0.2);
+                                        border-radius: 8px;
+                                        color: #fff;
+                                        font-size: 1rem;
+                                    }
+                                    
+                                    .custom-input-full:focus {
+                                        border-color: #45f882;
+                                        box-shadow: 0 0 0 3px rgba(69, 248, 130, 0.2);
+                                        outline: none;
+                                        background-color: rgba(30, 30, 42, 0.9);
+                                    }
+                                    
+                                    /* Selector para todos los inputs del formulario */
+                                    input[type="text"]:focus, 
+                                    input[type="number"]:focus,
+                                    input[type="date"]:focus,
+                                    select:focus,
+                                    textarea:focus {
+                                        background-color: rgba(30, 30, 42, 0.9) !important;
+                                        color: #fff !important;
+                                        border-color: #45f882 !important;
+                                        box-shadow: 0 0 0 3px rgba(69, 248, 130, 0.2) !important;
+                                    }
+                                    
+                                    /* Estilos para el avatar sin icono */
+                                    .custom-file-upload-simple {
+                                        position: relative;
+                                        width: 100%;
+                                    }
+                                    
+                                    .file-display-full {
+                                        display: flex;
+                                        align-items: center;
+                                        padding: 0;
+                                        border: 1px solid rgba(255, 255, 255, 0.2);
+                                        border-radius: 8px;
+                                        overflow: hidden;
+                                        background-color: rgba(30, 30, 42, 0.8);
+                                    }
+                                    
+                                    /* Mantener los estilos originales para el selector de fecha */
+                                    .calendar-icon-only {
+                                        background-color: rgba(30, 30, 42, 0.8);
+                                        border: 1px solid rgba(255, 255, 255, 0.2);
+                                        border-radius: 8px;
+                                        padding: 12px;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        cursor: pointer;
+                                        width: 50px;
+                                        transition: all 0.3s ease;
+                                    }
+                                    
+                                    .calendar-icon-only:hover {
+                                        border-color: #45f882;
+                                        box-shadow: 0 0 0 3px rgba(69, 248, 130, 0.2);
+                                    }
+                                    
+                                    .date-trigger-icon {
+                                        color: #45f882;
+                                        font-size: 20px;
+                                    }
+                                    
+                                    .date-field-hidden {
+                                        opacity: 0;
+                                        position: absolute;
+                                        width: 50px;
+                                        height: 100%;
+                                        top: 0;
+                                        left: 0;
+                                        cursor: pointer;
+                                        z-index: 10;
+                                    }
+                                    
+                                    .date-display {
+                                        margin-left: -47px;
+                                        padding: 12px 15px 12px 15px;
+                                        background-color: rgba(30, 30, 42, 0.8);
+                                        border: 1px solid rgba(255, 255, 255, 0.2);
+                                        border-radius: 8px;
+                                        color: #fff;
+                                        font-size: 1rem;
+                                        flex-grow: 1;
+                                    }
+                                    
+                                    .file-input {
+                                        position: absolute;
+                                        width: 0.1px;
+                                        height: 0.1px;
+                                        opacity: 0;
+                                        overflow: hidden;
+                                        z-index: -1;
+                                    }
+                                    
+                                    .file-name {
+                                        flex: 1;
+                                        padding: 12px 15px;
+                                        color: #fff;
+                                        font-size: 1rem;
+                                    }
+                                    
+                                    .browse-btn {
+                                        background: #45f882;
+                                        color: #14141e;
+                                        border: none;
+                                        padding: 12px 20px;
+                                        font-weight: 600;
+                                        cursor: pointer;
+                                        transition: all 0.3s ease;
+                                    }
+                                    
+                                    .browse-btn:hover {
+                                        background: #3ae476;
+                                    }
+                                    
+                                    /* Aplicar también al archivo */
+                                    .file-display-full:focus-within {
+                                        background-color: rgba(30, 30, 42, 0.9);
+                                        border-color: #45f882;
+                                        box-shadow: 0 0 0 3px rgba(69, 248, 130, 0.2);
+                                    }
+                                </style>
+                                
+                           
+                                
+                                <div class="col-md-6 form-group">
+                                    <label for="avatar" class="form-label fw-bold text-white h5"><i class="fas fa-image text-theme"></i> Avatar</label>
+                                    <div class="custom-file-upload-simple">
+                                        <input type="file" name="avatar" id="avatar" class="file-input" accept="image/*">
+                                        <div class="file-display-full">
+                                            <span class="file-name">Seleccionar imagen</span>
+                                            <button type="button" class="browse-btn">Explorar</button>
+                                        </div>
+                                    </div>
+                                    <div id="avatar-preview" class="mt-3"></div>
+                                </div>
+                                
+                                <div class="col-12 mt-4 text-center">
+                                    <button type="submit" class="action-button primary-button">
+                                        <i class="fas fa-check-circle me-2"></i> Registrar Asistencia
+                                    </button>
+                                    <a href="{% url 'puntos_generales' %}" class="action-button secondary-button ms-3">
+                                        <i class="fas fa-table me-2"></i> Ver Tabla de Puntos
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Información adicional -->
+                    <div class="info-box mt-4">
+                        <h4 class="blog-title"><i class="fas fa-info-circle"></i> Información importante</h4>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check"></i> La asistencia solo puede registrarse una vez por día</li>
+                            <li><i class="fas fa-check"></i> Los puntos serán validados por un administrador</li>
+                            <li><i class="fas fa-check"></i> Asegúrate de subir una imagen de perfil adecuada (opcional)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--==============================
+Cta Area  
+==============================-->
+    <div class="container th-container4">
+        <div class="cta-area-1">
+            <div class="cta-bg-shape-border">
+                <svg width="1464" height="564" viewBox="0 0 1464 564" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1463.5 30V534C1463.5 550.292 1450.29 563.5 1434 563.5H1098H927.426C919.603 563.5 912.099 560.392 906.567 554.86L884.14 532.433C878.42 526.713 870.663 523.5 862.574 523.5H601.426C593.337 523.5 585.58 526.713 579.86 532.433L557.433 554.86C551.901 560.392 544.397 563.5 536.574 563.5H366H30C13.7076 563.5 0.5 550.292 0.5 534V30C0.5 13.7076 13.7076 0.5 30 0.5H366H536.574C544.397 0.5 551.901 3.60802 557.433 9.14034L579.86 31.5668C585.58 37.2866 593.337 40.5 601.426 40.5H862.574C870.663 40.5 878.42 37.2866 884.14 31.5668L906.567 9.14035C912.099 3.60803 919.603 0.5 927.426 0.5H1098H1434C1450.29 0.5 1463.5 13.7076 1463.5 30Z" stroke="url(#paint0_linear_202_547)" />
+                    <defs>
+                        <linearGradient id="paint0_linear_202_547" x1="0" y1="0" x2="1505.47" y2="412.762" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="var(--theme-color)" />
+                            <stop offset="1" stop-color="var(--theme-color2)" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div class="cta-wrap-bg bg-repeat" data-bg-src="assets/img/bg/jiji-bg.png" data-mask-src="assets/img/shape/cta-bg-shape1.svg">
+                <div class="cta-bg-img">
+                    <img src="{% static 'assets/img/bg/cta-sec1-bg.png' %}" alt="img">
+                </div>
+                <div class="cta-thumb">
+                    <img src="{% static 'assets/img/normal/cta1-1.png' %}" alt="img">
+                </div>
+            </div>
+            <div class="cta-wrap">
+                <div class="row">
+                    <div class="col-xl-5">
+                        <div class="title-area mb-0 custom-anim-left wow animated" data-wow-duration="1.5s" data-wow-delay="0.2s">
+                            <span class="sub-title"># World Best Gaming Site</span>
+                            <h2 class="sec-title">Join Bame Esports to Become Next <span class="text-theme fw-medium">PRO Gamer Today !</span></h2>
+                            <p class="mt-30 mb-30">Esports and gaming facilities requires thoughtful consideration of various elements to create an environment that caters to the needs of gamers and enhances the overall gaming experience.</p>
+                            <a href="contact.html" class="th-btn">JOIN COMMUNITY <i class="fa-solid fa-arrow-right ms-2"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--==============================
+Client Area  
+==============================-->
+   
+
+    <!-- Scroll To Top -->
+    <div class="scroll-top">
+        <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 307.919;"></path>
+        </svg>
+    </div>
+
+    <!-- Scripts para autocompletar -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const nicknameInput = document.getElementById('nickname');
+            const apodoInput = document.getElementById('apodo');
+            const avatarInput = document.getElementById('avatar');
+            const avatarPreview = document.getElementById('avatar-preview');
+            const apodoInfo = document.getElementById('apodo-info');
+            const dateField = document.getElementById('fecha');
+            const dateDisplay = document.getElementById('fecha-display');
+            
+            // Establecer la fecha actual como valor inicial
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+            dateField.value = formattedDate;
+            
+            let typingTimer;
+            const doneTypingInterval = 500; // espera 500ms después de que el usuario deje de escribir
+            let avatarUrl = null; // Para almacenar la URL del avatar existente
+            
+            // Actualizar la función checkNickname para mostrar información más detallada
+            function checkNickname() {
+                const nickname = nicknameInput.value.trim();
+                
+                if (nickname.length > 0) {
+                    // Hacer la solicitud AJAX
+                    fetch(`/verificar-nickname/?nickname=${encodeURIComponent(nickname)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.existe) {
+                                // Autocompletar el apodo si el nickname existe
+                                apodoInput.value = data.apodo;
+                                apodoInput.disabled = true;
+                                
+                                // Mostrar mensaje detallado sobre el jugador existente
+                                let infoHtml = `
+                                    <div class="player-info">
+                                        <p class="text-success mb-1">Jugador existente</p>
+                                        <ul class="list-unstyled">
+                                            <li><i class="fas fa-star"></i> Puntos del día: ${data.puntos_dia}</li>
+                                            <li><i class="fas fa-trophy"></i> Puntos acumulados: ${data.puntos_acumulados}</li>
+                                            <li><i class="fas fa-layer-group"></i> Grupo: ${data.grupo}</li>
+                                            <li><i class="fas fa-history"></i> Total de registros: ${data.total_registros}</li>
+                                        </ul>
+                                `;
+                          
+                                
+                                infoHtml += `</div>`;
+                                apodoInfo.innerHTML = infoHtml;
+                                apodoInfo.classList.add('text-success');
+                                
+                                // Mostrar avatar existente si hay uno
+                                if (data.avatar_url) {
+                                    avatarUrl = data.avatar_url;
+                                    avatarPreview.innerHTML = `
+                                        <div class="existing-avatar">
+                                            <img src="${data.avatar_url}" alt="Avatar existente" class="img-thumbnail" style="max-height: 100px">
+                                            <p class="text-white mt-1">Avatar existente</p>
+                                            <small class="text-white">Se usará este avatar si no subes uno nuevo</small>
+                                        </div>`;
+                                } else {
+                                    avatarPreview.innerHTML = '';
+                                }
+                            } else {
+                                // Limpiar y habilitar el campo de apodo para nuevo jugador
+                                apodoInput.disabled = false;
+                                apodoInput.value = '';
+                                apodoInfo.innerHTML = "Nuevo jugador - Ingresa un apodo";
+                                apodoInfo.classList.remove('text-success');
+                                avatarPreview.innerHTML = '';
+                                avatarUrl = null;
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            apodoInput.disabled = false;
+                        });
+                }
+            }
+            
+            // Mostrar vista previa del nuevo avatar si se selecciona uno
+            avatarInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        let previewHtml = `
+                            <div class="new-avatar">
+                                <img src="${e.target.result}" alt="Nuevo avatar" class="img-thumbnail" style="max-height: 100px">
+                                <p class="text-white mt-1">Nuevo avatar seleccionado</p>
+                            </div>`;
+                        
+                        // Si hay un avatar existente, mostrar ambos
+                        if (avatarUrl) {
+                            previewHtml += `
+                                <div class="existing-avatar mt-2">
+                                    <p class="text-white">El nuevo avatar reemplazará a:</p>
+                                    <img src="${avatarUrl}" alt="Avatar existente" class="img-thumbnail" style="max-height: 80px; opacity: 0.7">
+                                </div>`;
+                        }
+                        
+                        avatarPreview.innerHTML = previewHtml;
+                    }
+                    
+                    reader.readAsDataURL(this.files[0]);
+                } else if (avatarUrl) {
+                    // Si se cancela la selección, volver a mostrar solo el avatar existente
+                    avatarPreview.innerHTML = `
+                        <div class="existing-avatar">
+                            <img src="${avatarUrl}" alt="Avatar existente" class="img-thumbnail" style="max-height: 100px">
+                            <p class="text-white mt-1">Avatar existente</p>
+                            <small class="text-white">Se usará este avatar si no subes uno nuevo</small>
+                        </div>`;
+                } else {
+                    avatarPreview.innerHTML = '';
+                }
+            });
+            
+            // Establecer temporizador para verificar después de que el usuario deje de escribir
+            nicknameInput.addEventListener('keyup', function() {
+                clearTimeout(typingTimer);
+                typingTimer = setTimeout(checkNickname, doneTypingInterval);
+            });
+            
+            // Cancelar temporizador cuando el usuario vuelve a escribir
+            nicknameInput.addEventListener('keydown', function() {
+                clearTimeout(typingTimer);
+            });
+            
+            // También verificar cuando el campo pierde el foco
+            nicknameInput.addEventListener('blur', checkNickname);
+        });
+    </script>
+
+    <!-- Estilos para el selector de archivos personalizado -->
+    <style>
+        /* Estilos para el selector de archivos personalizado */
+        .custom-file-upload {
+            position: relative;
+            width: 100%;
+            margin-left: -47px;
+        }
+
+        .file-input {
+            position: absolute;
+            width: 0.1px;
+            height: 0.1px;
+            opacity: 0;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .file-display {
+            display: flex;
+            align-items: center;
+            padding: 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: rgba(30, 30, 42, 0.8);
+        }
+
+        .file-name {
+            flex: 1;
+            padding: 12px 15px;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .browse-btn {
+            background: #45f882;
+            color: #14141e;
+            border: none;
+            padding: 12px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .browse-btn:hover {
+            background: #3ae476;
+        }
+
+        /* Estilos para la vista previa de la imagen */
+        #avatar-preview img {
+            border-radius: 8px;
+            border: 3px solid var(--theme-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .new-avatar, .existing-avatar {
+            background-color: rgba(30, 30, 42, 0.6);
+            padding: 10px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        /* Estilos para los botones de acción */
+        .action-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .action-button:hover {
+            transform: translateY(-3px);
+        }
+
+        .primary-button {
+            background: #45f882; /* Verde brillante */
+            color: #14141e; /* Texto oscuro para contraste */
+        }
+
+        .primary-button:hover {
+            background: #3ae476; /* Verde un poco más oscuro al pasar el mouse */
+            box-shadow: 0 7px 20px rgba(69, 248, 130, 0.4);
+        }
+
+        .secondary-button {
+            background: rgba(30, 30, 42, 0.8);
+            color: #fff;
+            border: 1px solid rgba(69, 248, 130, 0.5);
+        }
+
+        .secondary-button:hover {
+            background: rgba(40, 40, 52, 0.9);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+            border-color: #45f882;
+            color: #45f882;
+        }
+
+       
+      
+
+        .date-icon-wrapper {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 15px;
+            background-color: rgba(30, 30, 42, 0.8);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 2;
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+
+        .date-icon {
+            color: var(--theme-color);
+            font-size: 1.2rem;
+        }
+
+        .date-input {
+            flex: 1;
+            padding: 12px 15px 12px 50px; /* Aumentar padding izquierdo para el icono */
+            margin-right: 100px;
+            padding-left: 150px;
+            size: 1000px;
+        
+            background-color: rgba(30, 30, 42, 0.5);
+            color: #fff;
+            font-size: 0.95rem;
+            width: 100%;
+            transition: all 0.3s ease;
+            
+        }
+
+     
+
+
+ 
+    </style>
+
+    <!-- Script para actualizar el nombre del archivo seleccionado -->
+    <script>
+        // Script para actualizar el nombre del archivo seleccionado
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('avatar');
+            const fileName = document.querySelector('.file-name');
+            const browseBtn = document.querySelector('.browse-btn');
+            const dateField = document.getElementById('fecha');
+            const dateDisplay = document.getElementById('fecha-display');
+            const calendarIcon = document.querySelector('.date-trigger-icon');
+            const calendarContainer = document.querySelector('.calendar-icon-only');
+            
+            // Función para formatear la fecha como dd/mm/yyyy
+            function formatDate(date) {
+                const day = date.getDate().toString().padStart(2, '0');
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}/${month}/${year}`;
+            }
+            
+            // Actualizar el display cuando cambie la fecha
+            dateField.addEventListener('change', function() {
+                const selectedDate = new Date(this.value);
+                dateDisplay.textContent = formatDate(selectedDate);
+            });
+            
+            // Actualizar el texto cuando se selecciona un archivo
+            fileInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    fileName.textContent = this.files[0].name;
+                } else {
+                    fileName.textContent = "Seleccionar imagen";
+                }
+            });
+            
+            // Hacer que el botón de navegación active el input file
+            browseBtn.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            // Cuando se hace clic en el icono del calendario, abrir el selector de fecha
+            if (calendarIcon) {
+                calendarIcon.addEventListener('click', function() {
+                    dateField.showPicker();
+                });
+            }
+            
+            // También permitir hacer clic en el contenedor del icono
+            if (calendarContainer) {
+                calendarContainer.addEventListener('click', function() {
+                    dateField.showPicker();
+                });
+            }
+        });
+    </script>
+
+{% endblock %}
