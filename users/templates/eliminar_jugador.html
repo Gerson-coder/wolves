@@ -1,0 +1,751 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Eliminar Jugador - Clan Wolves | Gaming Community{% endblock %}
+
+{% block meta_description %}Panel de administración para eliminar jugadores del clan Wolves. Gestiona los miembros de la comunidad gaming.{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'assets/css/jugadores.css' %}">
+<style>
+.danger-zone {
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(220, 53, 69, 0.05));
+    border: 2px solid rgba(220, 53, 69, 0.3);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 20px 0;
+}
+
+.danger-title {
+    color: #dc3545;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.warning-box {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.delete-form {
+    background: rgba(33, 37, 41, 0.8);
+    border-radius: 15px;
+    padding: 25px;
+    margin: 20px 0;
+}
+
+.player-card.selected {
+    border: 3px solid #dc3545 !important;
+    background: rgba(220, 53, 69, 0.1);
+    transform: scale(1.02);
+}
+
+.confirm-delete-btn {
+    background: linear-gradient(45deg, #dc3545, #c82333);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.confirm-delete-btn:hover {
+    background: linear-gradient(45deg, #c82333, #bd2130);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+}
+
+.cancel-btn {
+    background: linear-gradient(45deg, #6c757d, #5a6268);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+    background: linear-gradient(45deg, #5a6268, #545b62);
+    color: white;
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+.selected-player-info {
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    display: none;
+}
+
+.admin-warning {
+    background: rgba(255, 0, 0, 0.1);
+    border: 2px solid rgba(255, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 15px 0;
+    text-align: center;
+    color: #ff4444;
+}
+
+/* Autocompletado Styles */
+.autocomplete-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(33, 37, 41, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0 0 10px 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    backdrop-filter: blur(10px);
+}
+
+.autocomplete-item {
+    padding: 12px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.selected {
+    background: linear-gradient(45deg, #ff6b35, #f7931e);
+    color: #fff;
+}
+
+.autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-nickname {
+    font-weight: bold;
+    color: #ff6b35;
+}
+
+.autocomplete-username {
+    font-size: 0.85em;
+    color: #aaa;
+    margin-left: 5px;
+}
+
+.autocomplete-item:hover .autocomplete-username {
+    color: #fff;
+}
+
+.search-box {
+    position: relative;
+}
+
+/* Animación de pulso para resaltar jugador */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.7);
+    }
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(255, 107, 53, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 107, 53, 0);
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="space-top"></div>
+<!--==============================
+Delete Player Area  
+==============================-->
+<section class="space-top space-extra2-bottom">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-12">
+                <div class="title-area text-center">
+                    <span class="sub-title style2"># ADMINISTRACIÓN</span>
+                    <h2 class="sec-title">Eliminar Jugador <span class="text-theme">!</span></h2>
+                    <p class="sec-text">Selecciona un jugador para eliminar del sistema</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Admin Warning -->
+        <div class="row">
+            <div class="col-12">
+                <div class="admin-warning">
+                    <i class="fas fa-exclamation-triangle fa-2x mb-2"></i>
+                    <h5 class="text-danger">⚠️ ZONA DE PELIGRO - ADMINISTRADORES ÚNICAMENTE ⚠️</h5>
+                    <p class="mb-0">Esta acción eliminará permanentemente al jugador y todos sus datos asociados. No se puede deshacer.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="row mb-5">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="stats-card text-center">
+                    <div class="stats-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h3 class="stats-number">{{ jugador_list.count }}</h3>
+                        <p class="stats-label">Jugadores Totales</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="stats-card text-center">
+                    <div class="stats-icon" style="color: #dc3545;">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h3 class="stats-number" id="selected-count">0</h3>
+                        <p class="stats-label">Seleccionado</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="stats-card text-center">
+                    <div class="stats-icon" style="color: #ffc107;">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h3 class="stats-number">{{ jugador_list.count|add:"-1" }}</h3>
+                        <p class="stats-label">Quedarán</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <div class="row mb-4">
+            <div class="col-lg-6 mx-auto">
+                <div class="search-filter-area">
+                    <div class="search-box position-relative">
+                        <input type="text" id="searchPlayer" class="form-control" placeholder="Escribe el nickname..." autocomplete="off">
+                        <div id="autocompleteResults" class="autocomplete-results"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Players Grid -->
+        <div class="row gy-4" id="playersGrid">
+            {% for jugador in jugador_list %}
+            <!-- Single Player Card -->
+            <div class="col-lg-3 col-md-4 col-sm-6 player-item" data-nickname="{{ jugador.nickname|default:jugador.username|lower }}" data-username="{{ jugador.username|lower }}">
+                <div class="th-team team-card player-card" onclick="selectPlayer({{ jugador.id }}, '{{ jugador.nickname|default:jugador.username }}', '{{ jugador.username }}')">
+                    <div class="team-card-corner team-card-corner1"></div>
+                    <div class="team-card-corner team-card-corner2"></div>
+                    <div class="team-card-corner team-card-corner3"></div>
+                    <div class="team-card-corner team-card-corner4"></div>
+                    
+                    <!-- Player Image Section -->
+                    <div class="player-image-section">
+                        <div class="team-img">
+                            {% if jugador.profile_image %}
+                                <img src="{{ jugador.profile_image.url }}" alt="{{ jugador.nickname|default:jugador.username }}" class="player-avatar">
+                            {% else %}
+                                <img src="{% static 'assets/img/team/1-1.png' %}" alt="{{ jugador.nickname|default:jugador.username }}" class="player-avatar">
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Player Info Section -->
+                    <div class="player-info-section">
+                        <!-- Player Name -->
+                        <div class="player-name">
+                            <h4>{{ jugador.nickname|default:jugador.username }}</h4>
+                            <small class="text-muted">@{{ jugador.username }}</small>
+                        </div>
+                        
+                        <!-- Quick Stats -->
+                        <div class="quick-stats">
+                            <div class="stat-row">
+                                <span class="stat-label">ID:</span>
+                                <span class="stat-value">#{{ jugador.id }}</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Nivel:</span>
+                                <span class="stat-value">{{ jugador.lv_audi|default:"1" }}</span>
+                            </div>
+                            {% if jugador.date_joined %}
+                            <div class="stat-row">
+                                <span class="stat-label">Registro:</span>
+                                <span class="stat-value">{{ jugador.date_joined|date:"d/m/Y" }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Delete Warning Badge -->
+                        <div class="mt-2">
+                            <span class="badge bg-danger">
+                                <i class="fas fa-trash-alt"></i> Clickear para seleccionar
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="text-center py-5">
+                    <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                    <h4 class="text-muted">No hay jugadores registrados</h4>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Delete Confirmation Section -->
+        <div class="row" id="deleteSection" style="display: none;">
+            <div class="col-lg-8 mx-auto">
+                <div class="danger-zone">
+                    <h3 class="danger-title">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        ZONA DE PELIGRO
+                    </h3>
+                    
+                    <div class="selected-player-info" id="selectedPlayerInfo">
+                        <h5>Jugador Seleccionado:</h5>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <img id="selectedPlayerAvatar" src="" alt="" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
+                            <div>
+                                <h6 id="selectedPlayerName" class="mb-1"></h6>
+                                <small id="selectedPlayerUsername" class="text-muted"></small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="warning-box">
+                        <i class="fas fa-exclamation-triangle fa-2x text-warning mb-3"></i>
+                        <h5 class="text-warning">¿Estás seguro de que deseas eliminar este jugador?</h5>
+                        <p class="mb-0">Esta acción es <strong>irreversible</strong>. Se eliminarán:</p>
+                        <ul class="mt-2 text-start">
+                            <li>Perfil del jugador</li>
+                            <li>Todas sus estadísticas</li>
+                            <li>Historial de asistencias</li>
+                            <li>Imágenes de perfil</li>
+                            <li>Datos asociados</li>
+                        </ul>
+                    </div>
+                    
+                    <form method="POST" class="delete-form" id="deleteForm">
+                        {% csrf_token %}
+                        <input type="hidden" name="jugador_id" id="jugadorIdInput">
+                        
+                        <div class="text-center">
+                            <h6 class="mb-3">Para confirmar, escribe "ELIMINAR" en el campo de abajo:</h6>
+                            <input type="text" id="confirmationInput" class="form-control mb-3" placeholder="Escribe ELIMINAR para confirmar" style="max-width: 300px; margin: 0 auto;">
+                            
+                            <div class="d-flex gap-3 justify-content-center mt-4">
+                                <button type="submit" class="confirm-delete-btn" id="confirmDeleteBtn" disabled>
+                                    <i class="fas fa-trash-alt me-2"></i>
+                                    CONFIRMAR ELIMINACIÓN
+                                </button>
+                                <a href="{% url 'jugadores' %}" class="cancel-btn">
+                                    <i class="fas fa-arrow-left me-2"></i>
+                                    CANCELAR
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--==============================
+	Footer Area
+==============================-->
+<footer class="footer-wrapper footer-layout1">
+    <div class="container">
+        <div class="footer-top text-center">
+            <div class="footer-logo bg-repeat" data-bg-src="assets/img/bg/jiji-bg.png">
+                <a href="index.html">
+                    <span data-mask-src="assets/img/logo.svg" class="logo-mask"></span>
+                    <img src="assets/img/logo.svg" alt="Bame">
+                </a>
+            </div>
+            <div class="footer-links">
+                <ul>
+                  
+                    
+            </div>
+        </div>
+    </div>
+    <div class="copyright-wrap text-center bg-repeat" data-bg-src="assets/img/bg/jiji-bg.png">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-6">
+                    <p class="copyright-text bg-repeat" data-bg-src="assets/img/bg/jiji-bg.png">
+                       
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!--********************************
+		Code End  Here 
+******************************** -->
+
+<!-- Scroll To Top -->
+<div class="scroll-top">
+    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 307.919;"></path>
+    </svg>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let selectedPlayerId = null;
+let selectedPlayerData = {};
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing autocomplete...');
+    
+    // Elements
+    const searchInput = document.getElementById('searchPlayer');
+    const autocompleteResults = document.getElementById('autocompleteResults');
+    const playerItems = document.querySelectorAll('.player-item');
+    
+    console.log('Search input element:', searchInput);
+    console.log('Autocomplete results element:', autocompleteResults);
+    console.log('Player items count:', playerItems.length);
+    
+    if (!searchInput) {
+        console.error('Search input element not found!');
+        return;
+    }
+    
+    if (!autocompleteResults) {
+        console.error('Autocomplete results element not found!');
+        return;
+    }
+    
+    let currentSelection = -1;
+    let debounceTimer;
+    
+    // Search functionality with real-time filtering
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        console.log('Input event triggered. Search term:', searchTerm);
+        
+        // Clear previous timer
+        clearTimeout(debounceTimer);
+        
+        // Filter players in real-time
+        playerItems.forEach(item => {
+            const nickname = item.getAttribute('data-nickname');
+            const username = item.getAttribute('data-username');
+            
+            if (nickname.includes(searchTerm) || username.includes(searchTerm)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+        
+        // Show autocomplete with debounce
+        debounceTimer = setTimeout(() => {
+            console.log('Debounce timeout triggered. Search term length:', searchTerm.length);
+            if (searchTerm.length >= 2) {
+                console.log('Calling fetchAutocomplete...');
+                fetchAutocomplete(searchTerm);
+            } else {
+                console.log('Search term too short, hiding autocomplete');
+                hideAutocomplete();
+            }
+        }, 300);
+    });
+    
+    // Fetch autocomplete suggestions
+    function fetchAutocomplete(term) {
+        console.log('Fetching autocomplete for term:', term);
+        const url = `/users/autocomplete-nicknames/?term=${encodeURIComponent(term)}`;
+        console.log('Requesting URL:', url);
+        
+        fetch(url)
+            .then(response => {
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Received data:', data);
+                showAutocomplete(data);
+            })
+            .catch(error => {
+                console.error('Error fetching autocomplete:', error);
+                hideAutocomplete();
+            });
+    }
+    
+    // Show autocomplete results
+    function showAutocomplete(results) {
+        if (results.length === 0) {
+            hideAutocomplete();
+            return;
+        }
+        
+        autocompleteResults.innerHTML = '';
+        
+        results.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'autocomplete-item';
+            div.dataset.index = index;
+            div.dataset.userId = item.id;
+            div.innerHTML = `
+                <span class="autocomplete-nickname">${item.label}</span>
+                <span class="autocomplete-username">@${item.username}</span>
+            `;
+            
+            // Click handler
+            div.addEventListener('click', function() {
+                selectAutocompleteItem(item);
+            });
+            
+            autocompleteResults.appendChild(div);
+        });
+        
+        autocompleteResults.style.display = 'block';
+        currentSelection = -1;
+    }
+    
+    // Hide autocomplete
+    function hideAutocomplete() {
+        autocompleteResults.style.display = 'none';
+        currentSelection = -1;
+    }
+    
+    // Select autocomplete item
+    function selectAutocompleteItem(item) {
+        searchInput.value = item.label;
+        hideAutocomplete();
+        
+        // Filter and highlight the selected player
+        filterByNickname(item.label);
+        
+        // Auto-scroll to the player if found
+        setTimeout(() => {
+            const targetPlayer = document.querySelector(`[data-nickname="${item.label.toLowerCase()}"]`);
+            if (targetPlayer) {
+                targetPlayer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                targetPlayer.querySelector('.player-card').style.animation = 'pulse 1s ease-in-out 2';
+            }
+        }, 100);
+    }
+    
+    // Filter players by specific nickname
+    function filterByNickname(nickname) {
+        const searchTerm = nickname.toLowerCase();
+        playerItems.forEach(item => {
+            const itemNickname = item.getAttribute('data-nickname');
+            const username = item.getAttribute('data-username');
+            
+            if (itemNickname === searchTerm || username === searchTerm) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+    
+    // Keyboard navigation
+    searchInput.addEventListener('keydown', function(e) {
+        const items = autocompleteResults.querySelectorAll('.autocomplete-item');
+        
+        if (items.length === 0) return;
+        
+        switch(e.key) {
+            case 'ArrowDown':
+                e.preventDefault();
+                currentSelection = Math.min(currentSelection + 1, items.length - 1);
+                updateSelection(items);
+                break;
+                
+            case 'ArrowUp':
+                e.preventDefault();
+                currentSelection = Math.max(currentSelection - 1, -1);
+                updateSelection(items);
+                break;
+                
+            case 'Enter':
+                e.preventDefault();
+                if (currentSelection >= 0 && items[currentSelection]) {
+                    const userId = items[currentSelection].dataset.userId;
+                    const nickname = items[currentSelection].querySelector('.autocomplete-nickname').textContent;
+                    const username = items[currentSelection].querySelector('.autocomplete-username').textContent.replace('@', '');
+                    
+                    selectAutocompleteItem({
+                        id: userId,
+                        label: nickname,
+                        username: username
+                    });
+                }
+                break;
+                
+            case 'Escape':
+                hideAutocomplete();
+                break;
+        }
+    });
+    
+    // Update visual selection
+    function updateSelection(items) {
+        items.forEach((item, index) => {
+            if (index === currentSelection) {
+                item.classList.add('selected');
+            } else {
+                item.classList.remove('selected');
+            }
+        });
+    }
+    
+    // Hide autocomplete when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !autocompleteResults.contains(e.target)) {
+            hideAutocomplete();
+        }
+    });
+    
+    // Confirmation input validation
+    const confirmationInput = document.getElementById('confirmationInput');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    
+    confirmationInput.addEventListener('input', function() {
+        if (this.value === 'ELIMINAR') {
+            confirmDeleteBtn.disabled = false;
+            confirmDeleteBtn.classList.add('enabled');
+        } else {
+            confirmDeleteBtn.disabled = true;
+            confirmDeleteBtn.classList.remove('enabled');
+        }
+    });
+    
+    // Form submission confirmation
+    const deleteForm = document.getElementById('deleteForm');
+    deleteForm.addEventListener('submit', function(e) {
+        if (confirmationInput.value !== 'ELIMINAR') {
+            e.preventDefault();
+            alert('Debes escribir "ELIMINAR" para confirmar');
+            return;
+        }
+        
+        if (!confirm(`¿REALMENTE deseas eliminar a ${selectedPlayerData.nickname}? Esta acción NO se puede deshacer.`)) {
+            e.preventDefault();
+        }
+    });
+});
+
+function selectPlayer(playerId, nickname, username) {
+    // Remove previous selection
+    document.querySelectorAll('.player-card').forEach(card => {
+        card.classList.remove('selected');
+    });
+    
+    // Add selection to clicked card
+    event.currentTarget.classList.add('selected');
+    
+    // Store selected player data
+    selectedPlayerId = playerId;
+    selectedPlayerData = {
+        id: playerId,
+        nickname: nickname,
+        username: username
+    };
+    
+    // Update UI
+    document.getElementById('selectedPlayerName').textContent = nickname;
+    document.getElementById('selectedPlayerUsername').textContent = '@' + username;
+    document.getElementById('jugadorIdInput').value = playerId;
+    document.getElementById('selected-count').textContent = '1';
+    
+    // Get avatar from the clicked card
+    const avatarImg = event.currentTarget.querySelector('.player-avatar');
+    document.getElementById('selectedPlayerAvatar').src = avatarImg.src;
+    
+    // Show delete section
+    document.getElementById('deleteSection').style.display = 'block';
+    document.getElementById('selectedPlayerInfo').style.display = 'block';
+    
+    // Reset confirmation input
+    document.getElementById('confirmationInput').value = '';
+    document.getElementById('confirmDeleteBtn').disabled = true;
+    
+    // Scroll to delete section
+    setTimeout(() => {
+        document.getElementById('deleteSection').scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+        });
+    }, 100);
+    
+    // Show success message for selection
+    showMessage('Jugador seleccionado: ' + nickname, 'info');
+}
+
+function showMessage(message, type = 'success') {
+    // Create a temporary message element
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    messageDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    messageDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(messageDiv);
+    
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        if (messageDiv.parentNode) {
+            messageDiv.remove();
+        }
+    }, 3000);
+}
+
+// Player card hover effects
+document.addEventListener('DOMContentLoaded', function() {
+    const playerCards = document.querySelectorAll('.player-card');
+    playerCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            if (!this.classList.contains('selected')) {
+                this.style.transform = 'translateY(-5px) scale(1.01)';
+            }
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            if (!this.classList.contains('selected')) {
+                this.style.transform = 'translateY(0) scale(1)';
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

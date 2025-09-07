@@ -11,5 +11,7 @@ urlpatterns = [
     path('detalle_jugador/<str:username>/', views.perfil_usuario, name='detalle_jugador'),
     path('recuperar-contrasena/', views.recuperar_contrasena, name='recuperar_contrasena'),
     path('jugadores/', views.jugadores, name='jugadores'),
+    path('eliminar-jugador/', views.eliminar_jugador, name='eliminar_jugador'),
+    path('autocomplete-nicknames/', views.autocomplete_nicknames, name='autocomplete_nicknames'),
 ]
 

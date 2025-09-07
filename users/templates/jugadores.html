@@ -146,25 +146,20 @@ Team Area
                                     <span class="stat-label">Estado civil:</span>
                                     <span class="stat-value">{{ jugador.estado_cpl|default:"0" }}</span>
                                 </div>
-
-                              
-
-                                <!-- Mostrar estado civil si existe -->
+                             
                                 {% if jugador.hobby %}
                                 <div class="stat-row">
                                     <span class="stat-label">Hobby:</span>
                                     <span class="stat-value">{{ jugador.hobby|truncatechars:12 }}</span>
                                 </div>
                                 {% endif %}
-
-                                <!-- Mostrar país si existe -->
                                 {% if jugador.pais %}
                                 <div class="stat-row">
                                     <span class="stat-label">País:</span>
                                     <span class="stat-value">{{ jugador.pais|truncatechars:12 }}</span>
                                 </div>
                                 {% endif %}
-                                  <!-- Mostrar ciudad si existe -->
+                               
                                   {% if jugador.ciudad %}
                                   <div class="stat-row">
                                       <span class="stat-label">Ciudad:</span>
@@ -172,15 +167,12 @@ Team Area
                                   </div>
                                   {% endif %}
 
-                                <!-- Mostrar edad si existe -->
                                 {% if jugador.edad %}
                                 <div class="stat-row">
                                     <span class="stat-label">Edad:</span>
                                     <span class="stat-value">{{ jugador.edad }} años</span>
                                 </div>
                                 {% endif %}
-
-                                <!-- Mostrar juego principal si existe -->
                                 {% if jugador.juego_principal %}
                                 <div class="stat-row">
                                     <span class="stat-label">Juego:</span>

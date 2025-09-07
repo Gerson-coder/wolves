@@ -397,7 +397,7 @@ Para hacer las tarjetas MÁS GRANDES, puedes modificar:
 }
 
 .role-tag.role-subleader {
-    background: linear-gradient(45deg, #0739c0, #390efa);
+    background:  rgba(1, 58, 245, 0.322);
     color: #fff;
     box-shadow: 0 2px 8px rgba(7, 57, 192, 0.3);
 }

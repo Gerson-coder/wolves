@@ -9,10 +9,11 @@ import json
 import logging
 from django.shortcuts import get_object_or_404
 from .forms import UserForm
-from django.contrib.auth.models import User
+
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.db.models import Count
+
 
 from .models import CreateUser, Perfil, LogroUsuario, Create_subs
 
@@ -135,7 +136,7 @@ def logout_usuario(request):
     logger.info(f"Logout exitoso: {username}")
     return redirect('login_usuario')
 
-@csrf_exempt  # Solo para propósitos de desarrollo, considera usar un token CSRF en producción
+@csrf_exempt  
 def editar_perfil(request):
     if request.method == 'POST':
         usuario = request.user
@@ -218,4 +219,55 @@ def jugadores(request):
     return render(request, 'jugadores.html', context)
             
     
+def eliminar_jugador(request):
+    from .models import CreateUser
+    
+    jugador_list = CreateUser.objects.all()
+
+    if request.method == 'POST':
+        jugador_id = request.POST.get('jugador_id')
+        try:
+            jugador = CreateUser.objects.get(id=jugador_id)
+            jugador_nombre = jugador.nickname or jugador.username
+            jugador.delete()
+            messages.success(request, f'Jugador {jugador_nombre} eliminado correctamente')
+            return redirect('jugadores')
+        except CreateUser.DoesNotExist:
+            messages.error(request, 'El jugador no existe')
+            return redirect('eliminar_jugador')
+
+    return render(request, 'eliminar_jugador.html', {'jugador_list': jugador_list})
+
+def autocomplete_nicknames(request):
+    """Endpoint para autocompletado de nicknames"""
+    print(f"Autocomplete request received: {request.method}, term: {request.GET.get('term', '')}")
+    
+    if request.method == 'GET':
+        term = request.GET.get('term', '')
+        print(f"Searching for term: '{term}', length: {len(term)}")
+        
+        if len(term) >= 2:  # Solo buscar si hay al menos 2 caracteres
+            from .models import CreateUser
+            nicknames = CreateUser.objects.filter(
+                Q(nickname__icontains=term) | Q(username__icontains=term)
+            ).values_list('nickname', 'username', 'id')[:10]  # Limitar a 10 resultados
+            
+            print(f"Found {nicknames.count() if hasattr(nicknames, 'count') else len(nicknames)} results")
+            
+            results = []
+            for nickname, username, user_id in nicknames:
+                display_name = nickname if nickname else username
+                results.append({
+                    'id': user_id,
+                    'label': display_name,
+                    'value': display_name,
+                    'username': username
+                })
+            
+            print(f"Returning results: {results}")
+            return JsonResponse(results, safe=False)
+        else:
+            return JsonResponse([], safe=False)
+    
+    return JsonResponse([], safe=False)
 
